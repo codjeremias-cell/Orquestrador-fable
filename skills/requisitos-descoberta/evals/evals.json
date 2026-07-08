@@ -1,0 +1,47 @@
+{
+  "skill_name": "requisitos-descoberta",
+  "evals": [
+    {
+      "id": 0,
+      "name": "ideia-vaga-vira-escopo",
+      "prompt": "Quero fazer um app pra controlar as férias da minha equipe. É isso, ainda não pensei em mais nada.",
+      "expected_output": "A skill não parte para código. Levanta o problema (2-3 frases), pergunta ou infere os papéis/tarefas (gestor, colaborador), propõe o corte MVP/Depois/Fora, escreve histórias com critérios de aceite verificáveis para o MVP, levanta não funcionais relevantes (poucos usuários? mobile?) e riscos/premissas — sem inventar requisito que o usuário não validaria.",
+      "files": [],
+      "expectations": [
+        "Não pula direto para escolha de tecnologia ou código",
+        "Escreve o problema em poucas frases (quem sofre o quê, o que muda se resolver)",
+        "Lista papéis e tarefas (no máximo 2-4 papéis)",
+        "Produz as três listas: MVP, Depois, Fora",
+        "Histórias do MVP têm critério de aceite testável, não vago ('funcionar bem')",
+        "Levanta riscos/premissas explicitamente, declarando o que está assumindo (RO-01)",
+        "Pergunta em vez de inventar quando algo essencial não está claro"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "dados-pessoais-aciona-lgpd",
+      "prompt": "Preciso de um sistema que cadastra clientes com CPF, endereço e histórico de compras pra uma loja.",
+      "expected_output": "Além do documento de requisitos padrão, a skill sinaliza explicitamente a presença de dados pessoais (CPF, endereço) como um requisito não funcional obrigatório de LGPD/segurança, e aciona/menciona a lente especialista-seguranca para tratar isso — não trata como detalhe opcional.",
+      "files": [],
+      "expectations": [
+        "Identifica CPF/endereço como dado pessoal sensível e não deixa isso implícito",
+        "A linha de LGPD aparece nos requisitos não funcionais como obrigatória, não como nice-to-have",
+        "Sinaliza a lente especialista-seguranca como aplicável (RI-06)",
+        "Ainda assim produz o restante do documento (escopo, histórias, papéis) completo"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "escopo-mvp-inchado",
+      "prompt": "O MVP tem que ter: login, cadastro de produto, carrinho, pagamento, avaliação de produto, chat com o vendedor, notificação push, painel do admin, relatório de vendas e programa de fidelidade. Todo mundo concordou.",
+      "expected_output": "A skill não aceita passivamente uma lista de 10 itens como MVP. Reconhece que MVP com mais de ~7 histórias é sinal de corte mal feito, questiona/reabre a faca de escopo, e propõe mover parte para 'Depois' (ex.: chat, notificação push, fidelidade) mantendo o essencial no MVP (login, produto, carrinho, pagamento).",
+      "files": [],
+      "expectations": [
+        "Sinaliza explicitamente que o MVP proposto está inchado (mais de ~7 itens)",
+        "Reabre a discussão de corte em vez de aceitar a lista como está",
+        "Propõe um recorte concreto: o que fica no MVP e o que vai para Depois, com justificativa",
+        "Não trava o trabalho — ainda entrega o documento com o corte revisado proposto"
+      ]
+    }
+  ]
+}

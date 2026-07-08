@@ -1,0 +1,56 @@
+{
+  "skill_name": "javafx-dashboard",
+  "evals": [
+    {
+      "id": 0,
+      "name": "executivo-saude-operacao",
+      "prompt": "Preciso de um painel executivo pro gerente do COT bater o olho de manhã: disponibilidade das LTs, eventos críticos abertos, e o cumprimento das janelas de manutenção da semana. Tem que dar pra entender a saúde da operação em 5 segundos, sem afogar em detalhe. Pode já montar o FXML e o controller no padrão do projeto — considere o mockup pré-aprovado.",
+      "expected_output": "Um blueprint identificando o arquetipo Executivo (poucos KPIs com contexto/meta, baixa densidade, tendencia via linha), seguido de DashboardView FXML + controller no padrao SIGCOT: tokens -sigo-*, acesso a banco assincrono em Task+daemon, estados vazio/carregando/erro/sem-dado, charts nativos do JavaFX. Cada numero aponta para uma fonte real (DAO) ou marca a suposicao.",
+      "files": [],
+      "expectations": [
+        "Produz um blueprint/design antes do codigo, com proposito, publico e as perguntas que o painel responde",
+        "Identifica explicitamente o arquetipo Executivo/Estrategico e mantem baixa densidade (poucos KPIs)",
+        "Cada KPI carrega contexto (meta, comparacao ou tendencia), nao um numero solto",
+        "Acesso a banco roda em Task + thread daemon com Platform.runLater no onSucceeded (nunca na FX-thread)",
+        "Usa tokens -sigo-* para cor, sem hex fixo no FXML/controller",
+        "Cobre os estados vazio, carregando e erro, e trata sem-dado diferente de zero",
+        "Usa os charts nativos do JavaFX (LineChart/BarChart/etc) sem introduzir biblioteca de terceiros",
+        "Aponta a fonte (DAO/metodo) de cada numero ou marca claramente como suposicao, sem inventar API"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "operacional-tempo-real",
+      "prompt": "Quero um painel operacional pra sala de controle ficar aberto o dia todo: SIs em andamento por estagio, AES em campo agora, e o que esta perto de estourar a janela. Precisa atualizar sozinho e deixar claro quando foi a ultima atualizacao. Ja pode construir o FXML e o controller, mockup aprovado.",
+      "expected_output": "Blueprint do arquetipo Operacional/Tempo real (densidade alta com hierarquia, refresh automatico, alertas que saltam, carimbo de frescor), seguido de FXML+controller com auto-refresh via scheduler daemon, carimbo 'atualizado as HH:mm', tabelas/KPIs assincronos e estados cobertos. Escolha de grafico justificada (barra para estagio, nao pizza).",
+      "files": [],
+      "expectations": [
+        "Produz um blueprint/design antes do codigo identificando o arquetipo Operacional/Tempo real",
+        "Implementa atualizacao automatica (scheduler daemon + Platform.runLater) e exibe carimbo de frescor (ultima atualizacao)",
+        "Acesso a banco roda em Task + thread daemon, nunca na FX-thread, com guarda anti-empilhamento",
+        "Escolhe barra ordenada para o backlog por estagio e justifica pela pergunta (evita pizza para comparacao)",
+        "Destaca visualmente o que exige acao (alerta/cor semantica via token) sem codificar apenas por cor",
+        "Trata sem-dado diferente de zero e cobre estados vazio/carregando/erro",
+        "Usa tokens -sigo-* e charts nativos do JavaFX, sem inventar biblioteca nem token",
+        "Aponta a fonte (DAO/metodo) de cada numero ou marca como suposicao"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "decisao-programacao-semana",
+      "prompt": "Monta uma tela pra eu decidir a programacao da semana: backlog de SI por estagio, volume previsto por tipo nos proximos dias, e a PV prevista. Quero poder filtrar por regional pra comparar SE, SCO e NNE. Pode seguir e codar o FXML e o controller, considere o mockup ok.",
+      "expected_output": "Blueprint do arquetipo Decisao/Analitico (explorabilidade: filtro por regional, comparacao, serie temporal), seguido de FXML+controller com filtro por regional, grafico de tendencia (linha) para volume por dia e barra para backlog, PV com contexto, assincrono e com estados. Justifica cada escolha de grafico pela pergunta.",
+      "files": [],
+      "expectations": [
+        "Produz um blueprint/design antes do codigo identificando o arquetipo Decisao/Analitico",
+        "Inclui filtro/drill por regional (SE/SCO/NNE) para permitir comparacao e exploracao",
+        "Usa linha para tendencia (volume por dia) e barra para comparacao (backlog por estagio), justificando a escolha",
+        "Acesso a banco roda em Task + thread daemon com Platform.runLater (nunca na FX-thread)",
+        "Usa tokens -sigo-* para cor sem hex fixo e charts nativos do JavaFX",
+        "Cobre estados vazio/carregando/erro e trata sem-dado diferente de zero",
+        "PV prevista aparece com contexto (nao um numero solto sem referencia)",
+        "Aponta a fonte (DAO/metodo) de cada numero ou marca como suposicao, sem inventar API"
+      ]
+    }
+  ]
+}

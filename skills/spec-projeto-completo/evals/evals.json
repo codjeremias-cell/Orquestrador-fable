@@ -1,0 +1,44 @@
+{
+  "skill_name": "spec-projeto-completo",
+  "evals": [
+    {
+      "id": 0,
+      "name": "app-web-do-zero",
+      "prompt": "Quero construir um sistema web completo do início ao fim: da ideia até estar no ar, com testes e tudo.",
+      "expected_output": "A skill conduz pela sequência determinística de 10 etapas com gate em cada uma — descoberta/requisitos, (negócio se fizer sentido), arquitetura com trade-offs, design com mockups aceitos antes de codar, construção por feature, bateria de testes executada de verdade, revisão de segurança, documentação, release, e por fim o veredito do auditor — sem pular etapa em silêncio.",
+      "files": [],
+      "expectations": [
+        "Começa pela descoberta/requisitos, não direto pelo código",
+        "Cada etapa tem um gate explícito antes de avançar para a próxima (ex.: mockup aceito antes de codar)",
+        "A etapa de testes é EXECUÇÃO real (aciona o testador), não só uma menção genérica de 'testar depois'",
+        "Segurança é revisada antes de qualquer exposição pública",
+        "Fecha com o veredito do auditor-responsabilidades, não apenas 'pronto'",
+        "Etapas puladas (ex.: parecer de negócio) são declaradas como puladas, não omitidas silenciosamente"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-acna-para-etapa-isolada",
+      "prompt": "Só preciso que alguém rode os testes desse sistema antes de eu subir a versão nova.",
+      "expected_output": "Como o pedido é uma etapa isolada (só testar), a skill orientadora não deveria ser esta — o pedido deveria direcionar para o testador (testador-real ou a instância do projeto) diretamente, sem passar pela sequência inteira de 10 etapas do orquestrador universal.",
+      "files": [],
+      "expectations": [
+        "Reconhece que o pedido é uma etapa isolada, não o projeto inteiro",
+        "Não força a sequência completa de 10 etapas para um pedido pontual",
+        "Direciona para a skill de testes específica (testador-real ou instância do projeto)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "prefere-track-javafx-quando-aplicavel",
+      "prompt": "Quero construir do zero um sistema desktop novo em JavaFX, completo, com banco e tudo.",
+      "expected_output": "Como o alvo é especificamente um app JavaFX desktop novo, a resposta correta reconhece que existe um orquestrador de track dedicado (spec-javafx-new-system) e o prefere/aciona em vez de conduzir manualmente pela sequência genérica universal desta skill.",
+      "files": [],
+      "expectations": [
+        "Identifica que a plataforma-alvo (desktop JavaFX) já tem um track de geradores dedicado",
+        "Prefere/aciona spec-javafx-new-system em vez de reconstruir manualmente a sequência com as lentes",
+        "Não ignora ou duplica o trabalho do orquestrador de track específico"
+      ]
+    }
+  ]
+}

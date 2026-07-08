@@ -1,0 +1,45 @@
+{
+  "skill_name": "spec-javafx-new-system",
+  "evals": [
+    {
+      "id": 0,
+      "name": "sistema-do-zero-completo",
+      "prompt": "Constrói um sistema JavaFX novo do zero: app de controle de empréstimos de equipamentos, banco Access, com a primeira tela de cadastro e o instalador no final.",
+      "expected_output": "A skill valida o catálogo de filhas, coleta as entradas obrigatórias (nome/pacote, banco, primeira entidade), começa pelo mockup (RO-06) e conduz a sequência determinística: bootstrap → fundação de banco → logging → tema → shell → primeira feature via spec-javafx-crud-feature → empacotamento jpackage → fechamento com prova (build + smoke + testador + veredito do auditor), validando cada etapa antes de seguir.",
+      "files": [],
+      "expectations": [
+        "Valida que as skills filhas existem no catálogo antes de começar; faltando uma crítica, para e informa",
+        "Coleta nome do app/pacote Maven, banco alvo e a primeira entidade antes de gerar qualquer coisa",
+        "Apresenta mockup e obtém aceite (RO-06) antes de qualquer código de tela",
+        "Executa as etapas em ordem, validando cada uma (compila? abre?) antes da próxima",
+        "Delega a primeira feature ao spec-javafx-crud-feature em vez de reescrever as camadas manualmente",
+        "Fecha com build + smoke + bateria do testador e veredito do auditor-responsabilidades (RI-05)",
+        "Relatório final com caminhos exatos (RO-03) e 2-3 sugestões de evolução (RO-07)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-aciona-em-projeto-existente",
+      "prompt": "No meu sistema JavaFX que já existe há dois anos, adiciona a funcionalidade completa de Fornecedor: entidade, banco e tela.",
+      "expected_output": "Como o projeto já existe, esta skill (que leva uma pasta VAZIA até o app empacotado) não é a orquestradora certa — o pedido deve ir para spec-javafx-crud-feature, que cria uma feature ponta a ponta num projeto existente reaproveitando a fundação real.",
+      "files": [],
+      "expectations": [
+        "Reconhece que o projeto já existe e que esta skill é para sistema novo do zero",
+        "Direciona para spec-javafx-crud-feature em vez de recriar bootstrap/fundação",
+        "Não gera pom.xml, fundação de banco ou shell novos por cima do projeto existente"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "para-em-entrada-ambigua",
+      "prompt": "Cria um sistema JavaFX novo pra mim. Depois eu decido o que ele vai fazer e que banco usa.",
+      "expected_output": "A skill para na trava de entradas: sem nome/pacote, banco alvo e a primeira entidade definidos, não há como executar a sequência com validação. Ela pergunta o que falta (ou propõe defaults explícitos, como Access/UCanAccess, pedindo confirmação) em vez de adivinhar e gerar um esqueleto genérico.",
+      "files": [],
+      "expectations": [
+        "Não gera nada antes de resolver as entradas obrigatórias ambíguas",
+        "Pergunta objetivamente o que falta: nome/pacote, banco, primeira entidade/feature",
+        "Se propõe um default (ex.: Access/UCanAccess), declara a suposição e pede confirmação em vez de assumir em silêncio"
+      ]
+    }
+  ]
+}

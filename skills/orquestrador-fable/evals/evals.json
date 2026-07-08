@@ -1,0 +1,47 @@
+{
+  "skill_name": "orquestrador-fable",
+  "evals": [
+    {
+      "id": 0,
+      "name": "ciclo-completo-com-nota-de-corte",
+      "prompt": "Orquestra essa tarefa com qualidade máxima: refatorar o módulo de relatórios do sistema, dividindo o trabalho entre os modelos e com o comitê avaliando até nota 9.",
+      "expected_output": "A skill valida o catálogo (7 lentes + auditor + testador), faz a triagem do passo 0 (ciclo completo se justifica), e roda o ciclo: planejamento com subtarefas não-ambíguas (modelo + effort por subtarefa) → execução paralela por subagentes (máx. 20 simultâneos, contrato de retorno padronizado) → consolidação → Comitê de Lentes em paralelo com contexto limpo (nota 0-10 + críticas) → testador-real executado → decisão: todas ≥ 9 e sem FAIL crítico = entrega; senão replaneja com as críticas, até 10 rodadas.",
+      "files": [],
+      "expectations": [
+        "Valida que as lentes, o auditor e o testador existem antes do primeiro ciclo — lente ausente não vira nota simulada (RI-04)",
+        "O maestro planeja e delega, nunca executa subtarefa ele mesmo",
+        "Cada subtarefa recebe modelo + effort designados com critério de aceite",
+        "Subtarefas independentes disparam em paralelo, respeitando o teto de 20 simultâneos",
+        "As lentes avaliam com contexto limpo (artefato + critério de aceite, sem o rastro do maestro)",
+        "O testador-real executa de verdade; FAIL crítico trava nota ≥ 9 na lente afetada",
+        "O ciclo repete com as críticas como insumo até nota ≥ 9 em todas as lentes ou 10 rodadas",
+        "Placar de cada rodada registrado (RI-04)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "triagem-recusa-etapa-isolada",
+      "prompt": "Usa o orquestrador pra renomear uma variável em três arquivos do projeto.",
+      "expected_output": "A triagem do passo 0 classifica o pedido como etapa isolada e bem definida: o caminho é a skill/execução direta, não o ciclo completo com comitê — anti-burocracia declarada na própria skill. A resposta executa (ou direciona) o trabalho simples sem montar subagentes e placar.",
+      "files": [],
+      "expectations": [
+        "A triagem escolhe o loop mais leve que resolve, não o comitê inteiro",
+        "Não monta ciclo de 6 etapas, subagentes e placar para uma tarefa mecânica trivial",
+        "Explica brevemente a recusa da orquestração pesada (proporcionalidade)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "escalonamento-no-eixo-certo",
+      "prompt": "Na rodada anterior, o subagente Sonnet que ia cobrir os testes de integração entregou pela metade: não rodou a suíte e abandonou dois arquivos sem ler. Replaneja essa frente.",
+      "expected_output": "Diagnóstico antes de escalar: a falha descrita é de rigor (não tentou o suficiente), não de capacidade — o replanejamento sobe o EFFORT do mesmo modelo (Sonnet/effort alto), não troca para Opus. A resposta aplica o escalonamento em 2 eixos e devolve a frente com feedback específico uma vez antes de escalar modelo.",
+      "files": [],
+      "expectations": [
+        "Diagnostica o porquê da falha antes de escalar (não saber × não tentar)",
+        "Falha de rigor sobe o effort do mesmo modelo, não o modelo",
+        "Entrega ruim volta uma vez com feedback específico antes de qualquer escalada",
+        "Não paga modelo mais caro quando o que faltou foi thoroughness"
+      ]
+    }
+  ]
+}

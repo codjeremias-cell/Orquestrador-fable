@@ -1,0 +1,6 @@
+# Normalizacao de fim de linha: LF no repositorio, nativo no checkout
+* text=auto
+
+*.md text
+*.json text
+*.ps1 text

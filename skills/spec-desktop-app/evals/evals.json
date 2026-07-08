@@ -1,0 +1,45 @@
+{
+  "skill_name": "spec-desktop-app",
+  "evals": [
+    {
+      "id": 0,
+      "name": "desktop-moderno-galho-tauri",
+      "prompt": "Quero um app desktop novo do zero pra controlar o estoque da oficina, leve tipo Electron mas menor, com instalador e atualização automática.",
+      "expected_output": "A skill valida as filhas, conduz a descoberta, e passa pela árvore de decisão de stack registrando ADR — o pedido ('leve, tipo Electron mas menor') aponta para Tauri v2. Segue o galho Tauri com gates: arquitetura/modelo SQLite → mockups aceitos (RO-06) → segurança default-deny (capabilities + CSP) → desktop-tauri-scaffold → N× desktop-feature-crud → desktop-packaging (assinado + auto-update com teste vN→vN+1) → testador-real → veredito.",
+      "files": [],
+      "expectations": [
+        "Passa pela árvore de decisão e registra a escolha do stack como ADR, não assume em silêncio",
+        "Mockups aceitos antes de qualquer UI (RO-06)",
+        "Segurança default-deny (capabilities/permissions + CSP) desenhada ANTES do scaffold",
+        "Delega scaffold/features/empacotamento aos geradores desktop-* em vez de escrever à mão",
+        "O gate do empacotamento inclui um update de teste vN → vN+1 aplicado",
+        "Testes executados de verdade com relatório datado; fecha com veredito do auditor"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "handoff-para-track-javafx",
+      "prompt": "Cria um sistema desktop novo do zero em JavaFX com banco Access, igual aos meus outros sistemas.",
+      "expected_output": "A árvore de decisão reconhece o galho JavaFX/Access e faz handoff para spec-javafx-new-system (track próprio), em vez de forçar Tauri ou conduzir manualmente.",
+      "files": [],
+      "expectations": [
+        "Reconhece que o galho JavaFX tem orquestrador de track dedicado",
+        "Faz handoff para spec-javafx-new-system",
+        "Não força o stack Tauri quando o usuário pediu JavaFX explicitamente"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "galho-sem-gerador-para-e-avisa",
+      "prompt": "Meu time é todo .NET e a curva de aprendizado importa mais que o tamanho do binário. Monta o app desktop inteiro nesse cenário.",
+      "expected_output": "A árvore aponta para Avalonia (.NET), que NÃO tem gerador neste catálogo ainda: a skill registra a decisão em ADR e para e avisa (ou conduz manualmente com as lentes, declarando isso), em vez de fingir que existe um track Avalonia ou empurrar Tauri contra o critério do usuário.",
+      "files": [],
+      "expectations": [
+        "Identifica Avalonia como o galho adequado ao cenário (.NET, curva de aprendizado)",
+        "Registra a decisão como ADR",
+        "Declara explicitamente que não há gerador Avalonia no catálogo — para e avisa ou conduz manualmente com as lentes, nunca inventa um track",
+        "Não força Tauri só porque é o galho com geradores"
+      ]
+    }
+  ]
+}

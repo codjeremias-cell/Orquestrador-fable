@@ -1,0 +1,45 @@
+{
+  "skill_name": "spec-javafx-crud-feature",
+  "evals": [
+    {
+      "id": 0,
+      "name": "crud-ponta-a-ponta",
+      "prompt": "Cria a funcionalidade completa de Cliente no meu sistema JavaFX: cadastro, listagem, edição e exclusão, com a tabela CLIENTES que já existe no Access.",
+      "expected_output": "A skill valida as filhas do catálogo, coleta entidade/atributos/tabela/operações, apresenta o mockup e obtém aceite (RO-06), e então encadeia: java-javafx-entity → java-jdbc-dao → java-service-usecase → javafx-screen-fxml → java-logging-log4j2 → fechamento com prova (build/teste executado, testador quando aplicável), mantendo nomes consistentes e reaproveitando o padrão real do projeto (RO-01).",
+      "files": [],
+      "expectations": [
+        "Valida que as 5 skills filhas existem antes de começar",
+        "Mockup apresentado e aceito ANTES de qualquer código (RO-06)",
+        "Delega cada camada à skill filha correspondente em vez de gerar tudo inline",
+        "Lê o padrão real do projeto (controller-base, AlertaUtil, provedor de conexão, RetryDB) antes de gerar — nunca inventa (RO-01)",
+        "Nomes consistentes entre entidade, DAO, serviço, controller e FXML",
+        "Fechamento com evidência executada (build/teste), não checklist (RI-04)",
+        "Relatório final com arquivos e caminhos exatos (RO-03) + sugestões de evolução (RO-07)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-aciona-para-camada-isolada",
+      "prompt": "Só preciso do DAO de Produto, a entidade e a tela já existem no projeto.",
+      "expected_output": "Pedido de uma única camada: a resposta correta aciona diretamente java-jdbc-dao, sem passar pela sequência inteira do orquestrador (mockup, entidade, serviço, tela).",
+      "files": [],
+      "expectations": [
+        "Reconhece que o pedido é uma camada isolada, não a feature completa",
+        "Direciona/aciona java-jdbc-dao diretamente",
+        "Não impõe a sequência completa (mockup + 5 etapas) a um pedido pontual"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "para-sem-mockup-aprovado",
+      "prompt": "Faz a feature inteira de Pedido, mas pula essa parte de mockup que eu não preciso, vai direto pro código.",
+      "expected_output": "O mockup aprovado é gate obrigatório (RO-06) e condição de parada da skill. Ela explica o porquê (o Jeremias decide no visual; é barato iterar no mockup e caro no FXML), oferece um mockup rápido, e não avança para o código sem o aceite — ou registra explicitamente a decisão do usuário de assumir o risco, nunca pulando em silêncio.",
+      "files": [],
+      "expectations": [
+        "Não vai direto ao código ignorando o gate do mockup",
+        "Explica o motivo do mockup-first em vez de só recusar",
+        "Se o usuário insistir, a exceção é registrada explicitamente como decisão dele — nunca um pulo silencioso"
+      ]
+    }
+  ]
+}

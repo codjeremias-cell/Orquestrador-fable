@@ -1,0 +1,45 @@
+{
+  "skill_name": "docs-projeto",
+  "evals": [
+    {
+      "id": 0,
+      "name": "readme-com-comandos-testados",
+      "prompt": "Escreve o README desse projeto, quero poder mandar pra alguém e a pessoa conseguir rodar.",
+      "expected_output": "A skill lê o pom.xml/package.json e os scripts reais do projeto antes de escrever qualquer coisa, monta o README com o que é, requisitos, como rodar e como buildar/empacotar usando comandos copiáveis, e efetivamente RODA esses comandos para confirmar que funcionam antes de afirmar que funcionam — marcando como 'não verificado' o que não pôde testar.",
+      "files": [],
+      "expectations": [
+        "Lê pom.xml/package.json e scripts reais antes de escrever (RO-01), não inventa comando",
+        "README fica curto (porta, não enciclopédia) com seções objetivas",
+        "Os comandos de instalação/execução são efetivamente executados antes de entrar no README",
+        "O que não pôde ser testado é marcado explicitamente como 'não verificado'",
+        "Não inclui nenhum segredo/credencial no documento"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "manual-usuario-com-prints",
+      "prompt": "Preciso do manual do usuário da tela de cadastro de férias, é pra um colaborador leigo usar.",
+      "expected_output": "Manual em PT-BR didático, orientado a tarefa ('Como solicitar férias'), um passo por linha, com print de cada tela relevante (a skill abre/lê a tela real em vez de descrever de memória), e uma seção de 'Problemas comuns' com erro → causa → solução.",
+      "files": [],
+      "expectations": [
+        "Estrutura orientada a tarefa, não a estrutura técnica do sistema",
+        "PT-BR simples, sem jargão técnico desnecessário",
+        "Print de cada tela relevante é obtido da tela real, não descrito de memória (RO-01/RO-06)",
+        "Inclui seção de problemas comuns (erro, causa, solução)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "changelog-linguagem-de-usuario",
+      "prompt": "Gera o changelog da versão que acabamos de fechar.",
+      "expected_output": "A skill lê o histórico git real (git log) entre as versões, agrupa em Adicionado/Corrigido/Alterado, datado, e escreve em linguagem de usuário final ('a tela de escala carrega mais rápido'), nunca em linguagem de commit técnico ('refactor DAO', 'fix NPE').",
+      "files": [],
+      "expectations": [
+        "Usa o histórico git real como fonte, não inventa o que mudou",
+        "Agrupa por categoria (Adicionado/Corrigido/Alterado) e data",
+        "Linguagem voltada ao usuário final, não jargão de commit/técnico interno",
+        "Evolui o CHANGELOG existente (patch cirúrgico) em vez de recomeçar do zero, se já existir"
+      ]
+    }
+  ]
+}

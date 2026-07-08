@@ -1,0 +1,46 @@
+{
+  "skill_name": "spec-frontend-web",
+  "evals": [
+    {
+      "id": 0,
+      "name": "frontend-completo-sobre-backend-pronto",
+      "prompt": "Monta o frontend completo do painel de matrículas: o backend Spring Boot já expõe a API REST, preciso das telas do zero até estar testado.",
+      "expected_output": "A skill valida as filhas, conduz com gates: descoberta → mockups aceitos (RO-06) → frontend-stack-decisor (ADR; backend pronto ⇒ evitar Node SSR à toa) → design-tokens-gen → web-component (por componente, axe sem violações) → web-data-layer (Zod único contra o DTO real) → testador-real com Playwright+axe → iteração com o Comitê até nota ≥ 9 → veredito do auditor. O backend é contrato consumido, nunca reescrito.",
+      "files": [],
+      "expectations": [
+        "Mockups com estados vazio/carregando/erro aceitos antes de qualquer código",
+        "Stack decidido via frontend-stack-decisor e registrado como ADR",
+        "Tokens gerados antes dos componentes; zero hex fora dos tokens",
+        "Componentes com gate de a11y (axe + teclado)",
+        "Camada de dados valida a resposta da API com o schema Zod único do DTO real",
+        "Testes executados com Playwright + axe, com relatório datado",
+        "Não reescreve o backend Spring Boot — consome o contrato (RO-SB4)",
+        "Itera até nota ≥ 9 do Comitê ou registra a decisão; fecha com veredito do auditor"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-aciona-para-etapa-isolada",
+      "prompt": "Cria só o componente de Select acessível com as variantes do nosso design system.",
+      "expected_output": "Pedido de um componente isolado: acionar web-component diretamente, sem a sequência completa do orquestrador.",
+      "files": [],
+      "expectations": [
+        "Reconhece o pedido como etapa isolada",
+        "Aciona/direciona web-component diretamente",
+        "Não impõe descoberta/stack/tokens a um pedido pontual (tokens só se ainda não existirem)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "sistema-inteiro-prefere-universal",
+      "prompt": "Constrói o sistema completo de agendamento: backend, frontend e deploy, tudo do zero.",
+      "expected_output": "O alvo é o sistema inteiro (backend + front + deploy), não só o front: a orquestradora correta é spec-projeto-completo, que delega o front a esta skill quando chegar a hora. A resposta reconhece a fronteira e direciona.",
+      "files": [],
+      "expectations": [
+        "Identifica que o escopo excede o frontend",
+        "Direciona para spec-projeto-completo",
+        "Não tenta conduzir backend e deploy com o orquestrador de front"
+      ]
+    }
+  ]
+}

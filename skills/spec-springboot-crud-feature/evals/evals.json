@@ -1,0 +1,45 @@
+{
+  "skill_name": "spec-springboot-crud-feature",
+  "evals": [
+    {
+      "id": 0,
+      "name": "crud-springboot-completo",
+      "prompt": "No Gradup, monta tudo da entidade Categoria: banco, serviço e tela de administração.",
+      "expected_output": "A skill valida as 3 filhas do track, coleta entidade/relacionamentos/operações, apresenta mockup e obtém aceite (RO-06), e encadeia: springboot-entity (entidade + migração Flyway V<N>__) → springboot-repository-service (repositório com join fetch + serviço que devolve record de leitura) → springboot-controller-thymeleaf (controller @Controller + template a11y) → fechamento com mvn test + varredura de hex fora do tokens.css, respeitando RO-SB1…8.",
+      "files": [],
+      "expectations": [
+        "Valida que springboot-entity, springboot-repository-service e springboot-controller-thymeleaf existem",
+        "Mockup aceito antes do código (RO-06)",
+        "A migração Flyway nasce junto da entidade, no padrão V<N>__<descricao>.sql",
+        "A view recebe record de leitura, nunca a entidade JPA (RO-SB4)",
+        "Nomes/slug consistentes entre entidade, migração, repositório, serviço, controller e template",
+        "Fechamento executa mvn test (declarando o gate por DB_URL) e a varredura de hex fora de tokens.css",
+        "Relatório final com caminhos exatos, testes executados e sugestões de evolução (RO-07)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-aciona-para-camada-isolada",
+      "prompt": "Cria só o repositório e o serviço de Curso, a entidade e a tela já estão prontas.",
+      "expected_output": "Pedido de camada única: acionar springboot-repository-service diretamente, sem a sequência completa do orquestrador.",
+      "files": [],
+      "expectations": [
+        "Reconhece o pedido como camada isolada",
+        "Aciona/direciona springboot-repository-service diretamente",
+        "Não refaz entidade/migração nem tela que já existem"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "nao-confunde-track-javafx",
+      "prompt": "Cria a funcionalidade completa de Equipamento ponta a ponta no meu app desktop JavaFX com Access.",
+      "expected_output": "O stack é JavaFX/JDBC, não Spring Boot: a orquestradora correta é spec-javafx-crud-feature. A resposta reconhece o track errado e direciona, em vez de gerar entidade JPA/Flyway/Thymeleaf num projeto desktop.",
+      "files": [],
+      "expectations": [
+        "Identifica que o projeto-alvo é do track JavaFX/JDBC, não Spring Boot",
+        "Direciona para spec-javafx-crud-feature",
+        "Não gera artefatos JPA/Flyway/Thymeleaf para um app desktop JavaFX"
+      ]
+    }
+  ]
+}

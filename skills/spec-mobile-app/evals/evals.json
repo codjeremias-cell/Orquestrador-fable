@@ -1,0 +1,46 @@
+{
+  "skill_name": "spec-mobile-app",
+  "evals": [
+    {
+      "id": 0,
+      "name": "app-mobile-da-ideia-a-entrega",
+      "prompt": "Quero fazer um app de celular completo pra registrar treinos de corrida, do início ao fim, com login e dados na nuvem.",
+      "expected_output": "A skill valida o catálogo, conduz a sequência com gates: descoberta (MVP aprovado) → negócio se visa loja → arquitetura/stack (default Flutter, ADR) com arquiteto-dados desenhando modelo + rascunho das security rules já na etapa 3 → mockups aceitos (RO-06) → mobile-flutter-scaffold → mobile-flutter-firebase (rules default-deny auditadas) → N× mobile-flutter-feature → testador-real → segurança → loop de qualidade até nota ≥ 9 → docs/release → veredito do auditor.",
+      "files": [],
+      "expectations": [
+        "Começa pela descoberta/requisitos com gate de MVP aprovado, não pelo código",
+        "Registra a escolha de stack como ADR (default Flutter) na etapa de arquitetura",
+        "O modelo de dados e o rascunho das security rules nascem na arquitetura (arquiteto-dados), não 'depois'",
+        "Mockups de todas as telas do MVP aceitos antes de qualquer código de UI (RO-06)",
+        "Delega scaffold/backend/features aos geradores do track em vez de escrever à mão",
+        "Features ficam backend-agnósticas atrás do repositório abstrato",
+        "Testes são executados de verdade (testador-real) e o loop itera até nota ≥ 9 ou decisão registrada",
+        "Fecha com veredito do auditor-responsabilidades (RI-05)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "nao-aciona-para-etapa-isolada",
+      "prompt": "Adiciona a tela de perfil com foto no meu app Flutter que já está em produção.",
+      "expected_output": "Pedido de uma feature isolada num app existente: acionar mobile-flutter-feature diretamente (com mockup-first), sem a sequência completa do orquestrador de track.",
+      "files": [],
+      "expectations": [
+        "Reconhece que é uma feature isolada, não o app inteiro",
+        "Direciona/aciona mobile-flutter-feature diretamente",
+        "Não refaz descoberta/arquitetura/scaffold de um app que já existe"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "plataforma-errada-prefere-universal",
+      "prompt": "Conduz o projeto inteiro de um sistema web de gestão de estoque, da ideia à entrega.",
+      "expected_output": "O alvo não é mobile: a orquestradora correta é spec-projeto-completo (ou spec-frontend-web se for só o front). A resposta reconhece a fronteira declarada na description e direciona.",
+      "files": [],
+      "expectations": [
+        "Identifica que a plataforma-alvo é web, não mobile",
+        "Direciona para spec-projeto-completo (ou o spec- do track adequado)",
+        "Não força o track Flutter num sistema web"
+      ]
+    }
+  ]
+}

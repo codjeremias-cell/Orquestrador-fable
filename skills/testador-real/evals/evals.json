@@ -1,0 +1,48 @@
+{
+  "skill_name": "testador-real",
+  "evals": [
+    {
+      "id": 0,
+      "name": "web-antes-do-release",
+      "prompt": "Testa esse sistema web de verdade antes do release, com evidência de tudo.",
+      "expected_output": "Preenchimento/confirmação do Perfil (tipo web, base URL, build/teste, credenciais de QA), inventário de funcionalidades a partir do código real, bateria estática (build+testes) e dinâmica (funcional, autorização, caminho triste, estados, a11y básica, dados, anti-abuso por último), tudo com PASS/FAIL/SKIP e evidência, fechando com relatório datado e veredito explícito.",
+      "files": [],
+      "expectations": [
+        "Preenche ou confirma o Perfil do projeto-alvo lendo o código real, sem inventar comando de build/execução",
+        "Gera o mapa de funcionalidades a partir do código (rotas/controllers), não de memória",
+        "Executa a bateria estática e reporta totais reais de PASS/FAIL/SKIP",
+        "Cobre autorização (rota restrita sem login) e caminho triste, não só o fluxo feliz",
+        "Todo dado de teste criado leva prefixo [QA-AUTO] e é removido ao final",
+        "Nunca roda a bateria dinâmica contra produção sem autorização explícita",
+        "O que não puder ser executado vira SKIP declarado com motivo, nunca um 'passou' fingido",
+        "Fecha com relatório datado e veredito explícito (aprovado/ressalvas/reprovado)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "desktop-sem-perfil-ainda",
+      "prompt": "Roda o testador nesse app desktop JavaFX. Ainda não tem nenhuma skill de teste configurada pra ele.",
+      "expected_output": "Como não há Perfil nem instância prévia, a skill preenche o Perfil lendo o projeto real (build Maven, como o app sobe, banco, tema, logging), executa ao menos a bateria estática (build/testes), declara como SKIP o que exigir interação de pixel/janela que não dá pra fazer headless, e propõe salvar o resultado como uma instância de testador própria do projeto (ex.: <projeto>-testador) no .claude/skills local do projeto.",
+      "files": [],
+      "expectations": [
+        "Preenche o Perfil lendo pom.xml, scripts de execução e estrutura real do projeto, sem chutar comando",
+        "Executa a bateria estática (build/testes) mesmo sem app rodando",
+        "Declara explicitamente como SKIP o que exigir pixel/janela visível, com o motivo",
+        "Propõe salvar como instância de testador específica do projeto, local ao próprio projeto",
+        "Não finge ter testado a UI visualmente sem ter feito nenhuma verificação real"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "nao-dispara-sozinho",
+      "prompt": "Acabei de terminar a funcionalidade de cadastro de cliente, ficou show.",
+      "expected_output": "A skill NÃO inicia nenhuma bateria de teste por conta própria — terminar uma leva de código não é o gatilho. Ela responde ao comentário sem executar testes, e só rodaria a bateria se o usuário pedisse explicitamente algo como 'roda o testador' ou 'testa o sistema'.",
+      "files": [],
+      "expectations": [
+        "Não executa build, testes nem qualquer bateria automaticamente",
+        "Reconhece que terminar código não é o gatilho de ativação",
+        "Não produz relatório de teste nem veredito sem pedido explícito"
+      ]
+    }
+  ]
+}
