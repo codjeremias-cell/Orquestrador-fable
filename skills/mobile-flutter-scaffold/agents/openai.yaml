@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scaffold Mobile Flutter"
+  short_description: "Crie a base feature-first de um app Flutter"
+  default_prompt: "Use $mobile-flutter-scaffold para criar a fundação feature-first deste aplicativo Flutter."

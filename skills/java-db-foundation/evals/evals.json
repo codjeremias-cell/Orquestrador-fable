@@ -1,0 +1,48 @@
+{
+  "skill_name": "java-db-foundation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria (ou evolui) a fundação de conexão com o Access via UCanAccess, lendo o caminho do banco de config.properties.",
+      "expected_output": "Provedor no padrão SIGO: classe final utilitária (ex.: Database) com métodos estáticos (abrirConexao, caminhoBanco); retry (3x progressivo) e serialização em 2 níveis (ReentrantLock na JVM + FileLock sobre um arquivo-sentinela separado, tipo cot.lock, entre máquinas) EMBUTIDOS na própria classe do provedor — SEM criar uma classe RetryDB separada; liberação da trava no close (proxy); caminhoBanco() lê config.properties (banco.caminho) para rede sem recompilar; credenciais/caminho fora do git.",
+      "assertions": [
+        {"text": "NÃO cria uma classe RetryDB separada — retry e trava vivem dentro do próprio provedor (Database)", "checkable": true},
+        {"text": "serialização em 2 níveis: lock reentrante na JVM + lock de arquivo (arquivo-sentinela, não o .accdb) entre máquinas", "checkable": true},
+        {"text": "caminho/URL do banco lido de config.properties, fora do git, com *.example versionado", "checkable": true},
+        {"text": "provedor único de conexão — nenhuma abertura de Connection fora dele", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (Database.java, SIGO/sistema-cot, lido 2026-07-18, projeto vivo)",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Java com PostgreSQL cujo provedor de conexão existente usa um pool HikariCP e chama uma classe própria ConexaoRetry.executar(...) para operações críticas, cria/evolui a fundação de banco para a nova entidade.",
+      "expected_output": "Espelha ESSE projeto: mantém o pool HikariCP e o utilitário ConexaoRetry.executar(...) já existente (não recria retry, não importa a trava em 2 níveis do SIGO que não se aplica a um banco cliente-servidor com pool). Os invariantes continuam valendo: credenciais fora do git (URL/usuário/senha via config/env, não hardcoded), provedor único de conexão, try-with-resources no consumo, log via Log4j2 em vez de System.out.",
+      "assertions": [
+        {"text": "mantém HikariCP + ConexaoRetry.executar(...) existentes, sem recriar retry nem importar lock de 2 níveis do SIGO", "checkable": true},
+        {"text": "credenciais (URL/usuário/senha) fora do git, nada hardcoded", "checkable": true},
+        {"text": "provedor único de conexão preservado", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSIÇÃO (RO-01): as referências reais do Gradup lidas para esta rodada (springboot-repository-service/referencia-exemplos-reais-gradup.md, springboot-entity/referencia-exemplos-reais-gradup.md, springboot-controller-thymeleaf/referencia-exemplos-reais-gradup.md) cobrem repositório JPA, entidade/migração Flyway e controller/Thymeleaf — nenhuma cobre fundação de banco (DataSource/HikariCP/utilitário de retry). O Gradup real usa Spring Data JPA com pool gerenciado pelo framework (Spring Boot autoconfigura HikariCP via application.properties), sem classe própria de conexão/retry documentada nas referências disponíveis. Sem fonte real citável para o cenário 'ConexaoRetry.executar(...) própria', o caso permanece sintético/hipotético (greenfield 'outra casa') até que um projeto real com esse padrão seja lido.",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto Java novo (greenfield), ainda sem nenhum provedor de conexão, banco Access local via UCanAccess, sem projeto-irmão validado para copiar.",
+      "expected_output": "Cria o provedor mais simples que atende aos invariantes (config.properties fora do git, provedor único, try-with-resources, log via Log4j2) e declara explicitamente SUPOSIÇÃO: para a política de retry e o mecanismo de serialização escolhidos — SEM importar automaticamente a trava em 2 níveis (ReentrantLock+FileLock) do SIGO como se fosse regra universal, já que não há evidência de que este projeto precise dela.",
+      "assertions": [
+        {"text": "declara SUPOSIÇÃO: para retry/serialização em vez de copiar cegamente o padrão SIGO", "checkable": true},
+        {"text": "não importa a trava em 2 níveis do SIGO como regra fixa sem justificar", "checkable": true},
+        {"text": "invariantes (segredos fora do git, provedor único, try-with-resources, Log4j2) continuam presentes", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotético, sem projeto-irmão validado — declarado no próprio enunciado do caso (nenhuma fonte real por trás).",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    }
+  ]
+}

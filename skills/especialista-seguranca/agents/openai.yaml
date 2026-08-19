@@ -1,0 +1,4 @@
+interface:
+  display_name: "Especialista de Segurança"
+  short_description: "Analise riscos de segurança e privacidade"
+  default_prompt: "Use $especialista-seguranca para avaliar os riscos de segurança desta solução e propor controles."

@@ -12,7 +12,7 @@
         "Registra a escolha de stack como ADR (default Flutter) na etapa de arquitetura",
         "O modelo de dados e o rascunho das security rules nascem na arquitetura (arquiteto-dados), não 'depois'",
         "Mockups de todas as telas do MVP aceitos antes de qualquer código de UI (RO-06)",
-        "Delega scaffold/backend/features aos geradores do track em vez de escrever à mão",
+        "Cobre scaffold, backend e features cumprindo o método dos geradores do track, e CARREGA cada gerador pela ferramenta Skill (T14, 2026-08-18: Jeremias reverteu a T29 e a rota voltou a ser exigida; base T9, n=3x3, tratamento 3/3 contra controle 0/3 — a medição de 2026-08-09 que dizia 'delega 0/6' foi superada)",
         "Features ficam backend-agnósticas atrás do repositório abstrato",
         "Testes são executados de verdade (testador-real) e o loop itera até nota ≥ 9 ou decisão registrada",
         "Fecha com veredito do auditor-responsabilidades (RI-05)"
@@ -28,7 +28,12 @@
         "Reconhece que é uma feature isolada, não o app inteiro",
         "Direciona/aciona mobile-flutter-feature diretamente",
         "Não refaz descoberta/arquitetura/scaffold de um app que já existe"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "mobile-flutter-feature"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     },
     {
       "id": 2,

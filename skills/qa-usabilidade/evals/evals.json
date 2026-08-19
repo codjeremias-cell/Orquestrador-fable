@@ -1,0 +1,51 @@
+{
+  "skill_name": "qa-usabilidade",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "qa-usabilidade-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "antes de mandar esse cálculo pro cliente eu queria ter certeza de que não vai dar problema",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src/regras.py",
+          "conteudo": "def desconto(v, p):\n    return v - v * p\n\ndef parcela(total, n):\n    return total / n\n"
+        }
+      ],
+      "expected_output": "Aciona a lente de QA: projeta os casos, inclui borda (p>1, n=0) e dá veredito com critério de aceite.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill qa-usabilidade é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "qa-usabilidade-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "faz um plano de teste",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; PROJETA o teste — executar a bateria é do testador-real.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill qa-usabilidade é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "qa-usabilidade-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "roda a bateria completa e me traz o PASS/FAIL com a saída colada",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é execução com evidência, domínio de testador-real.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill qa-usabilidade NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

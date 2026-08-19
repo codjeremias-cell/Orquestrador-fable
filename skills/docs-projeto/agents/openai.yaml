@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentação de Projeto"
+  short_description: "Crie documentação fiel ao projeto real"
+  default_prompt: "Use $docs-projeto para documentar este projeto a partir do código e dos fluxos reais."

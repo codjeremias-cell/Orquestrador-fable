@@ -1,6 +1,6 @@
 ---
 name: mobile-flutter-scaffold
-description: Cria do zero o esqueleto de um app Flutter feature-first (camadas UI/Data), pronto para rodar — projeto gerado por scaffolder (Very Good CLI/Mason quando disponível), pubspec com go_router, flutter_riverpod + riverpod_generator (DI + estado, sistema único), freezed, flutter_lints, estrutura de pastas por feature e pastas de teste (unit/widget/integration_test). Acione quando o usuário disser coisas como "cria um app Flutter novo do zero", "começa um projeto mobile Flutter", "monta a base do aplicativo", "inicializa o projeto Flutter", "quero começar um app de celular". NÃO acione em projeto Flutter que já existe (para adicionar telas/lógica use mobile-flutter-feature) nem para conectar Firebase (use mobile-flutter-firebase).
+description: "Cria do zero o esqueleto de um app Flutter feature-first, em camadas UI/Data, pronto para rodar e passar no analyze. Acione com \"cria um app Flutter novo do zero\", \"começa um projeto mobile Flutter\", \"monta a base do aplicativo\", \"inicializa o projeto Flutter\", \"quero começar um app de celular\", \"scaffold\", \"cria o app\", \"começa o projeto mobile\", \"monta a base\", \"inicializa o Flutter\", \"quero um app de celular do zero\". NÃO acione em projeto Flutter que já existe (para adicionar telas/lógica use mobile-flutter-feature) nem para conectar Firebase (use mobile-flutter-firebase)."
 ---
 
 # Flutter — Scaffold de Projeto (feature-first, camadas UI/Data)
@@ -9,12 +9,18 @@ Gerador do **track mobile (Flutter-first, proposta 2026-07-07)**. Materializa, n
 esqueleto de um app Flutter que **roda e passa no analyze** desde o primeiro minuto, com a
 arquitetura oficial (MVVM, camadas UI/Data) e as libs do track já plugadas.
 
+## Onde entra no fluxo
+
+Primeira das três skills Flutter: **scaffold** (o alicerce) → **mobile-flutter-feature** (cada
+vertical de tela) → **mobile-flutter-firebase** (backend). Só entra em **pasta limpa**; num projeto
+que já existe, quem trabalha é a feature ou o firebase.
+
 ## Objetivo
 
 Entregar o alicerce sobre o qual `mobile-flutter-feature` e `mobile-flutter-firebase` são
 construídos: estrutura feature-first, injeção de dependência, roteamento, estado, modelo imutável,
-lints e pastas de teste. Estabelece as convenções do projeto (feature-first, repositório abstrato,
-fluxo unidirecional, nada de lógica no widget).
+lints e pastas de teste. Estabelece as convenções do projeto — por extenso em **Convenções
+obrigatórias** (feature-first, repositório abstrato, fluxo unidirecional, nada de lógica no widget).
 
 ## Entradas obrigatórias
 
@@ -40,17 +46,20 @@ fluxo unidirecional, nada de lógica no widget).
 2. **Pepita P-a (determinismo, §6.7):** checar se há scaffolder pronto — **Very Good CLI**
    (`very_good create flutter_app <nome> --org <org>`) ou **Mason** (`mason make <brick>`). Existindo,
    **invocar o scaffolder e preencher variáveis** em vez de escrever os arquivos à mão — gerar a
-   partir de modelo torna classes inteiras de erro estruturalmente impossíveis. Fontes:
-   https://github.com/VeryGoodOpenSource/very_good_cli (tem MCP embutido) ·
-   https://github.com/felangel/mason
+   partir de modelo torna classes inteiras de erro estruturalmente impossíveis (URLs em Referências).
 3. Sem referência real disponível: montar com práticas-padrão e **declarar as versões como
-   confirmáveis**, validando pelo `flutter pub get`/`analyze` — nunca afirmar versão de cor.
+   confirmáveis** — nunca afirmar versão de cor (ver Guardrails).
 
 ## Convenções obrigatórias (Track Mobile Flutter)
 
+Cada convenção vem com o **porquê** — não são gosto, são o que mantém o app testável e barato de
+evoluir.
+
 - **Arquitetura oficial:** MVVM + duas camadas — **UI** (View + ViewModel) e **Data**
   (Repository + Service). **domain/** (use-case + model) só quando a lógica for complexa. Fluxo de
-  dados **unidirecional**; **nada de lógica no widget**. Fonte:
+  dados **unidirecional** (View → ViewModel → estado → View), *porque* mão-única elimina o
+  vai-e-volta de estado que gera bug difícil de rastrear; **nada de lógica no widget** *porque* View
+  sem regra é a única que dá para testar barato e trocar sem quebrar o resto. Fonte:
   https://docs.flutter.dev/app-architecture/guide e /recommendations · app de referência **Compass**
   https://github.com/flutter/samples/tree/main/compass_app — vale como referência de
   **arquitetura/camadas (UI/Data)**; note que o Compass usa `provider` para DI+estado, **não**
@@ -58,18 +67,23 @@ fluxo unidirecional, nada de lógica no widget).
 - **Estrutura feature-first:**
   `lib/src/features/<feature>/{presentation, application, data, domain}` +
   `lib/src/common/` (widgets/erros compartilhados) + `lib/src/routing/` (go_router) +
-  `lib/src/utils/`. Cada feature separa internamente UI (presentation) de Data (data).
+  `lib/src/utils/`. Cada feature separa internamente UI (presentation) de Data (data). *Por quê:*
+  agrupar por feature (e não por tipo de arquivo) mantém cada vertical isolada — dá para ler, testar
+  e remover uma feature sem caçar pedaços dela pelo projeto inteiro.
 - **Estado + DI — Riverpod único (padrão do track):** `flutter_riverpod` + `riverpod_annotation`;
   dev `riverpod_generator` + `build_runner` + `custom_lint` + `riverpod_lint`. O `ProviderScope`
-  na raiz do `main.dart` resolve **estado e injeção de dependência** — um sistema só, sem `provider`
-  no pacote-base. Fonte: https://codewithandrea.com/articles/flutter-riverpod-generator/
-- **`provider` fora do pacote-base:** o scaffold não pluga o pacote `provider` (evita dois sistemas
-  de DI). Só **se surgir necessidade concreta de DI app-wide** que o Riverpod não cubra bem,
-  registrar como **ADR** (`arquiteto-software`) antes de adicionar.
+  na raiz do `main.dart` resolve **estado e injeção de dependência** — um sistema só; o scaffold
+  não pluga o pacote `provider` (evita dois sistemas de DI). Só **se surgir necessidade concreta
+  de DI app-wide** que o Riverpod não cubra bem, registrar como **ADR** (`arquiteto-software`)
+  antes de adicionar. Fonte: https://codewithandrea.com/articles/flutter-riverpod-generator/
 - **Navegação:** `go_router` (oficial) + `go_router_builder` (rotas type-safe via `@TypedGoRoute`).
+  *Por quê type-safe:* rota gerada pega destino/parâmetro errado em compile-time, não em runtime na
+  mão do usuário — e some com string de rota solta espalhada pelo código.
 - **Modelo imutável:** `freezed` (`freezed_annotation`/`json_annotation`; dev `freezed` +
-  `json_serializable`).
+  `json_serializable`). *Por quê imutável:* sem setter, o estado não muda pelas costas — toda
+  mudança é um novo objeto via `copyWith`, o que casa com o fluxo unidirecional.
 - **Lints:** `flutter_lints` no `analysis_options.yaml` (opção mais estrita: `very_good_analysis`).
+  *Por quê:* o lint é a primeira linha de revisão automática — pega o erro antes do review humano.
 - **Testes:** pasta `test/` (unit + widget) e `integration_test/` (E2E; **`flutter_driver` está
   DEPRECADO** — usar o pacote `integration_test`). Mock com `mocktail`.
 - Identificadores em inglês; textos de UI em PT-BR; sem emoji em código (RO-05).
@@ -103,6 +117,23 @@ fluxo unidirecional, nada de lógica no widget).
   Riverpod code-gen (DI + estado), freezed, lints e pastas de teste configurados.
 - `flutter analyze` + `flutter test` verdes como evidência.
 
+## Verificação (checklist final)
+
+Um alicerce que não roda nem analisa limpo contamina toda feature construída em cima — por isso o
+scaffold só está "pronto" quando **prova** que compila e passa. Confira, com evidência real:
+
+- [ ] `flutter pub get` resolve sem conflito de versões.
+- [ ] `dart run build_runner build --delete-conflicting-outputs` gera freezed/riverpod **sem erro**.
+- [ ] `flutter analyze` → **zero issues** (com os lints do track ativos).
+- [ ] `flutter test` → **verde** (mesmo que só o smoke test do template).
+- [ ] `flutter run` (ou build de uma plataforma-alvo) → o app abre na tela placeholder.
+- [ ] Estrutura presente: `features/`, `common/`, `routing/`, `utils/`, `test/`, `integration_test/`;
+      `ProviderScope` na raiz do `main.dart`; **nenhuma** feature de negócio criada (isso é da feature).
+- [ ] Segredos protegidos: `.gitignore` cobre chaves/`.env` e há `*.example` de referência.
+
+Se algum passo não puder rodar no ambiente, declarar **SKIP com o motivo** (RI-04) — nunca reportar
+"passou" sem execução.
+
 ## Few-shot (entra → sai)
 
 **Entra:** `nome=meuapp`, `org=com.jere.meuapp`, plataformas Android/iOS, estado Riverpod code-gen.
@@ -127,14 +158,21 @@ meuapp/
 
 - Arquitetura: https://docs.flutter.dev/app-architecture/guide · /recommendations · Compass app.
 - Riverpod code-gen: https://codewithandrea.com/articles/flutter-riverpod-generator/
-- Scaffolders: https://github.com/VeryGoodOpenSource/very_good_cli · https://github.com/felangel/mason
+- Scaffolders: https://github.com/VeryGoodOpenSource/very_good_cli (tem MCP embutido) · https://github.com/felangel/mason
 
 ## 💡 Sugestões de evolução (RO-07)
 Fechar com 2–3 sugestões (ex.: seguir com `mobile-flutter-feature`; configurar flavors dev/stg/prod;
 adotar `very_good_analysis` e CI com `flutter analyze`/`test`; encadear `mobile-flutter-firebase`).
+
+**Gabarito universal (few-shot de código real — projeto SEM code-gen):** carregue `referencia-padroes-universais-flutter.md` — rotas centralizadas em `abstract final class Rotas` (anti-string-solta) + `criarRouter()` com transição que respeita "reduzir movimento", estrutura layer-first (`domain/data/presentation`) e offline-first empacotado (JSON asset + `shared_preferences`), do jogo real Encontre a Marta. **Regra de decisão (RO-01):** projeto COM code-gen/feature-first segue o default; projeto pequeno/jogo SEM code-gen segue o gabarito enxuto. Olhe o `pubspec.yaml` antes.
 
 ## 🔗 Rede da skill
 - **Lentes que ativam junto (RI-06):** `arquiteto-software` (camadas UI/Data; ADR se surgir DI app-wide além do Riverpod) · `dev-senior` (pubspec e main legíveis).
 - **Vem antes:** `requisitos-descoberta` / `spec-mobile-app` (nome, org e stack já decididos).
 - **Vem depois:** `mobile-flutter-feature` (primeira feature) · `mobile-flutter-firebase` (backend) · `testador-real`.
 - **Não confundir com:** `java-project-bootstrap` (mesmo papel, track desktop JavaFX/Maven) · `spec-mobile-app` (o orquestrador que chama esta e as demais).
+
+### 📜 Histórico
+- **2026-08-11 — Head liberado, fronteira mais cedo (proveniência: `_auditoria/zelador-inventario-2026-08-10.md`, item 35 e §MELHORAR):** removido da description o prefixo "PASSO 1 do fluxo Flutter (scaffold, feature, firebase):", que gastava o head com posição de fluxo já descrita no corpo (§"Onde entra no fluxo"); a cauda "NÃO acione em projeto Flutter que já existe…" subiu do offset 481 para o 426 (639 → 584 chars). **Aplicado só isso:** a outra metade da ação — remover as repetições curtas de gatilho ("cria o app", "começa o projeto mobile", "monta a base", "inicializa o Flutter", "quero um app de celular do zero") — foi recusada, porque frases entre aspas são o mecanismo de disparo medido nesta casa e a regra vigente do lote é preservar todas. Alvo de ~380 chars do laudo, portanto, não alcançado por decisão, não por omissão.
+- **2026-07-18 — Few-shot de código real (onda mobile, captura universal):** criada `referencia-padroes-universais-flutter.md` (fonte: `app_router.dart` + estrutura `lib/` do jogo Encontre a Marta). Captura só o universal (rotas centralizadas, layer-first, offline-first) por decisão do Jeremias; feature-first + code-gen do default intactos para app-style. Divergência declarada (RI-04), não forçada. Degrau §6.10: 2 (referência nova). Notas em `rodadas/onda-fewshots-2026-07-18-notas.md`.
+- **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens B7, B8, B9; −3 linhas.

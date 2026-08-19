@@ -1,0 +1,4 @@
+interface:
+  display_name: "Logging Java com Log4j 2"
+  short_description: "Padronize logs Java com contexto e causa"
+  default_prompt: "Use $java-logging-log4j2 para configurar ou padronizar o logging deste projeto com Log4j 2."

@@ -1,0 +1,78 @@
+{
+  "skill_name": "java-service-usecase",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria o serviço de RedefinirSenha: recebe login, senha atual e senha nova; usa o UsuarioDAO já existente (mesmo padrão do AutenticacaoService).",
+      "expected_output": "Serviço em br.com.cot.service no padrão SIGO: UsuarioDAO como campo direto `private final UsuarioDAO usuarioDAO = new UsuarioDAO();` (sem injeção por construtor, sem interface); método em PT-BR (ex.: redefinirSenha); throws SQLException propagado, SEM logger e SEM try/catch de banco no serviço; falha esperada (login não existe, senha atual errada) sinalizada por retorno null/boolean, NÃO por exceção de negócio inventada; javadoc de método com o contrato de retorno.",
+      "assertions": [
+        {
+          "text": "DAO como campo direto (new UsuarioDAO()), sem injeção por construtor e sem interface",
+          "checkable": true
+        },
+        {
+          "text": "SEM logger dentro do serviço; throws SQLException propagado limpo",
+          "checkable": true
+        },
+        {
+          "text": "falha esperada sinalizada por retorno (null/boolean), sem NegocioException inventada",
+          "checkable": true
+        },
+        {
+          "text": "pacote br.com.cot.service, método em PT-BR",
+          "checkable": true
+        }
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (AutenticacaoService.java verbatim + convenções 2, 3 e 5 do padrão SIGO)",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    },
+    {
+      "id": 2,
+      "prompt": "Cria o serviço de CancelarMatricula num projeto Java web cujo padrão de 'outra casa' é o mesmo já validado no Gradup (Spring Boot/família): DAOs/repositórios recebidos por construtor, violação de regra de negócio sinalizada por exceção, e retorno como record de leitura — a operação cancela a matrícula de um aluno num curso, validando que ela existe e ainda não foi cancelada.",
+      "expected_output": "Espelha o padrão REAL da 'outra casa' (Gradup/Spring Boot), não um genérico hipotético: dependências recebidas por construtor (`private final`, sem `@Autowired` em campo) — verbatim em `CatalogService`, `springboot-repository-service/referencia-exemplos-reais-gradup.md`; violação de invariante de negócio sinalizada com `.orElseThrow(() -> new IllegalArgumentException(\"mensagem clara\"))`, sem hierarquia de exceção customizada — convenção real citada em `springboot-repository-service/SKILL.md` (seção Convenções obrigatórias — Serviço, extraída de código real do Gradup), não uma NegocioException inventada; NUNCA devolve a entidade JPA, sempre mapeia para um record de leitura (ex.: MatriculaCancelada), como o CatalogService faz com CourseCard. Contextualização obrigatória (RI-04): a description desta skill (java-service-usecase) escopa 'projeto Java desktop', mas este caso é um projeto Java web (Spring Boot) — a saída DECLARA essa divergência explicitamente em vez de fingir contexto desktop, sem tocar a description; o caso prova que o MÉTODO da skill (espelhar o projeto real, não impor um padrão fixo herdado do SIGO) generaliza fora do desktop, com lastro em código real citável — para um projeto Spring Boot de verdade, o gerador dedicado é springboot-repository-service.",
+      "assertions": [
+        {
+          "text": "usa injeção por construtor, IllegalArgumentException via orElseThrow e record de leitura porque É o padrão REAL do Gradup (citado com fonte, não inventado)",
+          "checkable": true
+        },
+        {
+          "text": "declara explicitamente a divergência entre a description (java desktop) e o contexto do caso (Java web/Spring Boot), sem alterar a description (RI-04)",
+          "checkable": true
+        },
+        {
+          "text": "mesmo fora do desktop, mantém os invariantes: sem SQL direto, sem acesso a UI/Model, sem gravação parcial em operação multi-passo",
+          "checkable": true
+        }
+      ],
+      "origem": "real",
+      "fonte": "springboot-repository-service/referencia-exemplos-reais-gradup.md (CatalogService — injeção por construtor + record de leitura, verbatim) e springboot-repository-service/SKILL.md (convenção real de exceção de negócio via orElseThrow(IllegalArgumentException), seção Convenções obrigatórias — Serviço)",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1",
+      "espera_acionamento": false,
+      "rota_correta": [
+        "springboot-repository-service"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
+    },
+    {
+      "id": 3,
+      "prompt": "Num projeto Java (não-SIGO) cujos serviços existentes têm classe de teste com dublês/fakes dos DAOs (ex.: ClienteServiceTest com um FakeClienteDAO), cria o serviço de AtivarConta e o teste correspondente.",
+      "expected_output": "Segue o padrão real de teste desse projeto: escreve um teste do serviço com dublê/fake do DAO no mesmo estilo do exemplo existente (ex.: FakeXDAO ou Mockito, conforme o que o projeto usa) e RODA o teste — não é SKIP, porque o projeto pratica esse padrão e há exemplo real para copiar.",
+      "assertions": [
+        {
+          "text": "escreve e roda teste do serviço com dublê do DAO no estilo do exemplo real do projeto (não declara SKIP, pois há prática e exemplo confirmados)",
+          "checkable": true
+        },
+        {
+          "text": "não inventa um framework de teste que o projeto não usa; copia o estilo do teste existente",
+          "checkable": true
+        }
+      ],
+      "origem": "sintetico",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    }
+  ]
+}

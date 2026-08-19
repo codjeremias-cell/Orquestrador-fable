@@ -1,0 +1,4 @@
+interface:
+  display_name: "Testador Real"
+  short_description: "Execute testes reais com evidência rastreável"
+  default_prompt: "Use $testador-real para executar a bateria real deste sistema e emitir o veredito."

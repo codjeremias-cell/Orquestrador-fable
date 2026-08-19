@@ -2,8 +2,8 @@
 tipo: governança
 papel: governança do conjunto único (multi-stack)
 enforced-by: auditor-responsabilidades
-última-atualização: 2026-07-07
-versão: v2.4
+última-atualização: 2026-07-05
+versão: v2.3
 ---
 
 # 🛡️ Regras de Ouro e Inquebráveis (multi-stack)
@@ -77,33 +77,4 @@ versão: v2.4
 - **RO-SB7 — Mídia pesada fora do app.** Vídeo por embed/CDN externo, não streaming próprio no MVP.
 - **RO-SB8 — Verificar de verdade.** `mvn test` roda Flyway + Hibernate `validate` + fluxo; teste de integração que exige banco fica guardado por env var (`@EnabledIfEnvironmentVariable(named="DB_URL")`) para o `mvn test` sem banco não quebrar.
 
-### Track Web / Supabase (Embalo — pendente)
-> Reservado para as RO do **backend Supabase** (RLS, Auth, Storage) quando o track for construído (ROADMAP item 1). *(Cabeçalho restaurado em 2026-07-07 — a linha estava truncada aqui, mesmo corte que atingiu outras skills; conteúdo original era só placeholder.)*
-
-### Track Mobile / Flutter (proposta 2026-07-07 — validar contra o EscalaOper real, RO-01)
-
-> Stack: Flutter + Firebase (Auth/Firestore/Storage). Baseado na arquitetura **oficial** do Flutter; refinar contra o código real do EscalaOper quando acessível.
-
-- **RO-FL1 — Camadas com repositório abstrato.** UI (View + ViewModel) e Data (Repository + Service); repositório é **interface** (permite fake/mock); domain/use-case só quando a lógica for complexa. **Nada de lógica no widget.**
-- **RO-FL2 — Estado com Riverpod (code-gen) por padrão.** `@riverpod`/`AsyncNotifier` (loading/erro nativos); Bloc só em domínio regulado que exija trilha de eventos. Modelo imutável (`freezed`).
-- **RO-FL3 — Firebase desacoplado + rules com o modelo.** O ViewModel consome a interface de repositório, nunca o Firestore direto; as **security rules default-deny nascem junto do modelo** (são o firewall). `flutterfire configure`, nunca config manual.
-- **RO-FL4 — Navegação e testes oficiais.** `go_router` (+ builder type-safe); unit para Service/Repository/ViewModel + widget para as Views, com `mocktail` e `integration_test` (`flutter_driver` está deprecado — reconfirmar na data de uso).
-
-### Track Web Frontend (proposta 2026-07-07 — complementa o Spring Boot)
-
-> Stack: React/Vue/Svelte/Astro + Tailwind v4 + TanStack. Convenções de fontes oficiais/comunidade; validar no primeiro projeto real.
-
-- **RO-FE1 — Server-state × client-state separados.** Server-state só via **TanStack Query** (cache/revalidação), **nunca** em store global; client-state em Zustand/Jotai.
-- **RO-FE2 — Um schema Zod = contrato único.** O mesmo schema valida a resposta da API (parse-fail → error state), valida o formulário e **infere os tipos TS**. Blinda o front contra o backend mudar.
-- **RO-FE3 — Componente com fronteira a11y invariável.** Comportamento por primitiva headless (Radix/Base UI/React Aria); **nunca** trocar `button` por `div`, sempre espalhar `{...props}`, contraste ≥ 4,5:1 (WCAG 2.2).
-- **RO-FE4 — Tokens são a fonte única de estilo.** Design tokens (W3C DTCG) → Tailwind v4 `@theme`/CSS vars; **zero hex fora dos tokens**. No bundle, só var pública (`VITE_`/`NEXT_PUBLIC_`) — nunca chave privada.
-- **RO-FE5 — Prova por Playwright + axe.** Bateria dinâmica E2E com Playwright + `@axe-core` (WCAG 2.2); crítico falha o build.
-
-### Track Desktop / Tauri (proposta 2026-07-07 — moderno multiplataforma)
-
-> Stack: Tauri v2 (flagship) ou Avalonia (.NET, menor atrito vindo de JavaFX). Validar no primeiro projeto real.
-
-- **RO-DT1 — Segurança default-deny.** Capabilities/permissions explícitas por janela + CSP estrita (scripts hasheados/nonce, sem CDN). Nunca liberar tudo por padrão (erro do Tauri v1).
-- **RO-DT2 — Bridge tipada de ponta a ponta.** Tipos gerados do backend (tauri-specta/TauRPC) para o front — o compilador valida o contrato UI↔dados do código gerado.
-- **RO-DT3 — Banco local com migração versionada.** `tauri-plugin-sql` (SQLite) com migrações **versionadas** — o plugin aplica o **up** no boot; o **down** é artefato manual de dev para rollback (não é auto-aplicado pelo plugin). Gravação segura (temp+rename); teste nunca contra dados reais.
-- **RO-DT4 — Distribuição assinada com auto-update.** Instalador assinado (code signing/notarização) + updater com par de chaves próprio via GitHub Releases (ou Velopack no caminho .NET).
+### Track We

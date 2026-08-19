@@ -1,0 +1,46 @@
+{
+  "skill_name": "consultor-negocios-apps",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "consultor-negocios-apps-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "tenho quinhentos usuários mas quase ninguém volta na segunda semana, e já gastei bastante em anúncio",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona a lente de negócio: retenção, unit economics, CAC × LTV, e veredito com nota fundamentada.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill consultor-negocios-apps é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "consultor-negocios-apps-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "freemium ou pago?",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal e decide por dado de mercado, não por preferência.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill consultor-negocios-apps é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "consultor-negocios-apps-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "o que esse sistema precisa ter no MVP?",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é definição de escopo, domínio de requisitos-descoberta.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill consultor-negocios-apps NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

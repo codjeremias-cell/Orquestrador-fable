@@ -1,0 +1,53 @@
+{
+  "skill_name": "especialista-seguranca",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "especialista-seguranca-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "amanhã isso vai pro ar pro escritório inteiro usar; dá uma olhada antes",
+      "espera_acionamento": true,
+      "expected_output": "Aciona como gate antes de expor: procura credencial em claro, entrada não confiável e permissão.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill especialista-seguranca é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "pom.xml",
+          "conteudo": "<project><modelVersion>4.0.0</modelVersion><groupId>ex</groupId><artifactId>portal</artifactId><version>1.0</version></project>\n"
+        },
+        {
+          "caminho": "src/main/java/app/Conexao.java",
+          "conteudo": "package app;\nimport java.sql.*;\npublic class Conexao {\n    static final String PASS = \"Portal@2026\";\n    public static Connection abrir() throws Exception {\n        return DriverManager.getConnection(\"jdbc:postgresql://10.0.0.7/portal\",\"admin\",PASS);\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "especialista-seguranca-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "isso tá seguro pra subir?",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e aponta o achado — corrigir o código é da dev-senior.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill especialista-seguranca é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "especialista-seguranca-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "escreve um post explicando o que é RAG pra leigo",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é conteúdo editorial, domínio de redator-tecnologia-ia.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill especialista-seguranca NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

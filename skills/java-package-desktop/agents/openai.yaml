@@ -1,0 +1,4 @@
+interface:
+  display_name: "Empacotamento Java Desktop"
+  short_description: "Gere instaladores Java com runtime embutido"
+  default_prompt: "Use $java-package-desktop para empacotar este aplicativo Java desktop para distribuição."

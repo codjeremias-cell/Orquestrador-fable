@@ -2,44 +2,52 @@
   "skill_name": "spec-javafx-new-system",
   "evals": [
     {
-      "id": 0,
-      "name": "sistema-do-zero-completo",
-      "prompt": "Constrói um sistema JavaFX novo do zero: app de controle de empréstimos de equipamentos, banco Access, com a primeira tela de cadastro e o instalador no final.",
-      "expected_output": "A skill valida o catálogo de filhas, coleta as entradas obrigatórias (nome/pacote, banco, primeira entidade), começa pelo mockup (RO-06) e conduz a sequência determinística: bootstrap → fundação de banco → logging → tema → shell → primeira feature via spec-javafx-crud-feature → empacotamento jpackage → fechamento com prova (build + smoke + testador + veredito do auditor), validando cada etapa antes de seguir.",
-      "files": [],
-      "expectations": [
-        "Valida que as skills filhas existem no catálogo antes de começar; faltando uma crítica, para e informa",
-        "Coleta nome do app/pacote Maven, banco alvo e a primeira entidade antes de gerar qualquer coisa",
-        "Apresenta mockup e obtém aceite (RO-06) antes de qualquer código de tela",
-        "Executa as etapas em ordem, validando cada uma (compila? abre?) antes da próxima",
-        "Delega a primeira feature ao spec-javafx-crud-feature em vez de reescrever as camadas manualmente",
-        "Fecha com build + smoke + bateria do testador e veredito do auditor-responsabilidades (RI-05)",
-        "Relatório final com caminhos exatos (RO-03) e 2-3 sugestões de evolução (RO-07)"
-      ]
-    },
-    {
       "id": 1,
-      "name": "nao-aciona-em-projeto-existente",
-      "prompt": "No meu sistema JavaFX que já existe há dois anos, adiciona a funcionalidade completa de Fornecedor: entidade, banco e tela.",
-      "expected_output": "Como o projeto já existe, esta skill (que leva uma pasta VAZIA até o app empacotado) não é a orquestradora certa — o pedido deve ir para spec-javafx-crud-feature, que cria uma feature ponta a ponta num projeto existente reaproveitando a fundação real.",
-      "files": [],
-      "expectations": [
-        "Reconhece que o projeto já existe e que esta skill é para sistema novo do zero",
-        "Direciona para spec-javafx-crud-feature em vez de recriar bootstrap/fundação",
-        "Não gera pom.xml, fundação de banco ou shell novos por cima do projeto existente"
-      ]
+      "name": "sistema-do-zero-sigo-real",
+      "prompt": "Constrói um sistema JavaFX novo do zero, mesma família do SIGO/sistema-cot: app de controle de equipamentos, banco Access via UCanAccess, com a primeira tela de cadastro (Equipamento) e o instalador (.exe) no final.",
+      "expected_output": "A skill valida o catálogo de filhas, coleta as entradas obrigatórias, apresenta o mockup (RO-06) e conduz a sequência 1→8 na ordem fixa, cada elo na forma real do SIGO (referencia-exemplo-montado-sigo.md): bootstrap Maven com shade→Launcher (nunca App); Database com dupla trava JVM+FileLock e retry; fachada Log nomeada com RollingFile; 4 temas AtlantaFX com tokens -status-*; shell com boot de ordem fixa e AlertaUtil centralizado; primeira feature delegada ao spec-javafx-crud-feature; empacotamento jpackage app-image com --main-class Launcher. Fecha com testador-real + veredito do auditor-responsabilidades.",
+      "assertions": [
+        {"text": "valida o catálogo de skills filhas antes de começar", "checkable": true},
+        {"text": "segue a ordem 1→8 sem embaralhar (fundação — banco/log/tema/shell — antes da feature; empacotamento por último)", "checkable": true},
+        {"text": "empacotamento usa jpackage app-image com --main-class Launcher, nunca App, no padrão real do SIGO", "checkable": true},
+        {"text": "delega a primeira feature ao spec-javafx-crud-feature em vez de reescrever DAO/serviço/tela manualmente", "checkable": true},
+        {"text": "fecha com testador-real + veredito do auditor-responsabilidades (RI-05) e relatório com caminhos exatos (RO-03)", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplo-montado-sigo.md (tabela dos 7 elos, cada um com o arquivo verbatim do SIGO/sistema-cot, lida 2026-07-18)",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
     },
     {
       "id": 2,
-      "name": "para-em-entrada-ambigua",
-      "prompt": "Cria um sistema JavaFX novo pra mim. Depois eu decido o que ele vai fazer e que banco usa.",
-      "expected_output": "A skill para na trava de entradas: sem nome/pacote, banco alvo e a primeira entidade definidos, não há como executar a sequência com validação. Ela pergunta o que falta (ou propõe defaults explícitos, como Access/UCanAccess, pedindo confirmação) em vez de adivinhar e gerar um esqueleto genérico.",
-      "files": [],
-      "expectations": [
-        "Não gera nada antes de resolver as entradas obrigatórias ambíguas",
-        "Pergunta objetivamente o que falta: nome/pacote, banco, primeira entidade/feature",
-        "Se propõe um default (ex.: Access/UCanAccess), declara a suposição e pede confirmação em vez de assumir em silêncio"
-      ]
+      "name": "sistema-do-zero-outra-casa",
+      "prompt": "Constrói um sistema JavaFX novo do zero para um cliente diferente: app de controle de estoque, banco PostgreSQL via JDBC direto (sem UCanAccess), com pool simples de conexão — banco cliente-servidor, sem necessidade de trava de arquivo entre máquinas.",
+      "expected_output": "A skill segue a MESMA sequência 1→8 e os MESMOS gates, mas não força nesta base os detalhes específicos do SIGO que só fazem sentido para Access/conexão única: java-db-foundation não importa a dupla trava JVM+FileLock (banco cliente-servidor com pool não precisa dela); javafx-theme-tokens decide o número de temas para ESTE projeto, não herda 4 fixos do SIGO. O orquestrador sequencia e valida — a forma técnica de cada etapa é decisão de quem a executa, espelhando ESTE projeto.",
+      "assertions": [
+        {"text": "não força a dupla trava JVM+FileLock do SIGO nesta base Postgres/pool (reconhece que não se aplica)", "checkable": true},
+        {"text": "trata o número de temas/paleta como decisão da javafx-theme-tokens para este projeto, não um valor fixo herdado do SIGO", "checkable": true},
+        {"text": "mantém a ordem 1→8 e os gates de cada etapa mesmo trocando o banco/driver", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSIÇÃO (RO-01): nenhum projeto JavaFX real \"outra casa\" com PostgreSQL/pool está documentado no catálogo hoje — as referências reais do track JavaFX disponíveis (referencia-exemplos-reais-sigo.md em cada skill filha) são todas SIGO/família. Caso permanece hipotético até um projeto real ser lido, no mesmo padrão já adotado em java-db-foundation/evals/evals.json (caso 2) e java-service-usecase/evals/evals.json (caso 2, este com fonte real do Gradup).",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
+    },
+    {
+      "id": 3,
+      "name": "greenfield-mandato-endurecido",
+      "prompt": "Cria um sistema JavaFX novo do zero, greenfield puro, SEM nenhum projeto-irmão validado para copiar — app de agenda de consultas, banco a definir.",
+      "expected_output": "A skill NÃO importa por reflexo os detalhes específicos do SIGO como se fossem regra fixa do orquestrador — só os invariantes universais valem sem projeto real por trás (ordem 1→8, gates de cada etapa, segredos fora do git, mockup RO-06); tudo o mais é decisão de cada skill filha, declarada como SUPOSIÇÃO (RO-01) na ausência de projeto-irmão, em vez de assumida em silêncio a partir do SIGO.",
+      "assertions": [
+        {"text": "checklist NEGATIVO — NÃO impõe a dupla trava JVM+FileLock da Database do SIGO como regra fixa de todo greenfield (só cabe quando o banco exige serialização de conexão única)", "checkable": true},
+        {"text": "checklist NEGATIVO — NÃO impõe exatamente 4 temas AtlantaFX nem os tokens -status-* do SIGO como contrato universal; tema é decisão da javafx-theme-tokens para o projeto novo", "checkable": true},
+        {"text": "checklist NEGATIVO — NÃO impõe o split Launcher/App do bootstrap do SIGO fora do contexto que o exige (shade plugin)", "checkable": true},
+        {"text": "declara SUPOSIÇÃO (RO-01) para banco/tema/nomes na ausência de projeto-irmão, em vez de assumir em silêncio o padrão SIGO", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotético sem projeto-irmão — declarado no próprio enunciado, nenhuma fonte real por trás. Checklist negativo espelha a lição registrada em rodadas/R-lote2-ondaA-2026-07-19.md (achado 3: \"mandato greenfield segue frágil nos executores... precisa de forma mais dura, ex.: checklist negativo explícito no eval\") e o caso 3 vermelho/aderiu=não de java-db-foundation/evals/placar-baseline.md.",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
     }
   ]
 }

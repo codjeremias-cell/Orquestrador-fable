@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arquiteto de Dados"
+  short_description: "Modele dados e planeje evoluções seguras"
+  default_prompt: "Use $arquiteto-dados para modelar os dados desta solução e justificar os trade-offs."

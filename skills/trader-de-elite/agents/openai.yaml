@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trader de Elite"
+  short_description: "Defina risco e processo de day trade com números"
+  default_prompt: "Use $trader-de-elite para analisar esta decisao de day trade com fórmulas e travas de risco."

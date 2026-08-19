@@ -1,0 +1,51 @@
+{
+  "skill_name": "design-tokens-gen",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "design-tokens-gen-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "as cores estão espalhadas em hex por todo o CSS e cada tela usa um azul diferente",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src/theme/tokens.css",
+          "conteudo": ":root { --cor-primaria: #1a73e8; --cor-fundo: #ffffff; }\n"
+        }
+      ],
+      "expected_output": "Aciona o gerador de tokens: token-system nomeado em DTCG com OKLCH, traduzido para o @theme do Tailwind v4.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill design-tokens-gen é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "design-tokens-gen-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "gera os design tokens",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; MATERIALIZA o artefato — decidir o valor estético é da designer-ux-ui.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill design-tokens-gen é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "design-tokens-gen-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "essa tela está confusa, o usuário não sabe o que clicar primeiro",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é decisão de experiência, domínio de designer-ux-ui.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill design-tokens-gen NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

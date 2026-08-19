@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tela JavaFX com FXML"
+  short_description: "Crie telas JavaFX acessíveis e responsivas"
+  default_prompt: "Use $javafx-screen-fxml para criar esta tela JavaFX com FXML, estados e controller."

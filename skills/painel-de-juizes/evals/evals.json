@@ -1,0 +1,58 @@
+{
+  "skill_name": "painel-de-juizes",
+  "evals": [
+    {
+      "id": 0,
+      "name": "modo-painel-rodada-1",
+      "prompt": "O orquestrador marcou a frente 'layout do dashboard de indicadores' como espaço amplo e mandou 3 tentativas independentes (A, B, C) para julgamento. Estamos na rodada 1 do ciclo. Julga e devolve a vencedora.",
+      "expected_output": "Painel de 3× Sonnet (rodada 1), cada juiz um subagente de contexto fresco recebendo só os artefatos ANONIMIZADOS + critério de aceite + rubrica de faixas. Cada juiz emite veredito individual às cegas (vencedor, nota 0-10 por artefato, razoes[], enxertos[], metricas); agregação por maioria (2 de 3). Saída: vencedora + enxertos das derrotadas para o maestro sintetizar — o painel NÃO sintetiza, só escolhe.",
+      "files": [],
+      "expectations": [
+        "Escala correta da rodada 1: 3× Sonnet, decisão por maioria (2 de 3)",
+        "Artefatos anonimizados — nenhum juiz sabe autor, modelo ou rodada de origem",
+        "Juízes são subagentes de contexto fresco (sem o raciocínio do maestro nem de outro juiz)",
+        "Cada veredito segue o contrato: vencedor, nota por faixas, razoes[] com evidência, enxertos[], metricas",
+        "Devolve vencedora + enxertos; a síntese é do maestro, não do painel"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "portao-pareado-divergencia-mantem-campeao",
+      "prompt": "Rodada 2 do ciclo: o candidato desta rodada disputa contra o campeão vigente. Os dois juízes Opus divergiram (um preferiu o candidato, o outro o campeão). Qual o resultado?",
+      "expected_output": "Portão pareado com 2× Opus (rodada 2) exige UNANIMIDADE para promover: divergência mantém o campeão. O placar registra a nota do CAMPEÃO (não a do candidato derrotado), e a rodada sem troca conta para a anti-estagnação do orquestrador. O maestro NUNCA desempata na própria conversa.",
+      "files": [],
+      "expectations": [
+        "Painel de 2 só promove por unanimidade; divergência/empate mantém o campeão",
+        "Placar registra a nota do campeão, não a do candidato derrotado",
+        "Rodada sem troca de campeão conta para a anti-estagnação",
+        "O maestro não desempata — a regra de empate resolve, sem juiz extra improvisado"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "degradacao-por-tier-sem-fable",
+      "prompt": "Rodada 4 do ciclo, e a sessão não tem Fable disponível — o teto é Opus, o mesmo modelo que executou as frentes críticas. Monta o julgamento do portão pareado.",
+      "expected_output": "Sem tier acima dos executores, o juiz único da rodada 3+ degrada para PAINEL ÍMPAR de 3× do teto disponível (3× Opus), decidindo por maioria, com cada juiz vendo uma apresentação de ordem sorteada. A degradação é DECLARADA no placar (RI-04), nunca silenciosa. Nenhum dos 3 juízes pode ter gerado o artefato em disputa (contexto/conversa de execução distintos). Sem Opus também, cai para 3× Sonnet — declarado igual.",
+      "files": [],
+      "expectations": [
+        "Detecta que o teto da sessão é o mesmo tier dos executores e troca juiz único por painel ímpar de 3",
+        "Capacidade a menos compensada com voto a mais (3× Opus por maioria)",
+        "Degradação declarada no placar (RI-04) — nunca silenciosa",
+        "Juiz nunca julga artefato que ele mesmo gerou",
+        "Cascata completa: sem Opus, 3× Sonnet declarado"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "recusa-artefato-isolado",
+      "prompt": "Avalia esse relatório que o subagente entregou e me diz a nota dele de 0 a 10.",
+      "expected_output": "O painel RECUSA: avaliar UM resultado isolado em escala absoluta é papel do Comitê de Lentes, não do juiz — juiz compara alternativas e escolhe; lente critica e pontua; testador prova. A resposta encaminha ao Comitê (ou à lente pertinente) e explica a fronteira em uma frase, sem improvisar um julgamento sem disputa.",
+      "files": [],
+      "expectations": [
+        "Não julga artefato sem disputa (sem par ou painel de alternativas)",
+        "Encaminha ao Comitê de Lentes/lente pertinente, citando a fronteira juiz × lente × testador",
+        "Não inventa um 'campeão fantasma' para simular disputa"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Projeto Completo"
+  short_description: "Conduza qualquer projeto da ideia à entrega"
+  default_prompt: "Use $spec-projeto-completo para conduzir este projeto completo com gates de qualidade."

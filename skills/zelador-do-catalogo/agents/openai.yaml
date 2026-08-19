@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zelador do Catálogo"
+  short_description: "Mede custo, vigencia e obediencia das skills"
+  default_prompt: "Use $zelador-do-catalogo para medir a saúde do acervo de skills — escolha o modo custo, inventário ou obediência."

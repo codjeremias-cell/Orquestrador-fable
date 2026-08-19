@@ -1,0 +1,66 @@
+{
+  "skill_name": "java-javafx-entity",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot (JavaFX+Access), cria a entidade Treinamento com id, colaboradorId, nome do colaborador só pra exibir, data, tema, cargaHoraria, situacao ('Planejado'/'Realizado'), observacao.",
+      "expected_output": "POJO em br.com.cot.model no PADRÃO SIGO: campos privados PT-BR, SETTERS (não construtor imutável), SEM validate(), SEM equals/hashCode, campo colaboradorNome com comentário de JOIN, domínio de situacao em comentário de linha. NÃO deve gerar validate()/equals nem identificadores em inglês.",
+      "assertions": [
+        {
+          "text": "usa setters (não só construtor imutável)",
+          "checkable": true
+        },
+        {
+          "text": "NÃO gera validate() na entidade (validação vive no FormController no SIGO)",
+          "checkable": true
+        },
+        {
+          "text": "NÃO gera equals/hashCode",
+          "checkable": true
+        },
+        {
+          "text": "identificadores em PT-BR, pacote br.com.cot.model",
+          "checkable": true
+        },
+        {
+          "text": "colaboradorNome tem comentário de campo de exibição do JOIN",
+          "checkable": true
+        },
+        {
+          "text": "NÃO gera teste JUnit (o SIGO não testa POJO puro; teste só se o usuário pedir)",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Java desktop novo, ainda SEM nenhuma entidade, cria a entidade Produto com nome, preco, ativo.",
+      "expected_output": "Como não há entidade para espelhar, propõe o default (campos private, construtor, getters, validate() coletando erros, equals/hashCode por id) E marca explicitamente como SUPOSIÇÃO a confirmar (RI-04), notando que ao surgir o padrão do projeto ele passa a mandar.",
+      "assertions": [
+        {
+          "text": "marca o padrão como suposição a confirmar (RI-04)",
+          "checkable": true
+        },
+        {
+          "text": "propõe validate() que coleta erros numa lista (não no construtor)",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Num projeto Java cujas entidades existentes são em INGLÊS (campos e métodos em inglês, com validate()), cria a entidade Invoice.",
+      "expected_output": "Espelha ESSE projeto: identificadores em inglês e validate() como as entidades existentes — NÃO força PT-BR nem o estilo SIGO. Prova a simetria do espelho no eixo idioma.",
+      "assertions": [
+        {
+          "text": "mantém inglês (não força PT-BR) porque é o padrão desse projeto",
+          "checkable": true
+        },
+        {
+          "text": "inclui validate() porque as entidades existentes têm",
+          "checkable": true
+        }
+      ]
+    }
+  ]
+}

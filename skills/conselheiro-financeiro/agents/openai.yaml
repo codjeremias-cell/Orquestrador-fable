@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conselheiro Financeiro"
+  short_description: "Analise decisões financeiras com números"
+  default_prompt: "Use $conselheiro-financeiro para analisar esta decisao financeira com formula, números e riscos."

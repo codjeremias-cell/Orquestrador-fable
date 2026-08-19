@@ -1,0 +1,4 @@
+interface:
+  display_name: "Entidade JavaFX"
+  short_description: "Crie entidades Java alinhadas ao projeto"
+  default_prompt: "Use $java-javafx-entity para criar esta entidade Java espelhando o dominio real."

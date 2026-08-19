@@ -1,0 +1,4 @@
+interface:
+  display_name: "Entidade Spring Boot"
+  short_description: "Crie entidade JPA e migração Flyway"
+  default_prompt: "Use $springboot-entity para criar esta entidade JPA com a migração Flyway correspondente."

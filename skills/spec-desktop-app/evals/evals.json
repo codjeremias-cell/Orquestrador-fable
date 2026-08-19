@@ -11,7 +11,7 @@
         "Passa pela árvore de decisão e registra a escolha do stack como ADR, não assume em silêncio",
         "Mockups aceitos antes de qualquer UI (RO-06)",
         "Segurança default-deny (capabilities/permissions + CSP) desenhada ANTES do scaffold",
-        "Delega scaffold/features/empacotamento aos geradores desktop-* em vez de escrever à mão",
+        "Cobre scaffold, features e empacotamento cumprindo o método dos geradores desktop-*, e CARREGA cada gerador pela ferramenta Skill (T14, 2026-08-18: Jeremias reverteu a T29 e a rota voltou a ser exigida; base T9, n=3x3, tratamento 3/3 contra controle 0/3 — a medição de 2026-08-09 que dizia 'delega 0/6' foi superada)",
         "O gate do empacotamento inclui um update de teste vN → vN+1 aplicado",
         "Testes executados de verdade com relatório datado; fecha com veredito do auditor"
       ]
@@ -26,7 +26,12 @@
         "Reconhece que o galho JavaFX tem orquestrador de track dedicado",
         "Faz handoff para spec-javafx-new-system",
         "Não força o stack Tauri quando o usuário pediu JavaFX explicitamente"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "spec-javafx-new-system"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     },
     {
       "id": 2,

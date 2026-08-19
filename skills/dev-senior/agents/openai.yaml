@@ -1,0 +1,4 @@
+interface:
+  display_name: "Desenvolvedor Sênior"
+  short_description: "Implemente e revise código com rigor tecnico"
+  default_prompt: "Use $dev-senior para implementar ou revisar este código com testes e clareza."

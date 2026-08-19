@@ -1,0 +1,4 @@
+interface:
+  display_name: "Camada de Dados Web"
+  short_description: "Separe server-state e client-state no frontend"
+  default_prompt: "Use $web-data-layer para montar a camada de dados deste frontend com contratos claros."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Testador de Jogos"
+  short_description: "Teste jogos com bugs, personas e diversão"
+  default_prompt: "Use $testador-jogos para testar este jogo de verdade e registrar bugs e experiencia."

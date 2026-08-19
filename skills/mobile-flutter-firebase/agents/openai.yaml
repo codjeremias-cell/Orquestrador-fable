@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter com Firebase"
+  short_description: "Conecte apps Flutter ao Firebase com segurança"
+  default_prompt: "Use $mobile-flutter-firebase para conectar este app Flutter ao Firebase e criar os repositórios."

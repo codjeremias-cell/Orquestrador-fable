@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auditor de Responsabilidades"
+  short_description: "Audite entregas, evidências e responsabilidades"
+  default_prompt: "Use $auditor-responsabilidades para auditar esta entrega contra as regras e emitir um veredito."

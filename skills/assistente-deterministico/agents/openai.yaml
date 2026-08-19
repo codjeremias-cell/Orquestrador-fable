@@ -1,0 +1,4 @@
+interface:
+  display_name: "Assistente Determinístico"
+  short_description: "Crie assistentes offline sem depender de LLM"
+  default_prompt: "Use $assistente-deterministico para modelar um assistente offline determinístico para este sistema."

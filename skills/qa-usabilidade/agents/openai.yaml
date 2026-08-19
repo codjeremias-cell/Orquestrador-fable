@@ -1,0 +1,4 @@
+interface:
+  display_name: "QA de Usabilidade"
+  short_description: "Avalie qualidade pelo risco do usuário"
+  default_prompt: "Use $qa-usabilidade para avaliar esta entrega por risco, usabilidade e acessibilidade."

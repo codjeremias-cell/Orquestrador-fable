@@ -1,0 +1,46 @@
+{
+  "skill_name": "frontend-stack-decisor",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "frontend-stack-decisor-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "o site precisa aparecer no Google e o backend já é Spring Boot; não sei o que usar na frente",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o decisor: escolhe por gatilho (SEO/indexação, backend existente) e registra em ADR curto.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill frontend-stack-decisor é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "frontend-stack-decisor-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "Next ou Vite",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; decide e registra o porquê — não escreve o app.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill frontend-stack-decisor é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "frontend-stack-decisor-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "monta o componente de modal acessível com Radix",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é geração de componente, domínio de web-component.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill frontend-stack-decisor NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

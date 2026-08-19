@@ -1,0 +1,4 @@
+interface:
+  display_name: "Controller Spring Boot Thymeleaf"
+  short_description: "Crie controllers e telas Thymeleaf acessíveis"
+  default_prompt: "Use $springboot-controller-thymeleaf para criar o controller e a tela Thymeleaf desta funcionalidade."

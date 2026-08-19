@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dashboard JavaFX"
+  short_description: "Crie dashboards JavaFX claros e verdadeiros"
+  default_prompt: "Use $javafx-dashboard para desenhar e implementar este dashboard JavaFX com dados verificaveis."

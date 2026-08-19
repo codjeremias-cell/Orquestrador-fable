@@ -1,0 +1,4 @@
+interface:
+  display_name: "Serviço e Caso de Uso Java"
+  short_description: "Separe regras de negócio em serviços Java"
+  default_prompt: "Use $java-service-usecase para criar o serviço e o caso de uso desta operação."

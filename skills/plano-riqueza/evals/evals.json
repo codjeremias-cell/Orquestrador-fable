@@ -1,0 +1,46 @@
+{
+  "skill_name": "plano-riqueza",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "plano-riqueza-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "minha vida financeira é uma bagunça; queria montar algo por etapas e ir revisando mês a mês",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona a lente de plano: documento por etapas, com números em R$ e revisão no tempo.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill plano-riqueza é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "plano-riqueza-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "quero montar um plano financeiro",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal e produz plano documentado, não opinião pontual.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill plano-riqueza é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "plano-riqueza-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "onde invisto minha reserva de emergência",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é pergunta pontual sobre o próprio dinheiro, domínio de conselheiro-financeiro.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill plano-riqueza NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "skill_name": "java-jdbc-dao",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria o DAO de Treinamento (tabela Treinamentos, colaboradores em Colaboradores): listar todos com nome do colaborador, listar por colaborador, inserir, atualizar, excluir, contar.",
+      "expected_output": "DAO em br.com.cot.db no padrão SIGO: PreparedStatement parametrizado, try-with-resources, colunas explícitas snake_case (data_treinamento), métodos PT-BR, escritas VOID, SQL local por método, helper setData e mapear(rs) privados, SEM logger e SEM retry no DAO (vivem na Database), throws SQLException limpo.",
+      "assertions": [
+        {"text": "SEM logger e SEM retry dentro do DAO (propaga throws SQLException)", "checkable": true},
+        {"text": "escritas retornam void (padrão SIGO), sem RETURN_GENERATED_KEYS", "checkable": true},
+        {"text": "PreparedStatement parametrizado + try-with-resources + colunas explícitas", "checkable": true},
+        {"text": "pacote br.com.cot.db, colunas snake_case, métodos PT-BR", "checkable": true},
+        {"text": "operações de passo único NÃO abrem transação", "checkable": true}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Java genérico cujo DAO existente CHAMA RetryDB.executar(...) e loga com Log4j2 dentro do DAO, cria o DAO de Pedido.",
+      "expected_output": "Espelha ESSE projeto: envolve operações críticas em RetryDB.executar e loga no DAO — porque é o padrão desse projeto. Mostra que a skill segue onde o projeto coloca retry/log, não uma regra fixa.",
+      "assertions": [
+        {"text": "usa RetryDB.executar e logger no DAO porque É o padrão desse projeto (espelha, não impõe o oposto)", "checkable": true}
+      ]
+    }
+  ]
+}

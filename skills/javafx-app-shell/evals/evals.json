@@ -1,0 +1,46 @@
+{
+  "skill_name": "javafx-app-shell",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria (ou evolui) o shell do app: janela principal, navegação entre telas e o ponto central de alerta.",
+      "expected_output": "Shell no padrão SIGO: `App.start()` com ordem fixa de boot (fontes → `Tema.aplicarTemaGlobal()` → `Backup.fazerBackupDiario()`/`Database.inicializar()` → `seedAdminInicial()` → `login.fxml`), erro em qualquer passo → `mostrarErroFatal` (Alert amigável + `Log.erro`, sem stack trace pro usuário); `Dialogos` (não \"AlertaUtil\") como classe central de alerta — `alerta`/`erro`/`info`, `confirmar(...)` → boolean, `placeholderVazio(msg)`; navegação/carga de dados via `Carregar.emPainel`/`emTabela`/`async` (thread daemon `carregar-ui`, placeholder \"Carregando...\", erro → `placeholderVazio` + `Log.erro`) — nunca `dao.listar()` direto no `initialize`.",
+      "assertions": [
+        {"text": "usa Dialogos (não \"AlertaUtil\" genérico) como classe central de alerta, com confirmar(...) -> boolean e placeholderVazio", "checkable": true},
+        {"text": "navegação/carga usa Carregar (thread daemon \"carregar-ui\"), nunca dao.listar() direto no initialize", "checkable": true},
+        {"text": "ordem de boot fontes -> Tema.aplicarTemaGlobal() -> backup/infra -> banco -> seed -> tela inicial; erro em qualquer passo -> mostrarErroFatal (Alert amigável + Log.erro, sem stack trace)", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (App.java + Dialogos.java + Carregar.java verbatim, SIGO/sistema-cot, lido 2026-07-18, projeto vivo)",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Java (não-SIGO) cujo shell existente já tem uma classe AlertaUtil (não Dialogos) para os alertas e um BaseController com os helpers comuns (acesso ao Stage/shell), cria a navegação para o novo módulo de Relatórios.",
+      "expected_output": "Espelha ESSA casa, não o gabarito SIGO: usa a classe AlertaUtil já existente no projeto (não renomeia para Dialogos, não força o nome do genérico da skill nem o real do SIGO) e reaproveita o BaseController existente para os helpers comuns em vez de recriar um novo. Os invariantes continuam valendo independente do nome real: alerta sempre centralizado (nenhum Alert montado na tela), log de erro via Log4j2 (RO-08), FXML respeitando RO-09, tokens de tema consumidos (RO-12) e estados vazio/carregando/erro cobertos.",
+      "assertions": [
+        {"text": "usa AlertaUtil (nome real dessa casa) e reaproveita o BaseController existente, sem importar Dialogos/Carregar do SIGO por reflexo", "checkable": true},
+        {"text": "mantém os invariantes independente do nome real: alerta centralizado, Log4j2 (RO-08), RO-09 FXML, tokens de tema (RO-12), estados vazio/carregando/erro", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSIÇÃO (RO-01): não há, no cofre, um segundo projeto JavaFX real com shell/classe-de-alerta/controller-base documentado em referencia-exemplos-reais-*.md além do SIGO. Caso construído para testar se o gerador segue \"espelhar, não impor\" quando a casa diverge do gabarito SIGO (nome de classe e controller-base diferentes) — sem fonte real citável para uma segunda casa JavaFX.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto JavaFX novo (greenfield), ainda sem shell, sem AlertaUtil/Dialogos e sem projeto-irmão validado para copiar.",
+      "expected_output": "Cria o shell mais simples que atende aos invariantes (alerta centralizado numa única classe nova, navegação sem regra de negócio, RO-09/RO-08/RO-J1, estados vazio/carregando/erro cobertos, tokens de tema consumidos, identidade — versão + autor — visível) e declara SUPOSIÇÃO: para o nome da classe de alerta e para a decisão de criar (ou não) controller-base — SEM importar automaticamente Dialogos, Carregar ou a ordem de boot fixa do SIGO (fontes -> tema -> backup -> banco -> seed -> tela) como se fossem regra universal, já que não há evidência de que este projeto greenfield precise delas.",
+      "assertions": [
+        {"text": "declara SUPOSIÇÃO: para o nome da classe de alerta e para a existência/forma do controller-base, em vez de copiar Dialogos/BaseController do SIGO por reflexo", "checkable": true},
+        {"text": "NÃO importa Carregar nem a ordem de boot fixa do SIGO como regra universal sem justificar — propõe o mecanismo mais simples e declara a suposição", "checkable": true},
+        {"text": "invariantes presentes mesmo em greenfield: alerta centralizado, RO-08/RO-09/RO-J1, estados vazio/carregando/erro, tokens de tema, identidade visível", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "Greenfield hipotético, sem projeto-irmão validado — declarado no próprio enunciado do caso (nenhuma fonte real por trás). Mandato do ramo escrito para evitar a inversão vista no caso 3 vermelho de java-db-foundation/evals/placar-baseline.md (execução que importou o padrão SIGO completo em greenfield, citando RO-01/RI-01 para parecer conforme, em vez de declarar SUPOSIÇÃO: e propor o caminho simples que o corpo da skill manda para este ramo).",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    }
+  ]
+}

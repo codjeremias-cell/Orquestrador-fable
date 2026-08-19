@@ -1,0 +1,4 @@
+interface:
+  display_name: "Componente Web Acessivel"
+  short_description: "Crie componentes web acessíveis e reutilizáveis"
+  default_prompt: "Use $web-component para criar este componente web sobre uma primitiva acessível."

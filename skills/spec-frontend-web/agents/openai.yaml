@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Web Completo"
+  short_description: "Conduza o frontend web de ponta a ponta"
+  default_prompt: "Use $spec-frontend-web para conduzir este frontend web dos requisitos aos testes."

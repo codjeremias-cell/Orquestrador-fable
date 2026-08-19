@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arquiteto de Software"
+  short_description: "Desenhe arquiteturas com trade-offs claros"
+  default_prompt: "Use $arquiteto-software para desenhar a arquitetura desta solução com alternativas e decisao registrada."

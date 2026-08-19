@@ -1,8 +1,8 @@
 ---
 tipo: padrão
 papel: como toda skill deste conjunto deve ser criada
-última-atualização: 2026-07-07
-versão: v2.1
+última-atualização: 2026-07-05
+versão: v2
 ---
 
 # 📐 Padrão de Autoria de Skills
@@ -150,28 +150,4 @@ Uma skill só entra no conjunto quando:
 
    Linha que não se aplica é omitida — rede é vínculo real, não formulário.
 3. **Prova, não promessa (RI-04).** A skill declara qual evidência fecha a entrega (build verde, teste executado, smoke, mockup aceito, relatório datado). Entrega sem a evidência declarada não está pronta.
-4. **Bordas com dono.** A skill diz o que fazer quando falta dado, quando recusar, e o que NUNCA faz (guardrails). O caminho triste está escrito, não subentendido.
-5. **Enxuta e viva.** `SKILL.md` direto ao ponto (referência pesada vai para `referencia/`); sem informação que envelhece; termos consistentes do início ao fim.
-
-## 11. Baseline antes do eval (proposta 2026-07-07, inspirado em `writing-skills` do `obra/superpowers`, 247k+ estrelas — avaliado e aprovado pelo Comitê de Lentes)
-
-É o TDD aplicado a skills: **antes** de criar ou refatorar uma skill, rode o eval **sem** a skill instalada e registre o resultado — esse é o **baseline** (o "vermelho" do ciclo).
-
-1. **Baseline (vermelho).** Rode os prompts do `evals/evals.json` numa sessão **sem** a skill. Registre onde o modelo falha ou fica aquém das `expectations`. A falha observada é a **prova de que a skill tem o que ensinar** — ela define exatamente o que o corpo da skill precisa cobrir.
-2. **Escrever a skill (verde).** Crie/refatore a skill mirando as falhas do baseline, seguindo os §§3–10 deste padrão.
-3. **Reteste.** Rode os mesmos evals **com** a skill. Passar agora — tendo falhado antes — é a evidência (RI-04) de que a skill agrega de verdade.
-4. **Regra de corte:** se o baseline **já passa sem a skill**, a skill é redundante — não crie (viola o §6.1, "acrescente só o que ele não tem"). Se após a skill o eval continua falhando, o corpo não ensinou o que devia — refatore antes de dar o Selo.
-
-O placar baseline × pós-skill fica registrado junto do `evals/evals.json`. O `auditor-responsabilidades` passa a exigir esse placar no DoD de skill **nova**; para skills existentes, vale ao refatorar.
-
-> ⚠️ **Nota de reconstrução (2026-07-07):** o final original deste documento (deste §11 em diante, incluindo a seção Histórico) foi perdido por truncamento — achado registrado no [[ROADMAP]] item 0. Como o Git não estava acessível na sessão de restauração, este §11 foi **reconstruído** a partir dos registros em [[ROADMAP]] e `Novo Conceito/PROPOSTA-EVOLUCAO-v1.md`. Se a versão original for recuperada do Git, ela prevalece sobre esta reconstrução.
-
----
-
-### 📜 Histórico
-
-> Seção restaurada por reconstrução em 2026-07-07 (o original foi perdido no truncamento acima descrito); entradas anteriores resumidas a partir do histórico do [[README]].
-
-- **2026-07-07 (v2.1):** §11 (Baseline antes do eval) e seção Histórico restaurados por reconstrução, com nota de proveniência.
-- **2026-07-05 (v2) — Reforma Lendária:** §10 (Selo Lendário) com o bloco 🔗 Rede da skill; tipos **Testador (executor)** e **Maestro** adicionados ao §2/§5; DoD do §9 ampliado.
-- **2026-06-15 (v1):** criação do padrão único (tipos, anatomia, description, princípios, convenções, multi-código por tracks, DoD).
+4. **Bordas com dono.** A skill diz o que fazer quando falta dado, quando recusar, e

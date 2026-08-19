@@ -1,146 +1,75 @@
----
-tipo: índice
-papel: hub do conjunto único de skills
-última-atualização: 2026-07-07
-versão: v2.6
----
+# Orquestrador Fable — catálogo de skills para Claude Code
 
-# 🧰 Catálogo de Skills Unificado
+> **TL;DR (EN):** A battle-tested, PT-BR catalog of **60 Agent Skills** for Claude Code — senior "review lenses", per-stack code generators, spec orchestrators, a real test-runner, and a multi-model **maestro** (`orquestrador-fable`) that plans, delegates to sub-agents, reviews with a committee of lenses, and iterates until quality ≥ 9/10. MIT licensed.
 
-> O **conjunto único** que junta, num só lugar, o **método** (Comitê de Lentes), a **governança** (Regras de Ouro) e os **geradores de código** por stack.
-> Construído sobre o método Skill Planner + o catálogo de geração + as lições do cofre. Como criar qualquer skill daqui: [[PADRAO-DE-AUTORIA]].
+Um conjunto único de **60 skills** para o [Claude Code](https://claude.com/product/claude-code), pensado para construir software de verdade — do desktop ao mobile e web — com **qualidade auditável**. Em vez de uma skill gigante que "faz tudo", o catálogo separa responsabilidades em camadas:
 
----
+- **🔬 Lentes de método (9)** — posturas sênior, poliglotas, que *decidem e revisam* (arquitetura, dados, código, UX/UI, segurança, QA, inovação, auditoria, negócio). Formam o **Comitê de Lentes**.
+- **⚙️ Geradores por track (25)** — scaffolders determinísticos e precisos por stack: **Java/JavaFX**, **Spring Boot**, **Flutter**, **Web Frontend** e **Desktop/Tauri**.
+- **🎼 Orquestradores (8)** — os sete `spec-*` encadeiam a sequência de um track; o **`orquestrador-fable`** é o maestro multi-modelo que rege *quem executa* e *quanta qualidade sai*.
+- **🛠️ Método e governança (7)** — planejamento com custo, prazo e Plano B; garimpo de fonte externa; zeladoria do próprio acervo; painel de juízes; mapa de decisões; descoberta de requisitos; documentação.
+- **💼 Domínio (6)** — conteúdo e conselho fora do código: finanças pessoais, trading, redação técnica, e-mail marketing.
+- **🧪 Testadores (2)** — executam baterias de teste de verdade e trazem evidência PASS/FAIL/SKIP (nunca "sucesso" fingido).
+- **🧠 Memória e estado (2)** — contexto e progresso de tarefas retomáveis entre sessões.
+- **🧩 Blueprint (1)** — subsistema offline reutilizável.
 
-## Como o conjunto é organizado (camadas)
+> As camadas **somam 60**: 9 + 25 + 8 + 7 + 6 + 2 + 2 + 1. Se um dia não somarem, o número errado é o do topo.
 
-| Camada | O que faz | Multi-código? | Onde |
-|---|---|---|---|
-| **Método** | 10 skills de método (9 lentes + memória) que decidem *como pensar* | ✅ poliglota | `skills/` (lentes) |
-| **Ciclo de vida universal** | da ideia à entrega em qualquer plataforma: requisitos, docs, testes executados, orquestração | ✅ poliglota | `skills/requisitos-descoberta`, `skills/docs-projeto`, `skills/testador-real`, `skills/spec-projeto-completo` |
-| **Governança** | regras que toda entrega cumpre | ✅ universal + por stack | [[REGRAS-DE-OURO]] |
-| **Memória** | contexto portável entre sessões | ✅ | `skills/memoria-de-projeto` |
-| **Geradores** | scaffolders precisos por stack (tracks) | ⚙️ por track | `skills/java-*`, `skills/javafx-*` |
-| **Testadores** | executam baterias de teste reais e provam a entrega | ✅ template + instância por projeto | `skills/testador-real`, `skills/gradup-testador` |
-| **Padrão** | como criar/editar qualquer skill (inclui o **Selo Lendário**) | — | [[PADRAO-DE-AUTORIA]] |
+O guia completo, com a função de cada uma das 60 e o passo a passo do maestro, está em **[GUIA.md](GUIA.md)**.
 
-> A inteligência poliglota mora nas **lentes**; o determinismo mora nos **geradores**. Adicionar uma linguagem = adicionar um **track**, sem mexer no método.
+## A ideia em uma frase
 
-## 📇 Índice clicável (as 48 skills)
+> As **lentes** decidem e revisam · os **geradores** produzem no stack certo · os **`spec-`** encadeiam a sequência de um track · o **testador** prova com evidência · **memória/estado** dão continuidade — e o **`orquestrador-fable`** rege quem faz o quê, com qual modelo, e itera até nota ≥ 9.
 
-> Porta de entrada única no Obsidian — cada link abre a `SKILL.md` da skill.
+## Como o `orquestrador-fable` trabalha
 
-**Método (9 lentes + memória):** [[Catalogo-Skills-Unificado/skills/arquiteto-software/SKILL|arquiteto-software]] · [[Catalogo-Skills-Unificado/skills/arquiteto-dados/SKILL|arquiteto-dados]] · [[Catalogo-Skills-Unificado/skills/dev-senior/SKILL|dev-senior]] · [[Catalogo-Skills-Unificado/skills/designer-ux-ui/SKILL|designer-ux-ui]] · [[Catalogo-Skills-Unificado/skills/especialista-seguranca/SKILL|especialista-seguranca]] · [[Catalogo-Skills-Unificado/skills/qa-usabilidade/SKILL|qa-usabilidade]] · [[Catalogo-Skills-Unificado/skills/inovacao-melhorias/SKILL|inovacao-melhorias]] · [[Catalogo-Skills-Unificado/skills/auditor-responsabilidades/SKILL|auditor-responsabilidades]] · [[Catalogo-Skills-Unificado/skills/consultor-negocios-apps/SKILL|consultor-negocios-apps]] · [[Catalogo-Skills-Unificado/skills/memoria-de-projeto/SKILL|memoria-de-projeto]]
+1. **Triagem** — escolhe o loop mais leve que resolve (skill direta, um `spec-`, ou o ciclo completo).
+2. **Planeja** — decompõe em subtarefas (qual skill × qual modelo × critério de aceite).
+3. **Executa** — delega a subagentes que aplicam os geradores/skills, em ondas paralelas de largura adaptativa (piloto antes de onda grande; até 20 simultâneos).
+4. **Consolida** e submete ao **Comitê de 7 lentes + auditor** (nota 0–10; juiz de visão para telas).
+5. **Testa** com o `testador-real` (evidência executada).
+6. **Decide** — nota ≥ 9 em tudo → entrega; senão, replaneja (escala modelo *ou* effort) e repete, até a excelência ou 10 rodadas.
 
-**Ciclo de vida universal (qualquer plataforma):** [[Catalogo-Skills-Unificado/skills/requisitos-descoberta/SKILL|requisitos-descoberta]] · [[Catalogo-Skills-Unificado/skills/docs-projeto/SKILL|docs-projeto]] · [[Catalogo-Skills-Unificado/skills/testador-real/SKILL|testador-real]] · [[Catalogo-Skills-Unificado/skills/spec-projeto-completo/SKILL|spec-projeto-completo]] · [[Catalogo-Skills-Unificado/skills/estado-projeto/SKILL|estado-projeto]]
+## Instalação
 
-**Fundação Java (do zero):** [[Catalogo-Skills-Unificado/skills/java-project-bootstrap/SKILL|java-project-bootstrap]] · [[Catalogo-Skills-Unificado/skills/java-db-foundation/SKILL|java-db-foundation]] · [[Catalogo-Skills-Unificado/skills/javafx-app-shell/SKILL|javafx-app-shell]]
+Requer o [Claude Code](https://claude.com/product/claude-code). As skills carregam de `~/.claude/skills` (global) ou `<projeto>/.claude/skills`.
 
-**Feature e acabamento Java:** [[Catalogo-Skills-Unificado/skills/java-javafx-entity/SKILL|java-javafx-entity]] · [[Catalogo-Skills-Unificado/skills/java-jdbc-dao/SKILL|java-jdbc-dao]] · [[Catalogo-Skills-Unificado/skills/java-service-usecase/SKILL|java-service-usecase]] · [[Catalogo-Skills-Unificado/skills/javafx-screen-fxml/SKILL|javafx-screen-fxml]] · [[Catalogo-Skills-Unificado/skills/javafx-dashboard/SKILL|javafx-dashboard]] · [[Catalogo-Skills-Unificado/skills/javafx-theme-tokens/SKILL|javafx-theme-tokens]] · [[Catalogo-Skills-Unificado/skills/java-logging-log4j2/SKILL|java-logging-log4j2]] · [[Catalogo-Skills-Unificado/skills/java-package-desktop/SKILL|java-package-desktop]]
+**Windows (PowerShell):**
 
-**Track Java Web / Spring Boot (Gradup):** [[Catalogo-Skills-Unificado/skills/springboot-entity/SKILL|springboot-entity]] · [[Catalogo-Skills-Unificado/skills/springboot-repository-service/SKILL|springboot-repository-service]] · [[Catalogo-Skills-Unificado/skills/springboot-controller-thymeleaf/SKILL|springboot-controller-thymeleaf]] · [[Catalogo-Skills-Unificado/skills/spec-springboot-crud-feature/SKILL|spec-springboot-crud-feature]]
+```powershell
+# global (todos os projetos)
+powershell -ExecutionPolicy Bypass -File .\deploy-skills.ps1
 
-**Track Mobile / Flutter (proposta):** [[Catalogo-Skills-Unificado/skills/mobile-flutter-scaffold/SKILL|mobile-flutter-scaffold]] · [[Catalogo-Skills-Unificado/skills/mobile-flutter-feature/SKILL|mobile-flutter-feature]] · [[Catalogo-Skills-Unificado/skills/mobile-flutter-firebase/SKILL|mobile-flutter-firebase]]
+# ou para um projeto específico
+.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto"
+```
 
-**Track Web Frontend (proposta):** [[Catalogo-Skills-Unificado/skills/frontend-stack-decisor/SKILL|frontend-stack-decisor]] · [[Catalogo-Skills-Unificado/skills/design-tokens-gen/SKILL|design-tokens-gen]] · [[Catalogo-Skills-Unificado/skills/web-component/SKILL|web-component]] · [[Catalogo-Skills-Unificado/skills/web-data-layer/SKILL|web-data-layer]]
+**Ou manualmente:** copie a pasta `skills/` para `~/.claude/skills/` (ou `<projeto>/.claude/skills/`) e reinicie a sessão do Claude Code. Depois é só pedir em linguagem natural — as skills disparam por gatilho (ex.: *"orquestra essa tarefa com o ciclo completo"*, *"cria o DAO de Cliente"*, *"testa o sistema de verdade"*).
 
-**Track Desktop / Tauri (proposta):** [[Catalogo-Skills-Unificado/skills/desktop-tauri-scaffold/SKILL|desktop-tauri-scaffold]] · [[Catalogo-Skills-Unificado/skills/desktop-feature-crud/SKILL|desktop-feature-crud]] · [[Catalogo-Skills-Unificado/skills/desktop-packaging/SKILL|desktop-packaging]]
+## Estrutura
 
-**Orquestradores:** [[Catalogo-Skills-Unificado/skills/orquestrador-fable/SKILL|orquestrador-fable]] (maestro multi-modelo) · [[Catalogo-Skills-Unificado/skills/spec-projeto-completo/SKILL|spec-projeto-completo]] (universal) · [[Catalogo-Skills-Unificado/skills/spec-javafx-new-system/SKILL|spec-javafx-new-system]] · [[Catalogo-Skills-Unificado/skills/spec-javafx-crud-feature/SKILL|spec-javafx-crud-feature]] · [[Catalogo-Skills-Unificado/skills/spec-springboot-crud-feature/SKILL|spec-springboot-crud-feature]] · [[Catalogo-Skills-Unificado/skills/spec-mobile-app/SKILL|spec-mobile-app]] · [[Catalogo-Skills-Unificado/skills/spec-frontend-web/SKILL|spec-frontend-web]] · [[Catalogo-Skills-Unificado/skills/spec-desktop-app/SKILL|spec-desktop-app]]
+```
+skills/                 as 60 skills (cada uma numa pasta com SKILL.md)
+REGRAS-DE-OURO.md       governança: regras inquebráveis (RI) + regras de ouro (RO) por track
+PADRAO-DE-AUTORIA.md    como criar/editar qualquer skill (inclui o "Selo Lendário")
+ROADMAP.md              pendências e próximos passos
+GUIA.md                 as 60 skills com função + como o maestro as rege
+deploy-skills.ps1       sincroniza o catálogo para o runtime do Claude Code
+referencia/             referências de apoio
+docs/INDICE-OBSIDIAN.md índice navegável (formato Obsidian)
+```
 
-**Testadores (executores):** [[Catalogo-Skills-Unificado/skills/testador-real/SKILL|testador-real]] (universal) · [[Catalogo-Skills-Unificado/skills/gradup-testador/SKILL|gradup-testador]] (instância Gradup — track Spring Boot). Instâncias project-local (fora do catálogo, ver ROADMAP item 4): `testador-sigcot` (SIGCOT), `sentinela-testador` (Sentinela), `escalaoper-testador` (EscalaOper — em `Sistemas Prontos\escalaope`).
+## Notas
 
-**Blueprints (subsistemas reutilizáveis, parametrizáveis por projeto):** [[Catalogo-Skills-Unificado/skills/assistente-deterministico/SKILL|assistente-deterministico]]
+- **Idioma:** as skills são em **PT-BR** (instruções); código e identificadores em inglês.
+- **Tracks Mobile/Web/Desktop** entram marcados como **proposta** — fundamentados em fontes oficiais, a refinar contra código real de cada projeto (RO-01).
+- **Exemplos concretos** citam projetos reais do autor apenas como contexto de exemplo.
 
-## 🔬 Método — as 10 skills de método: 9 lentes + memória (poliglotas)
+## Créditos e atribuição
 
-Servem qualquer stack. Disparam por gatilho quando o assunto casa.
+- A referência de design **Impeccable** em `skills/designer-ux-ui/referencia/impeccable/` é de **Paul Bakaus** ([`pbakaus/impeccable`](https://github.com/pbakaus/impeccable), Apache-2.0) — o `NOTICE.md` original está preservado nessa pasta.
+- Conceitos incorporados de artigos oficiais do Claude Code (loops, model/effort, harness design) e de repositórios públicos avaliados (creditados nos arquivos onde aparecem).
 
-- `arquiteto-software` — estrutura, trade-offs, ISO 25010, SOLID/DDD, C4/ADR.
-- `arquiteto-dados` — modelagem (relacional/dimensional/NoSQL), evolução de schema sem downtime, particionamento, contratos de dados.
-- `dev-senior` — clareza do código, Clean Code, BD, testes (qualquer linguagem).
-- `designer-ux-ui` — fluxos, UI, Design Tokens, WCAG, estados de tela (+ referência Impeccable).
-- `especialista-seguranca` — STRIDE, OWASP 2025, LGPD (time vermelho defensivo).
-- `qa-usabilidade` — projeta testes, ISTQB, a11y, veredito por risco (a EXECUÇÃO é do `testador-real`).
-- `inovacao-melhorias` — Kaizen/PDCA, MVP, DORA, dívida técnica.
-- `auditor-responsabilidades` — gate final, DoD, RACI, faz cumprir as RI/RO (RI-01…06).
-- `consultor-negocios-apps` — o app como NEGÓCIO: mercado, monetização, retenção, go-to-market, parecer com nota.
-- `memoria-de-projeto` — memória portável do projeto entre sessões.
+## Licença
 
-Fluxo típico: `Descoberta → (Negócio) → Arquiteto (+ Dados) → Designer → Dev → Testador → QA → Auditor`, com Segurança e Inovação transversais.
-
-## 🌍 Ciclo de vida universal — da ideia à entrega (qualquer plataforma)
-
-- `requisitos-descoberta` — transforma ideia vaga em requisitos com MVP, histórias e aceite verificável.
-- `docs-projeto` — README, manual do usuário (com prints), doc técnica/ADR, changelog — sempre do código real.
-- `testador-real` — **executor universal de testes**: bateria estática + dinâmica com evidência PASS/FAIL/SKIP e relatório datado; nunca simula sucesso. Instância por projeto: `gradup-testador`.
-- `spec-projeto-completo` — orquestrador-topo universal: descoberta → negócio → arquitetura → design → construção (delega ao track quando existir) → testes → segurança → docs → release → gate do auditor.
-- `orquestrador-fable` — **maestro multi-modelo**: o Fable 5 planeja e delega a subagentes (máx. 20/ciclo) nos modelos Opus/Sonnet/Haiku por complexidade; Comitê de Lentes + `testador-real` avaliam com nota 0–10; o ciclo planejar→executar→avaliar repete até nota ≥ 9 em todas as lentes ou 10 rodadas. Orquestra **quem executa e quanta qualidade sai**; os `spec-` orquestram **em que ordem as skills entram** — combináveis.
-- `estado-projeto` — **estado de tarefas retomável** entre sessões: `estado.json` (fonte única) + `TAREFAS.md` (view derivada), transições de status e gravação segura com escritor único. O `orquestrador-fable` persiste e retoma nele; é o par de `memoria-de-projeto` (aquela guarda *como* trabalhamos; esta, *onde cada tarefa está*).
-
-## ⚙️ Track Java / JavaFX — geradores (SIGO, EscalaOper, Sentinela)
-
-Stack real: JavaFX + Access/UCanAccess (JDBC) desktop no Windows.
-
-**Fundação (do zero):**
-- `java-project-bootstrap` — esqueleto Maven + JavaFX (pom, App, log4j2, .gitignore, config.example) que compila e empacota.
-- `java-db-foundation` — provedor de conexão + `RetryDB` + `config.properties` (segredos fora do git).
-- `javafx-app-shell` — janela principal, navegação, `AlertaUtil` e controller-base.
-
-**Feature e acabamento:**
-- `java-javafx-entity` — entidade/modelo de domínio + teste JUnit.
-- `java-jdbc-dao` — DAO JDBC: SQL parametrizado, try-with-resources, colunas explícitas, transação, retry.
-- `java-service-usecase` — camada de serviço (regra de negócio fora do controller).
-- `javafx-screen-fxml` — tela FXML + controller: mockup-first, estados, banco assíncrono (Task), FXML frágil.
-- `javafx-dashboard` — dashboards de excelência (executivo/operacional/decisão): blueprint → mockup → build com rigor de veracidade dos dados (+ `referencia/` com o cânone de design e o stack real).
-- `javafx-theme-tokens` — tema claro/escuro por tokens CSS (sem cor fixa).
-- `java-logging-log4j2` — logging padronizado (sem printStackTrace/System.out).
-- `java-package-desktop` — empacotamento jpackage (.exe/.msi, roda sem Java).
-
-**Orquestradores:**
-- `spec-javafx-new-system` — **do zero ao app rodando e empacotado** (bootstrap → banco → tema/logging → shell → 1ª feature → testador → empacotar).
-- `spec-javafx-crud-feature` — funcionalidade CRUD completa ponta a ponta num projeto existente.
-
-## 🌐 Track Java Web / Spring Boot (Gradup)
-
-Stack real: Spring Boot 3.x + Thymeleaf + htmx + PostgreSQL/Flyway, monolito modular `com.<app>.<modulo>.{web,application,domain,infrastructure}` (RO-SB1…8 nas [[REGRAS-DE-OURO]]). Convenções extraídas e validadas no Gradup — sem Lombok, sem `@OneToMany`, view nunca recebe entidade JPA (RO-SB4), testes de integração gated por `DB_URL` (RO-SB8).
-
-**Geradores:**
-- `springboot-entity` — entidade JPA (POJO sem Lombok, mutação por método de domínio) + migração Flyway (`V<N>__*.sql`).
-- `springboot-repository-service` — repositório Spring Data (`@Query` + `join fetch`) + serviço (`@Transactional`, nunca devolve entidade JPA).
-- `springboot-controller-thymeleaf` — controller `@Controller` + template Thymeleaf acessível (a11y, CSRF automático, cor só por `tokens.css`).
-
-**Orquestrador:**
-- `spec-springboot-crud-feature` — funcionalidade CRUD completa ponta a ponta (entidade → repositório/serviço → tela).
-
-**Testador:**
-- `gradup-testador` — testador executor do Gradup (instância validada do `testador-real`): bateria estática (mvn/hex/CI) + dinâmica (HTTP contra o app no ar) + relatório datado com evidência.
-
-## 🌐 Track Web / Supabase (Embalo) — *próximo*
-
-HTML+CSS+JS vanilla + Supabase. A construir quando você quiser, seguindo §8 do [[PADRAO-DE-AUTORIA]] (extrair convenções reais da memória do Embalo — não inventar). 📌 No radar: [[ROADMAP]] (item 1).
-
-## 🚀 Como usar (deploy)
-
-O Claude Code (e a extensão no VS Code) lê skills de **dois lugares**: `~\.claude\skills\` (global, vale em todos os projetos) e `<projeto>\.claude\skills\` (só naquele projeto). O `.agents\skills` **não** é lido pelo Claude Code.
-
-1. **Deploy de um clique:** rode `deploy-skills.ps1` na raiz deste catálogo — copia as skills para o local global (`C:\Users\Duque\.claude\skills`). Para um projeto específico: `.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto"`. Rode de novo sempre que editar uma skill.
-2. **Como acionar:** descreva a tarefa em linguagem natural (ex.: "cria o DAO de Cliente", "constrói um sistema novo do zero") e a skill dispara pela `description`; ou nomeie (ex.: "usa a `java-jdbc-dao`"). As lentes do método disparam por gatilho.
-3. Toda entrega passa pela governança das [[REGRAS-DE-OURO]] e pode ser auditada pela lente `auditor-responsabilidades`.
-
-## 🧭 Relação com o cofre
-
-Este catálogo **consolida e supersede** as cópias espalhadas das lentes (`.claude/skills/`, `skills/`, `backup/*.zip`) num único lugar canônico. ✅ Aposentadoria concluída (2026-06-15): `skills/` e `backup/` foram movidos para `_arquivo-morto/` e o runtime `.claude/skills/` foi sincronizado — hoje com as **48 skills** da Reforma Lendária (2026-07-05), mais o track Spring Boot — ver [[ROADMAP]] (itens 2, 3 e 5). A memória viva de cada projeto continua nos junctions `memoria*/`. A nota raiz `Regras de Ouro e Inquebráveis.md` é a origem que a versão multi-stack [[REGRAS-DE-OURO]] evolui.
-
----
-
-### 📜 Histórico
-- **2026-07-08 (v2.6) — Rodada de manutenção (auditoria Cowork):** restaurado o final truncado de [[PADRAO-DE-AUTORIA]] (§11 Baseline antes do eval + seção Histórico, por reconstrução com nota de proveniência — Git indisponível na sessão); frontmatters de README/REGRAS-DE-OURO/PADRAO sincronizados com o conteúdo real; removida a pasta `referencia/` vazia da raiz; `javafx-dashboard` renomeada `references/` → `referencia/` (padrão §7); description do `gradup-testador` acentuada + fronteira "NÃO acione" adicionada; `deploy-skills.ps1` ganhou `-Espelhar` (remoção confirmada de skills órfãs no destino); criado `validar-skills.ps1` (lint automatizado do DoD §9: name, description ≤1024, gatilhos, bloco Rede, links da Rede, truncamento/encoding); criados `evals/` para os 7 orquestradores que não tinham (`spec-javafx-new-system`, `spec-javafx-crud-feature`, `spec-springboot-crud-feature`, `spec-mobile-app`, `spec-frontend-web`, `spec-desktop-app`, `orquestrador-fable`). Total: **48 skills** (12 com evals).
-- **2026-07-07 (v2.5):** **Três tracks novos** (proposta): **Mobile/Flutter** (`mobile-flutter-scaffold`/`-feature`/`-firebase` + `spec-mobile-app`), **Web Frontend** (`frontend-stack-decisor`, `design-tokens-gen`, `web-component`, `web-data-layer` + `spec-frontend-web`) e **Desktop/Tauri** (`desktop-tauri-scaffold`, `desktop-feature-crud`, `desktop-packaging` + `spec-desktop-app`) — 13 skills fundamentadas nas fontes oficiais da pesquisa (RO-01; refinar contra o código real dos projetos). RO por track adicionadas em `REGRAS-DE-OURO` (RO-FL/FE/DT) e o cabeçalho truncado do Track Web restaurado. Total: **48 skills**.
-- **2026-07-07 (v2.4):** Nova lente **`arquiteto-dados`** (9ª lente de método: modelagem relacional/dimensional/NoSQL, evolução de schema sem downtime, particionamento, data contracts) — entra no Comitê como 7ª lente de revisão, dispensada declaradamente em tarefa sem dados. Evolução do **`orquestrador-fable`**: **juiz de visão** (screenshot → crítica, juiz separado + portão pareado do `auto-improve`). Fronteira de dados aparada em `dev-senior` e `arquiteto-software` (fim da colisão de gatilho). Ambos pelo Comitê (arquiteto/auditor/dev-sênior) com ressalvas fechadas. Total: **35 skills**.
-- **2026-07-07 (v2.3):** Nova skill **`estado-projeto`** (estado de tarefas retomável entre sessões: `estado.json` fonte única + `TAREFAS.md` derivado, transições de status, gravação segura com escritor único) e evolução do **`orquestrador-fable`** (contrato de retorno de subagente, gate de status + retomada via `estado-projeto`, plano por fases; e antes as 4 melhorias dos artigos de loops/effort). Conceitos avaliados de um repositório de terceiros (dotfiles) com varredura de segurança limpa; ambas as mudanças passaram pelo Comitê de Lentes (arquiteto/auditor/dev-sênior/segurança) com ressalvas fechadas. Registro em `Novo Conceito/avaliacao-repo-benjamin-dotfiles.md` e `Novo Conceito/analise-loops-x-orquestrador-fable.md`. Total: **34 skills**.
-- **2026-07-06 (v2.2):** Nova skill **`orquestrador-fable`** (categoria Orquestradores): maestro multi-modelo — Fable 5 planeja/delega a subagentes (máx. 20 por ciclo) em Opus/Sonnet/Haiku por complexidade, Comitê de Lentes + `testador-real` avaliam (nota 0–10) e o ciclo repete até nota ≥ 9 em todas as lentes ou 10 rodadas. Total: **33 skills**.
-- **2026-07-05 (v2.1):** Track **Java Web/Spring Boot** ganhou geradores reais, extraídos e validados do Gradup: `springboot-entity`, `springboot-repository-service`, `springboot-controller-thymeleaf` e o orquestrador `spec-springboot-crud-feature` (ROADMAP item 5 concluído). `testador-real` enriquecido com técnicas da instância mais madura (`testador-sigcot`): trava de acionamento explícita, checklist com invalidação por hash, cópia-sandbox para bancos de arquivo único. Criada a instância project-local `sentinela-testador`. Adicionados `evals/` (padrão `javafx-dashboard`) para as 4 skills de ciclo de vida universal. Total no catálogo compartilhado: **32 skills** (mais as instâncias project-local `testador-sigcot` e `sentinela-testador`, fora da contagem por ficarem no `.claude/skills` de cada projeto).
-- **2026-07-05 (v2) — Reforma Lendária:** todas as skills refatoradas para o **Selo Lendário** ([[PADRAO-DE-AUTORIA]] §10) com o bloco **🔗 Rede da skill** (vinculação explícita: lentes RI-06 + antes/depois/fronteiras). Absorvidas do runtime `javafx-dashboard` e `gradup-testador` (fim da divergência fonte×runtime). Criadas 4 skills de **ciclo de vida universal**: `testador-real` (executor de testes de verdade), `requisitos-descoberta`, `docs-projeto` e `spec-projeto-completo` (orquestrador universal). `consultor-negocios-apps` entrou no índice como 8ª lente. Auditor sincronizado com a RI-06. Total: **28 skills**.
-- **2026-06-17 (v1.1):** Entrou a 21ª skill `assistente-deterministico` (nova categoria **Blueprints**: subsistema offline sem LLM — busca tolerante + motor de documentos + reuso por histórico de entidade, parametrizável por projeto). Pendente: rodar `deploy-skills.ps1` para torná-la invocável.
-- **2026-06-15 (v1):** Criação do conjunto único — backbone (padrão de autoria + governança multi-stack) + método consolidado (8 lentes) + track Java/JavaFX (8 geradores).
+[MIT](LICENSE) © 2026 Jeremias ([@codjeremias-cell](https://github.com/codjeremias-cell)). Use, adapte e compartilhe à vontade — se ajudar, deixe uma ⭐.

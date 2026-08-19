@@ -1,0 +1,4 @@
+interface:
+  display_name: "Designer UX/UI"
+  short_description: "Desenhe experiências acessíveis e consistentes"
+  default_prompt: "Use $designer-ux-ui para desenhar esta experiencia com fluxo, estados e acessibilidade."

@@ -1,6 +1,6 @@
 ---
 name: desktop-packaging
-description: Empacota e distribui um app desktop Tauri v2 — instaladores por SO (MSI/NSIS no Windows, .dmg no macOS, .AppImage/.deb no Linux), assinatura (par de chaves do updater + code signing de macOS/Windows) e auto-update via GitHub Releases (plugin oficial, artefatos assinados). Acione quando o usuário disser coisas como "gera o instalador do app Tauri", "assina e publica o release", "quero auto-update via GitHub Releases", "monta o .msi/.dmg/.AppImage", "configura o updater assinado". NÃO acione para o empacotamento JavaFX com jpackage (use java-package-desktop) nem para o scaffold (desktop-tauri-scaffold) ou a feature (desktop-feature-crud).
+description: "Empacota e distribui um app desktop Tauri v2: instaladores por SO (MSI/NSIS, .dmg, .AppImage/.deb), assinatura (chaves do updater e code signing de macOS/Windows) e auto-update via GitHub Releases com artefatos assinados. Acione com \"gera o instalador do app Tauri\", \"assina e publica o release\", \"quero auto-update via GitHub Releases\", \"monta o .msi/.dmg/.AppImage\", \"configura o updater assinado\", \"distribui o app\". NÃO acione para o empacotamento JavaFX com jpackage (use java-package-desktop) nem para o scaffold (desktop-tauri-scaffold) ou a feature (desktop-feature-crud)."
 ---
 
 # Desktop Tauri v2 — Empacotamento, Assinatura e Auto-update (track desktop, proposta 2026-07-07)
@@ -13,7 +13,7 @@ entrega ao usuário final.
 
 > **Alternativa .NET (Velopack):** no galho Avalonia/.NET, o empacotamento e o auto-update
 > (com delta updates, multiplataforma) ficam com o **Velopack** (https://github.com/velopack/velopack),
-> não com o updater do Tauri.
+> não com o updater do Tauri (RO-DT4 já o registra).
 
 ## Entradas obrigatórias
 
@@ -28,8 +28,7 @@ entrega ao usuário final.
 
 ## Trava obrigatória
 
-- Não publicar sem o **par de chaves do updater** gerado e a **pública** no `tauri.conf.json`
-  (`plugins.updater.pubkey`); a **privada** só em secret de CI.
+- Sem o **par de chaves do updater** (pública no config, **privada só em secret de CI**) → **parar**, não publicar (detalhe: Convenções).
 - Não assinar release em cima de um build **sem prova** (`testador-real` sem FAIL crítico).
 - Sem certificado de code signing, **avisar** que o SO mostrará "editor desconhecido"
   (SmartScreen/Gatekeeper) e seguir só com a assinatura do updater se autorizado.
@@ -40,9 +39,7 @@ entrega ao usuário final.
    generate`), `pubkey`, `endpoints`, formato do `latest.json`, variáveis
    `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)`.
 2. O `tauri.conf.json` atual (bundle, `targets`, bloco updater herdado do scaffold).
-3. O workflow de CI existente — reusar antes de reinventar; a ação `tauri-apps/tauri-action` builda,
-   assina e publica o release.
-4. Se for a alternativa .NET: doc do **Velopack** (https://github.com/velopack/velopack).
+3. O workflow de CI existente — reusar antes de reinventar (publicação assinada via `tauri-action`: Convenções).
 
 ## Convenções obrigatórias (Track desktop Tauri v2, proposta 2026-07-07)
 
@@ -50,7 +47,7 @@ entrega ao usuário final.
   `deb`. Declarar em `bundle.targets`.
 - **Assinatura do updater (obrigatória p/ auto-update):** chave gerada com `tauri signer generate`;
   **pública** no config, **privada + senha** como secrets de CI; cada artefato gera um `.sig` que o
-  updater **verifica antes de instalar**.
+  updater **verifica antes de instalar** — update não assinado é vetor de ataque.
 - **Code signing do SO (recomendado):** Windows (Authenticode, cert em secret) e macOS (Developer ID
   + **notarização**) para não cair em SmartScreen/Gatekeeper. É **separado** da chave do updater.
 - **Auto-update via GitHub Releases:** `endpoints` apontando para o `latest.json` do release;
@@ -82,9 +79,8 @@ entrega ao usuário final.
 
 ## Guardrails
 
-- **Nunca** commitar a chave privada do updater nem o certificado — só secrets de CI.
-- Nunca publicar update **não assinado** (o updater recusa; e é vetor de ataque).
-- Nunca renomear/re-empacotar artefato já assinado.
+- **Nunca** commitar a chave privada do updater nem o certificado — só secrets de CI (RO-DT4).
+- Nunca publicar update **não assinado** (RO-DT4 — porquê e mecânica do `.sig`: Convenções).
 - **Nunca testar o fluxo de update contra usuários reais/produção** — usar repo/canal de teste
   primeiro.
 
@@ -93,6 +89,16 @@ entrega ao usuário final.
 - Instaladores por SO **assinados**; `tauri.conf.json` com updater (`pubkey` + `endpoints`); CI que
   publica release + `latest.json`; auto-update ponta a ponta verificado por assinatura. Update de
   teste `vN → vN+1` aplicado como evidência (RI-04).
+
+## Verificação / Checklist final
+
+O update é código que roda na máquina do usuário sem ele clicar em nada — a prova é a assinatura, não o build:
+
+- **Chaves no lugar certo:** `.sig` por artefato; **pública** no config; **privada + senha** só em secret de CI (nada de chave no repo).
+- **Release de teste** (repo/canal de teste, **nunca** produção) publicado com o `latest.json` assinado.
+- **Update ponta a ponta:** instalar `vN` num SO limpo, publicar `vN+1` → o app baixa, **verifica a assinatura** e aplica (RI-04).
+- **Versão:** artefato = semver do app; nenhum artefato renomeado à mão depois de assinado.
+- **Code signing de SO:** presente, ou o aviso de "editor desconhecido" (SmartScreen/Gatekeeper) foi comunicado ao usuário.
 
 ## Sugestões de evolução (RO-07)
 
@@ -103,4 +109,8 @@ alvo virar .NET/Avalonia; delta updates).
 - **Lentes que ativam junto (RI-06):** `especialista-seguranca` (chaves, assinatura, notarização) · `auditor-responsabilidades` (gate de release) · `dev-senior` (CI) · `qa-usabilidade` (smoke do instalador em SO limpo).
 - **Vem antes:** app provado (`testador-real` sem FAIL crítico) + `desktop-tauri-scaffold` (bloco updater já no config).
 - **Vem depois:** `docs-projeto` (notas de versão/manual) · ciclo git completo (RO-13).
-- **Não confundir com:** `java-package-desktop` (jpackage/.exe/.msi do track JavaFX) — aqui é Tauri v2, assinado e com auto-update. Alternativa .NET: **Velopack**.
+- **Não confundir com:** `java-package-desktop` (jpackage/.exe/.msi do track JavaFX) — aqui é Tauri v2, assinado e com auto-update.
+
+### 📜 Histórico
+- **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens C6, C7, C8, C9, C10; −4 linhas.
+- **2026-07-20 — Polimento de autoria:** `when_to_use` reforça a fronteira (packaging vs. scaffold vs. feature vs. jpackage); +checklist de Verificação consolidando o update de teste `vN→vN+1` assinado e a guarda das chaves. Convenções, few-shot e guardrails preservados.

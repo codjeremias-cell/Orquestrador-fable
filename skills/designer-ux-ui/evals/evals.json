@@ -1,0 +1,51 @@
+{
+  "skill_name": "designer-ux-ui",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "designer-ux-ui-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "o usuário abandona no meio do cadastro e eu não sei em que passo ele desiste",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a lente de UX: fluxo, jornada e estados da tela; propõe reduzir passos e cobrir vazio/carregando/erro.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill designer-ux-ui é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "telas/cadastro.md",
+          "conteudo": "# Cadastro\n\nPasso 1 dados pessoais\nPasso 2 endereco\nPasso 3 documentos\nPasso 4 foto\nPasso 5 confirmacao\nPasso 6 senha\nPasso 7 termos\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "designer-ux-ui-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "monta o layout dessa tela nova",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e decide por heurística e dado, não por gosto.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill designer-ux-ui é acionada sem ser nomeada no prompt"
+      ],
+      "precisa_bench": true,
+      "motivo_precisa_bench": "tela NOVA: nao ha o que colocar na bancada, mas o caso pressupoe um app com contexto visual"
+    },
+    {
+      "id": 3,
+      "name": "designer-ux-ui-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "como versiono o schema do banco sem derrubar o sistema?",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é evolução de dados, domínio de arquiteto-dados.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill designer-ux-ui NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

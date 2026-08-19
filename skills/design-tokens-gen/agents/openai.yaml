@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gerador de Design Tokens"
+  short_description: "Gere tokens visuais consistentes e nomeados"
+  default_prompt: "Use $design-tokens-gen para gerar o sistema de design tokens deste produto."

@@ -6,14 +6,24 @@
       "name": "readme-com-comandos-testados",
       "prompt": "Escreve o README desse projeto, quero poder mandar pra alguém e a pessoa conseguir rodar.",
       "expected_output": "A skill lê o pom.xml/package.json e os scripts reais do projeto antes de escrever qualquer coisa, monta o README com o que é, requisitos, como rodar e como buildar/empacotar usando comandos copiáveis, e efetivamente RODA esses comandos para confirmar que funcionam antes de afirmar que funcionam — marcando como 'não verificado' o que não pôde testar.",
-      "files": [],
+      "files": [
+        {
+          "caminho": "pyproject.toml",
+          "conteudo": "[project]\nname = \"relatorios\"\nversion = \"0.2.0\"\ndependencies = [\"pandas\"]\n"
+        },
+        {
+          "caminho": "src/relatorios/cli.py",
+          "conteudo": "import sys\n\ndef main():\n    print('gerando', sys.argv[1:])\n\nif __name__ == '__main__':\n    main()\n"
+        }
+      ],
       "expectations": [
         "Lê pom.xml/package.json e scripts reais antes de escrever (RO-01), não inventa comando",
         "README fica curto (porta, não enciclopédia) com seções objetivas",
         "Os comandos de instalação/execução são efetivamente executados antes de entrar no README",
         "O que não pôde ser testado é marcado explicitamente como 'não verificado'",
         "Não inclui nenhum segredo/credencial no documento"
-      ]
+      ],
+      "nota_bench": "Bancada mínima adicionada em 2026-08-11 (T39): o prompt pressupõe projeto e a pasta estava vazia — sem ela o caso é falso-negativo garantido."
     },
     {
       "id": 1,

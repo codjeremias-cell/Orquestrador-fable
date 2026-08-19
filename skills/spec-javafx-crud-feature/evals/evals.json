@@ -10,7 +10,7 @@
       "expectations": [
         "Valida que as 5 skills filhas existem antes de começar",
         "Mockup apresentado e aceito ANTES de qualquer código (RO-06)",
-        "Delega cada camada à skill filha correspondente em vez de gerar tudo inline",
+        "Entrega todas as camadas cumprindo o método da skill filha de cada uma, e CARREGA cada filha pela ferramenta Skill (T14, 2026-08-18: Jeremias reverteu a T29 e a rota voltou a ser exigida; base T9, n=3x3, tratamento 3/3 contra controle 0/3 — a medição de 2026-08-09 que dizia 'delega 0/6' foi superada)",
         "Lê o padrão real do projeto (controller-base, AlertaUtil, provedor de conexão, RetryDB) antes de gerar — nunca inventa (RO-01)",
         "Nomes consistentes entre entidade, DAO, serviço, controller e FXML",
         "Fechamento com evidência executada (build/teste), não checklist (RI-04)",
@@ -27,7 +27,12 @@
         "Reconhece que o pedido é uma camada isolada, não a feature completa",
         "Direciona/aciona java-jdbc-dao diretamente",
         "Não impõe a sequência completa (mockup + 5 etapas) a um pedido pontual"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "java-jdbc-dao"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     },
     {
       "id": 2,

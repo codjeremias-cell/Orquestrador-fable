@@ -1,6 +1,6 @@
 ---
 name: design-tokens-gen
-description: "Gera um token-system NOMEADO em formato W3C DTCG (cor em OKLCH com neutros tingidos, escala tipográfica com papéis, radius, sombra) e o traduz para o bloco @theme do Tailwind v4, onde cada token vira utility + CSS var. Acione quando o usuário disser coisas como \"gera os design tokens\", \"cria o token system\", \"define a paleta em DTCG\", \"tokens pro Tailwind v4\", \"monta o @theme\", \"escala tipográfica e cores como tokens\", \"contrato de tokens design pra código\". Reusa o loop anti-slop e a estratégia de cor da lente designer-ux-ui (não os duplica). NÃO acione para decidir a experiência/estética em si (use designer-ux-ui) nem para o componente visual (use web-component)."
+description: "Gera um token-system NOMEADO em formato W3C DTCG — cor em OKLCH com neutros tingidos, escala tipográfica com papéis, radius e sombra — e o traduz para o bloco @theme do Tailwind v4, onde cada token vira utility e CSS var. Acione com \"gera os design tokens\", \"cria o token system\", \"define a paleta em DTCG\", \"tokens pro Tailwind v4\", \"monta o @theme\", \"escala tipográfica e cores como tokens\", \"contrato de tokens design pra código\"."
 ---
 
 # Design Tokens Gen — W3C DTCG → Tailwind v4 @theme
@@ -11,6 +11,11 @@ Produz um **token-system nomeado** (nunca genérico) no formato **W3C DTCG** e o
 **Tailwind v4** — onde cada token vira utility + CSS var. É a materialização do "tokens = contrato entre
 design e código" da lente `designer-ux-ui`: aquela **decide** a estética (estratégia de cor, cena light/dark,
 ousadia concentrada); este **gera** o artefato. Não reexplica o anti-slop — **invoca-o**.
+
+## Fronteira (o que esta skill é e não é)
+- **É:** gerar `tokens.dtcg.json` (fonte da verdade) + o `@theme` correspondente.
+- **NÃO é** decidir a estética → isso é da lente `designer-ux-ui` (dona da estratégia de cor e do anti-slop).
+- **NÃO é** implementar componente visual → isso é `web-component` (consome estes tokens).
 
 ## Objetivo
 
@@ -37,6 +42,8 @@ tipográfica **com papéis** (display/heading/body/label/caption), radius e somb
 
 ## Leituras obrigatórias (RO-01)
 
+Por que ler antes de escrever: DTCG e Tailwind v4 têm sintaxe própria e evolutiva; inventar a forma dos campos gera um arquivo que não faz parse e um `@theme` que não vira utility.
+
 1. A spec real do **W3C DTCG** (formato `$value`/`$type`/`$description`, grupos, aliasing `{grupo.token}`) — não inventar a sintaxe.
 2. A doc real do **Tailwind v4 `@theme`** (namespaces `--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`
    viram utilities e CSS vars) — CSS-first, sem `tailwind.config.js`.
@@ -61,6 +68,34 @@ tipográfica **com papéis** (display/heading/body/label/caption), radius e somb
 4. Verificar contraste ≥ 4.5:1 (texto normal) / 3:1 (grande) nos pares texto/fundo.
 5. Reportar arquivos + suposições.
 
+## Exemplo (mini) — DTCG → @theme
+
+Mostra o mapeamento 1:1 (token semântico + alias no JSON viram CSS var no `@theme`):
+
+`tokens.dtcg.json` (fonte):
+```json
+{
+  "color": {
+    "brand":   { "$type": "color", "$value": "oklch(0.62 0.19 264)", "$description": "Hue base da marca" },
+    "neutral": { "900": { "$type": "color", "$value": "oklch(0.20 0.01 264)", "$description": "Neutro tingido no hue da marca" } },
+    "text":    { "default": { "$type": "color", "$value": "{color.neutral.900}", "$description": "Texto principal (alias)" } }
+  },
+  "text": {
+    "body": { "$type": "dimension", "$value": "1rem", "$description": "Corpo; razão >=1.25 vs. label" }
+  }
+}
+```
+`app.css` (derivado — nunca editado à mão de forma que divirja do JSON):
+```css
+@theme {
+  --color-brand: oklch(0.62 0.19 264);
+  --color-neutral-900: oklch(0.20 0.01 264);
+  --color-text-default: var(--color-neutral-900);
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+}
+```
+
 ## Regras de implementação
 
 - O DTCG é a única fonte; o `@theme` nunca é editado à mão de forma que divirja do JSON.
@@ -72,10 +107,22 @@ tipográfica **com papéis** (display/heading/body/label/caption), radius e somb
 - Contraste **medido**, não presumido.
 - DTCG e `@theme` nunca divergem.
 
+## Verificação / Checklist final
+
+Feche gerando este checklist preenchido — "parece pronto" não basta, porque token quebrado só aparece em runtime e contraste presumido é a falha de a11y nº 1:
+
+- [ ] **Parse:** o `tokens.dtcg.json` é JSON válido e cada token tem `$type` + `$value` (aliases resolvem para um token existente).
+- [ ] **Nomes semânticos:** nenhum token nomeado por literal de cor (`blue-500`); papel/semântica no nome.
+- [ ] **Cor em OKLCH:** todo `$value` de cor está em OKLCH; nenhum `#000`/`#fff` puro; neutros tingidos (chroma 0.005–0.01).
+- [ ] **Tipografia com papéis:** display/heading/body/label/caption presentes; razão ≥ 1.25 entre passos consecutivos.
+- [ ] **Sincronia:** cada token DTCG tem CSS var correspondente no `@theme`, e vice-versa (sem órfão dos dois lados).
+- [ ] **Contraste MEDIDO** (não presumido) em cada par texto/fundo: ≥ 4.5:1 texto normal, ≥ 3:1 texto grande/ícone. Anote o valor real como evidência.
+- [ ] **Sem hex solto** fora dos tokens no CSS de entrada.
+
 ## Saída esperada
 
 - `tokens.dtcg.json` (fonte) + bloco `@theme` no CSS de entrada do Tailwind v4 (ex.: `app.css`/`globals.css`),
-  com contraste verificado como evidência.
+  com contraste verificado como evidência (valores medidos anotados).
 
 ## Referências reais (RO-01)
 
@@ -92,3 +139,8 @@ contraste no CI; camada de tokens de componente sobre os tokens semânticos quan
 - **Vem antes:** `designer-ux-ui` (Design Read + decisão de cor/tipografia) · `frontend-stack-decisor` (o stack define onde o CSS de entrada mora).
 - **Vem depois:** `web-component` (consome os tokens; nunca hex solto).
 - **Não confundir com:** `designer-ux-ui` (aquela **decide** a estética; esta **gera** o JSON + CSS) · `javafx-theme-tokens` (mesmo papel no track desktop JavaFX — sem OKLCH/@theme, ver RO-12).
+
+### 📜 Histórico
+
+- **2026-08-10 — Seção de Histórico criada (T35, campanha do inventário; degrau §6.10: 1).** A skill não tinha nenhuma, e sem ela a proveniência exigida pela RI-04 não tem onde morar. Achado do inventário completo de 2026-08-10 (`_auditoria/zelador-inventario-2026-08-10.md`), padrão transversal 6.
+- **2026-08-09 — `description` comprimida** na campanha das 61 (65.029 → 43.202 caracteres no catálogo, −34%), preservando as frases-gatilho e a fronteira `NÃO acione`. Registro retroativo: a compressão foi aplicada e não anotada aqui na época.

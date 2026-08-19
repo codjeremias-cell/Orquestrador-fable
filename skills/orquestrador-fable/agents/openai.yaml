@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orquestrador Fable"
+  short_description: "Orquestre execução, avaliação e iteração"
+  default_prompt: "Use $orquestrador-fable para orquestrar esta tarefa com execução, comitê e critério de parada."

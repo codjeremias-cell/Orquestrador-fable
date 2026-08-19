@@ -1,0 +1,80 @@
+{
+  "skill_name": "testador-jogos",
+  "notas_do_runner": [
+    "Paths relativos à raiz da skill. Antes de rodar: copiar evals/fixtures/<caso> para um workspace NEUTRO (ex.: /tmp/eval-workspace/) e passar esse path no prompt — nunca o path dentro da skill (entregaria a localização do gabarito).",
+    "NUNCA expor evals/gabarito/ ao agente sob avaliação (salvaguarda §11.6). O gabarito é só do juiz.",
+    "Os prompts não nomeiam a skill de propósito — o eval mede acionamento (§11.5): registrar 'acionou S/N' e 'aderiu S/parcial/N' no placar."
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "cacar-bugs-jogo-web",
+      "origem": "sintetico",
+      "geracao": "2026-07-13, sessão Cowork de revisão da skill (bugs plantados verificados por execução — 8/8 reproduzem via scripts/web_game_harness.py)",
+      "prompt": "acabei de terminar o protótipo do meu joguinho de game jam, ta em <WORKSPACE>/coleta-estelar/index.html — é um arcade de coletar estrelas. testa ele pra mim? quero saber se dá pra postar no itch.io do jeito que está e o que eu preciso arrumar antes",
+      "expected_output": "Testa o jogo de verdade (Playwright), encontra a maioria dos 8 bugs plantados com severidade e passos de reprodução, e entrega relatório de QA com análise crítica com notas, plano de melhorias priorizado e checklist de regressão reutilizável.",
+      "files": [
+        "evals/fixtures/coleta-estelar/index.html"
+      ],
+      "answer_key": "evals/gabarito/GABARITO-coleta-estelar.md",
+      "assertions": [
+        "Encontra pelo menos 5 dos 8 bugs plantados do gabarito, identificados pelo sintoma (não precisa apontar linha de código)",
+        "Encontra os dois bugs de severidade A: (1) pausar na tela inicial gera erro de null e trava o iniciar (softlock); (2) score não reseta ao reiniciar",
+        "Todos os bugs reportados têm passos de reprodução e classificação de severidade (A/B/C ou equivalente)",
+        "Há evidência de teste real via navegador: screenshots salvos na pasta de outputs e/ou erros de console/pageerror citados no relatório",
+        "Relatório inclui análise crítica com notas numéricas em pelo menos 6 categorias e uma nota geral",
+        "Produz plano de melhorias priorizado (ondas ou prioridades) com impacto/esforço, e os bugs A aparecem na primeira onda",
+        "Produz checklist de regressão reutilizável com pelo menos 15 casos com resultado esperado, incluindo casos derivados dos bugs encontrados",
+        "Não reporta o emoji quadrado/tofu (□) como bug do jogo (é limitação de fonte do headless)",
+        "Relatório menciona sessões/resultados de pelo menos 3 personas de jogador distintas"
+      ],
+      "precisa_bench": true,
+      "motivo_precisa_bench": "prompt aponta para <WORKSPACE>/... — placeholder nunca preenchido; a sessao e mandada para um caminho inexistente e nao tem como acertar"
+    },
+    {
+      "id": 2,
+      "name": "analise-critica-gdd",
+      "origem": "sintetico",
+      "geracao": "2026-07-13, sessão Cowork de revisão da skill (7 red flags + contradição central plantadas no GDD)",
+      "prompt": "ainda não tenho build jogável, só o game design document do meu roguelite mobile: <WORKSPACE>/gdd-torre-do-caos.md — me diz o que você acha do design, o que pode dar errado com os jogadores, e já me deixa um plano de testes pronto pra quando a primeira build sair",
+      "expected_output": "Análise crítica documental (sem inventar testes hands-on nem bugs), identifica as principais red flags de design, com notas onde avaliável, melhorias priorizadas e plano de teste para a futura build.",
+      "files": [
+        "evals/fixtures/gdd-torre-do-caos.md"
+      ],
+      "answer_key": "evals/gabarito/GABARITO-torre-do-caos.md",
+      "assertions": [
+        "NÃO alega ter jogado ou testado uma build nem reporta bugs 'encontrados' em execução — só análise de design (honestidade do modo documental)",
+        "Identifica pelo menos 4 das 7 red flags do gabarito, explicando o impacto de cada uma (não basta citar a mecânica)",
+        "Aponta a contradição central do GDD: fricções punitivas (energia 1/40min, anúncio 30s pós-morte, permadeath sem meta-progressão, tutorial 15min) contra o pilar declarado 'só mais uma run' e o público casual",
+        "Análise crítica estruturada: notas onde o material permite avaliar e categorias explicitamente marcadas como não avaliáveis sem build",
+        "Entrega plano de teste/checklist concreto e executável para quando a build existir (casos específicos do jogo, não genéricos)",
+        "Recomendações/melhorias priorizadas (o que mudar primeiro e por quê)"
+      ],
+      "precisa_bench": true,
+      "motivo_precisa_bench": "prompt aponta para <WORKSPACE>/... — placeholder nunca preenchido; a sessao e mandada para um caminho inexistente e nao tem como acertar"
+    },
+    {
+      "id": 20,
+      "name": "testador-jogos-neutro-2",
+      "nivel_pressao": "neutro",
+      "prompt": "terminei o protótipo e queria alguém jogando pra valer pra ver o que quebra",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "jogo/main.py",
+          "conteudo": "import pygame\n\ndef jogar():\n    pygame.init()\n    print('coleta estelar')\n\nif __name__ == '__main__':\n    jogar()\n"
+        },
+        {
+          "caminho": "jogo/README.md",
+          "conteudo": "# Coleta Estelar\nProtótipo de game jam. Rode com: python jogo/main.py\n"
+        }
+      ],
+      "expected_output": "Aciona o testador de jogos: caça bugs jogando com personas e avalia o game design.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill testador-jogos é acionada sem ser nomeada"
+      ],
+      "nota_origem": "Segundo prompt neutro, angulo diferente, adicionado em 2026-08-11 (T44). A varredura tinha n=1 por skill, e o caso do zelador-do-catalogo provou que n=1 nao distingue skill quebrada de prompt ruim."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: mobile-flutter-firebase
-description: Conecta um app Flutter ao Firebase e gera os repositórios de backend — flutterfire configure (firebase_options.dart determinístico), AuthRepository com o stream certo por caso (authStateChanges para login/logout, idTokenChanges para refresh de token/claims, userChanges para mudança de perfil), FirestoreRepository que desacopla o Firestore atrás da interface, StorageRepository, e o starter de security rules (Firestore + Storage) que nasce junto com o modelo de dados. Acione quando o usuário disser coisas como "conecta o Firebase no app", "adiciona login com Firebase Auth", "quero salvar no Firestore", "configura autenticação e banco na nuvem", "preciso das security rules do Firestore". NÃO acione para criar a feature/tela que consome o repositório (use mobile-flutter-feature) nem para iniciar o projeto (use mobile-flutter-scaffold).
+description: "PASSO 3 do fluxo Flutter (scaffold, feature, firebase): conecta um app Flutter ao Firebase e gera os repositórios de backend — flutterfire configure com firebase_options.dart determinístico, AuthRepository com o stream certo por caso, regras de segurança. Acione com \"conecta o Firebase no app\", \"adiciona login com Firebase Auth\", \"quero salvar no Firestore\", \"configura autenticação e banco na nuvem\", \"preciso das security rules do Firestore\", \"quero login\", \"salvar na nuvem\", \"conecta o Firebase\", \"login com Firebase Auth\", \"salvar no Firestore\", \"autenticação e banco na nuvem\", \"security rules\". NÃO acione para criar a feature/tela que consome o repositório (use mobile-flutter-feature) nem para iniciar o projeto (use mobile-flutter-scaffold)."
 ---
 
 # Flutter — Conector Firebase (Auth + Firestore + Storage + Security Rules)
@@ -9,11 +9,17 @@ Gerador do **track mobile (Flutter-first, proposta 2026-07-07)**. Pluga o Fireba
 determinística e entrega os **repositórios** que desacoplam o SDK do resto do app — e as
 **security rules**, que são o backend/firewall real e **nascem junto com o modelo de dados**.
 
+## Onde entra no fluxo
+
+Terceira das três skills Flutter: **mobile-flutter-scaffold** (projeto com `ProviderScope`) →
+**mobile-flutter-feature** (a vertical que consome o repositório) → **firebase** (esta, o backend).
+Esta skill entrega as **interfaces de repositório + rules**; a tela/feature que usa esses
+repositórios é de `mobile-flutter-feature`.
+
 ## Objetivo
 
 Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfaces de repositório**
-(a UI e os notifiers nunca veem tipos do Firebase), com as security rules escritas junto ao modelo
-— não depois. O Firestore não valida sozinho: as rules **são** a camada de autorização.
+(a UI e os notifiers nunca veem tipos do Firebase); as rules nascem com o modelo e são a camada de autorização — por extenso nas Convenções.
 
 ## Entradas obrigatórias
 
@@ -28,12 +34,12 @@ Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfa
 
 ## Trava obrigatória
 
-- Não gerar rules **sem o modelo de dados** definido — rules genéricas `allow read, write: if true`
-  são proibidas (violação de segurança). Na dúvida sobre dono/escopo de uma coleção, **parar e
-  perguntar** (`arquiteto-dados` + `especialista-seguranca`).
+- Sem modelo de dados definido ou na dúvida sobre dono/escopo de uma coleção → **parar e
+  perguntar** (`arquiteto-dados` + `especialista-seguranca`); rules abertas são proibidas (ver Guardrails).
 - Não escolher o stream de auth "no chute" — confirmar o caso de uso (ver tabela abaixo).
-- **SUPOSIÇÃO a validar** no Claude Code: que o backend do projeto é Firebase (alternativa Supabase
-  = track paralelo futuro). Confirmar com o Jeremias antes de plugar.
+- **SUPOSIÇÃO a validar** no Claude Code: que o backend do projeto é Firebase. A alternativa Supabase
+  já tem gerador no catálogo para **web** (`web-vanilla-supabase-pwa`); para **Flutter** ainda não há.
+  Confirmar o backend com o Jeremias antes de plugar.
 
 ## Leituras obrigatórias (RO-01)
 
@@ -46,10 +52,14 @@ Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfa
 
 - **`flutterfire configure` (determinístico, Pepita P-a):** rodar a FlutterFire CLI para gerar
   `firebase_options.dart` e registrar os apps por plataforma; `Firebase.initializeApp(options:
-  DefaultFirebaseOptions.currentPlatform)` no `main`. Não editar `firebase_options.dart` à mão.
+  DefaultFirebaseOptions.currentPlatform)` no `main`. Não editar `firebase_options.dart` à mão —
+  regerar pela CLI. *Por quê:* gerar por CLI torna o arquivo determinístico e livre de erro de
+  digitação de chave/ID por plataforma.
   Pacotes: `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`.
 - **`AuthRepository` desacopla o SDK:** expõe um `Stream<AppUser?>` de domínio (mapeado de `User?`,
-  sem vazar o tipo `User` do Firebase). **Escolher o stream certo:**
+  sem vazar o tipo `User` do Firebase). *Por quê mapear:* se a UI depende do tipo `User` do SDK,
+  trocar de provedor de auth vira refactor no app inteiro; com `AppUser?` de domínio, só o repo muda.
+  **Escolher o stream certo:**
 
   | Stream | Dispara quando | Usar para |
   |---|---|---|
@@ -57,10 +67,13 @@ Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfa
   | `idTokenChanges()` | login / logout **+ refresh do token / mudança de custom claims** | quando lê roles/claims ou precisa do token fresco |
   | `userChanges()` | login / logout **+ mudança de perfil** (displayName, foto, e-mail, `reload`) | quando a UI reflete campos do perfil |
 
+  *Por que escolher com cuidado:* o stream errado ou não reage (perfil/claims mudam e a UI não
+  atualiza) ou dispara demais — casar o stream ao caso de uso é o que dá a reatividade correta.
 - **`FirestoreRepository` desacopla o Firestore:** tipar com `withConverter<T>` (fromFirestore /
   toFirestore) e retornar **modelos de domínio**; nenhum `DocumentSnapshot`/`Map` vaza além do
   repositório. Queries estruturadas (`where`/`orderBy`), nunca montando caminho por concatenação de
-  entrada do usuário.
+  entrada do usuário. *Por quê:* `withConverter` dá tipo forte de ponta a ponta; caminho por
+  concatenação de input é porta de injeção/acesso indevido.
 - **`StorageRepository`:** referências de upload/download tipadas; mídia pesada por Storage/CDN, não
   embutida no app.
 - **Security rules starter (nascem com o modelo):** `firestore.rules` e `storage.rules` com
@@ -94,11 +107,9 @@ Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfa
 ## Guardrails
 
 - Nunca `allow read, write: if true` nem rules "abertas para destravar agora".
-- Nunca vazar tipo do Firebase (`User`, `DocumentSnapshot`) além do repositório.
-- Nunca escolher o stream de auth sem casar com o caso de uso (claims ⇒ `idTokenChanges`; perfil ⇒
-  `userChanges`; só login/logout ⇒ `authStateChanges`).
-- Não confiar no cliente para autorização — a autorização vive nas rules, validada no servidor.
-- Não editar `firebase_options.dart` à mão (regerar pela CLI).
+- Tipos do Firebase (`User`, `DocumentSnapshot`) nunca vazam além do repositório (ver Convenções).
+- Stream de auth sempre pela tabela de casos (Convenções) — nunca no chute.
+- Não confiar no cliente para autorização — ela vive nas rules, o firewall (ver Convenções).
 
 ## Saída esperada
 
@@ -107,6 +118,22 @@ Conectar o app ao Firebase e expor Auth, Firestore e Storage atrás de **interfa
   default-deny.
 - `flutter analyze` verde + testes dos repositórios; rules testadas no emulador **ou** SKIP
   declarado. Rules default-deny como evidência de segurança.
+
+## Verificação (checklist final)
+
+As rules são o firewall real — sem teste (ou SKIP honesto) e sem default-deny auditado, o backend
+fica aberto. Confira, com evidência real:
+
+- [ ] `firebase_options.dart` **gerado pela CLI** (`flutterfire configure`), não editado à mão.
+- [ ] `flutter analyze` → **zero issues**.
+- [ ] Testes dos repositórios (mock do SDK com `mocktail`) → **verdes**.
+- [ ] Rules unit tests no emulador (`firebase emulators:exec` + `@firebase/rules-unit-testing`) →
+      **verdes**, ou **SKIP declarado com motivo** (RI-04) quando o tooling Node não existir — nunca "passou" fingido.
+- [ ] Auditoria das rules: **default-deny** confirmado; nenhum `allow ... if true`; `create` separado
+      do resto (dono lido de `request.resource.data`, não de `resource.data`).
+- [ ] Sanidade de desacoplamento: nenhum tipo do Firebase (`User`, `DocumentSnapshot`, `Map` cru)
+      vazando além do repositório.
+- [ ] O stream de auth escolhido bate com o caso de uso (tabela) e está **documentado** no report (com o porquê).
 
 ## Referências oficiais (RO-01)
 
@@ -124,3 +151,7 @@ modelo).
 - **Vem antes:** `mobile-flutter-scaffold` (projeto já com `ProviderScope`) · `arquiteto-dados` (modelo desenhado).
 - **Vem depois:** `mobile-flutter-feature` (a impl do repositório abstrato da feature usa estes repositórios) · `testador-real` (bateria com emulador).
 - **Não confundir com:** `springboot-repository-service` / `java-jdbc-dao` (persistência dos tracks Java) · `mobile-flutter-feature` (consome o repositório; não configura o backend).
+
+### 📜 Histórico
+- **2026-08-11 — Ponteiro morto na Trava (inventário do zelador, `_auditoria/zelador-inventario-2026-08-10.md`, ação ATUALIZAR 9):** o 3º bullet chamava Supabase de "track paralelo futuro"; `web-vanilla-supabase-pwa` está no disco e na listagem, então o bullet passou a apontar o gerador web existente e a declarar que para Flutter a lacuna continua. A description **não** foi deduplicada: cortar gatilho removeria frases entre aspas, que são o mecanismo de disparo medido nesta casa.
+- **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens B10, B11, B12, B13, B14, B15; −3 linhas.

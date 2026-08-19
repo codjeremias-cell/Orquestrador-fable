@@ -1,0 +1,54 @@
+{
+  "skill_name": "java-project-bootstrap",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/família, começa um sistema novo do zero chamado Vistorias, pacote br.com.vistorias, banco Access via UCanAccess (mesma stack do sistema-cot). Monta a base do app JavaFX+Maven.",
+      "expected_output": "Esqueleto no padrão SIGO real: pom.xml com javafx-controls+javafx-fxml 21.0.4, maven.compiler.release=21, log4j-core, net.sf.ucanaccess:ucanaccess; maven-shade-plugin com mainClass=br.com.vistorias.Launcher (NUNCA a classe App que estende Application) + ServicesResourceTransformer + exclusão de module-info.class e *.SF/*.DSA/*.RSA; classe Launcher final que só chama App.main(args); App.start() abre só o FXML placeholder (sem backup diário, seed de admin ou login.fxml impostos); config.properties fora do git com .example versionado; CSS placeholder sem hex fixo.",
+      "assertions": [
+        {"text": "pom.xml usa javafx-controls+javafx-fxml 21.0.4 e maven.compiler.release=21, coerente com o gabarito real (não versão chutada)", "checkable": true},
+        {"text": "shade mainClass aponta para Launcher (classe neutra que não estende Application), nunca para App", "checkable": true},
+        {"text": "shade inclui ServicesResourceTransformer e exclui module-info.class + assinaturas *.SF/*.DSA/*.RSA", "checkable": true},
+        {"text": "config.properties fora do git (.gitignore) com config.properties.example versionado", "checkable": true},
+        {"text": "CSS placeholder sem cor hex fixa (tokens ficam para javafx-theme-tokens, não definidos aqui)", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (pom.xml + App.java + Launcher.java, SIGO/sistema-cot, lidos 2026-07-18, projeto vivo)",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
+    },
+    {
+      "id": 2,
+      "prompt": "Projeto novo 'Vistoria', outra casa (não é família SIGO), pacote com.vistoriapro.app, banco alvo PostgreSQL via JDBC direto (não Access), sem necessidade de hash de senha, tema pronto ou relatório PDF por enquanto. Inicializa o projeto Maven com JavaFX.",
+      "expected_output": "Espelha ESSA casa: pom.xml com javafx-controls+javafx-fxml, log4j-core, driver JDBC do PostgreSQL (não ucanaccess) — SEM jbcrypt, SEM atlantafx-base, SEM openhtmltopdf-pdfbox (não pedidos); pacote com.vistoriapro.app (não br.com.cot); shade com mainClass=Launcher preservado (é técnica universal de JavaFX+shade, não peculiaridade do SIGO); SEM Database/Backup/seedAdminInicial/login.fxml impostos (fora do escopo do esqueleto); config.properties fora do git.",
+      "assertions": [
+        {"text": "driver de banco é o PostgreSQL pedido, não UCanAccess/Access importado por reflexo do gabarito SIGO", "checkable": true},
+        {"text": "NÃO inclui jbcrypt, atlantafx-base nem openhtmltopdf-pdfbox no pom.xml (não pedidos)", "checkable": true},
+        {"text": "mantém o padrão shade mainClass=Launcher (invariante universal do JavaFX+shade, não escolha da casa)", "checkable": true},
+        {"text": "pacote raiz reflete com.vistoriapro.app (as coordenadas informadas), não br.com.cot", "checkable": true},
+        {"text": "NÃO cria Database, Backup, seedAdminInicial ou login.fxml no bootstrap", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSIÇÃO (RO-01): não há, no catálogo, um segundo projeto Java/JavaFX real (fora da família SIGO) com pom.xml/App lido para servir de 'outra casa' citável — os projetos-irmãos disponíveis (EscalaOper, Sentinela) não têm referência de bootstrap capturada nesta rodada. Caso construído como cenário hipotético de outra casa (PostgreSQL, sem extras de domínio do SIGO) para testar que a skill não importa Access/jbcrypt/atlantafx/openhtmltopdf por reflexo quando outro banco e escopo são pedidos.",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto Java novo (greenfield), pacote br.com.acme, nome do app Acme Desk, ainda sem projeto-irmão acessível e sem decisão final de banco (a confirmar depois). Quero começar um sistema desktop novo com JavaFX.",
+      "expected_output": "Cria o esqueleto mais simples que atende aos invariantes (estrutura de pastas, pom mínimo com javafx-controls+fxml+log4j, shade com Launcher neutro como mainClass, config.properties fora do git, CSS placeholder sem hex) e declara SUPOSIÇÃO: (RI-04) para as versões/escolhas sem fonte real, confirmando pelo build verde — SEM importar por reflexo do gabarito SIGO: jbcrypt, atlantafx-base, openhtmltopdf-pdfbox, UCanAccess/Access como banco padrão, Database/Backup/seedAdminInicial/login.fxml, pacote br.com.cot, ou os três plugins (javafx-maven-plugin+exec-maven-plugin+shade) por padrão.",
+      "assertions": [
+        {"text": "NÃO inclui jbcrypt, atlantafx-base nem openhtmltopdf-pdfbox no pom.xml (greenfield sem mandato para essas capacidades)", "checkable": true},
+        {"text": "NÃO assume UCanAccess/Access como banco sem confirmação — declara SUPOSIÇÃO: ou pede o banco alvo antes de prosseguir", "checkable": true},
+        {"text": "NÃO nomeia o pacote br.com.cot nem o app SistemaCOT — usa br.com.acme/Acme Desk (as coordenadas informadas)", "checkable": true},
+        {"text": "NÃO cria Database, Backup, Tema.aplicarTemaGlobal(), seedAdminInicial() ou login.fxml no bootstrap", "checkable": true},
+        {"text": "mantém o padrão Launcher neutro no mainClass do shade (é o único elemento do gabarito SIGO que é universal, não peculiaridade de casa)", "checkable": true},
+        {"text": "declara SUPOSIÇÃO: (RI-04) para versões/escolhas sem fonte real, confirmadas pelo build (mvn -q -DskipTests package) verde", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotético, sem projeto-irmão validado — declarado no próprio enunciado do caso (nenhuma fonte real por trás). Mandato endurecido em resposta à lição dos casos vermelhos de greenfield em java-db-foundation (placar-baseline.md, caso 3) e javafx-dashboard (rodadas/R-lote2-ondaA-2026-07-19.md, achado 3): mandato greenfield 'não importe o padrão SIGO por reflexo' precisa de checklist negativo explícito para não ser contornado.",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB"
+    }
+  ]
+}

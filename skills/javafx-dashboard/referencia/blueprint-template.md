@@ -1,6 +1,6 @@
 # Blueprint do dashboard — preencher ANTES de construir
 
-O blueprint é o contrato de design. Ele força as decisões certas enquanto ainda é barato mudar (no texto/mockup, não no FXML). Preencha-o, gere o mockup a partir dele e só então construa (RO-06). Um campo que você não consegue preencher é uma pergunta para o Mestre, não um chute.
+O blueprint é o contrato de design. Ele força as decisões certas enquanto ainda é barato mudar (no texto/mockup, não no FXML). Preencha-o, gere o mockup a partir dele e só então construa (RO-06). Um campo que você não consegue preencher é uma pergunta para o Jeremias, não um chute.
 
 ## Template (copie e preencha)
 
@@ -50,9 +50,9 @@ Esboço da grade (o mais importante no topo-esquerda). Ex.:
 
 ## 9. Veracidade e atualização
 - Carimbo de frescor: "Atualizado às HH:mm" / data de referência: [onde aparece] (vira "Falha ao atualizar às HH:mm" no erro)
-- Refresh: **manual + automático a cada 30 min** (padrão SIGCOT; diferente só por decisão explícita do usuário)
+- Refresh: [cadência/mecanismo real do projeto] — no SIGCOT: **manual + automático a cada 30 min** (gabarito, não regra universal); greenfield sem projeto-irmão, decida pelo arquétipo e declare **SUPOSIÇÃO:**
 - Reconciliação: [que totais têm que bater, ex.: soma dos estágios = total de SIs]
-- Temas: confirmar que o painel vira nos **6 temas** (base/azul/cinza/dark/grafite/clássico)
+- Temas: confirmar que o painel vira em **todos os temas que o projeto declara** — no SIGCOT hoje: **4** (claro/escuro/cinza/grafite; corrigido de um "6" desatualizado, ver Histórico da SKILL.md) — reconfirme a contagem real no CSS/enum do projeto-alvo, não copie este número às cegas
 
 ## 10. Mockup
 [link/descrição do mockup gerado e aceito]

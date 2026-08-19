@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Mobile Flutter"
+  short_description: "Implemente features Flutter de ponta a ponta"
+  default_prompt: "Use $mobile-flutter-feature para implementar esta feature Flutter com dados, interface e testes."

@@ -1,0 +1,51 @@
+{
+  "skill_name": "mobile-flutter-scaffold",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "mobile-flutter-scaffold-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "quero começar um aplicativo de celular do zero, ainda não tem nada nessa pasta",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o scaffold: cria o esqueleto feature-first em camadas UI/Data, pronto para rodar e passar no analyze.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-scaffold é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "mobile-flutter-scaffold-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "cria um app Flutter novo do zero",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; é o passo 1 do fluxo.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-scaffold é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "mobile-flutter-scaffold-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "adiciona a tela de perfil consumindo os dados do usuário",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "pubspec.yaml",
+          "conteudo": "name: app\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\ndependencies:\n  flutter:\n    sdk: flutter\n  flutter_riverpod: ^2.5.0\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: o projeto já existe e o pedido é feature — domínio de mobile-flutter-feature.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-scaffold NÃO é acionada; a rota correta é a skill irmã do track"
+      ]
+    }
+  ]
+}

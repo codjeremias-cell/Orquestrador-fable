@@ -1,0 +1,49 @@
+{
+  "skill_name": "inovacao-melhorias",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "inovacao-melhorias-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "todo mês a gente refaz o mesmo relatório na mão e sempre dá erro em algum lugar",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a lente de melhoria: nomeia o desperdício, propõe experimento com hipótese, métrica e rollback.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill inovacao-melhorias é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "processo/relatorio-mensal.md",
+          "conteudo": "# Relatorio mensal\n\n1. Abrir planilha\n2. Copiar coluna A\n3. Colar no sistema\n4. Conferir a mao\n5. Repetir para 40 lojas\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "inovacao-melhorias-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "dá pra melhorar isso?",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e fecha com 2–3 sugestões sem implementar agora (RO-07).",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill inovacao-melhorias é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "inovacao-melhorias-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "está pronto pra entregar?",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é gate de conformidade olhando para trás, domínio de auditor-responsabilidades.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill inovacao-melhorias NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

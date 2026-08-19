@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Vanilla Supabase PWA"
+  short_description: "Crie apps vanilla com Supabase, RLS e PWA"
+  default_prompt: "Use $web-vanilla-supabase-pwa para criar esta funcionalidade web vanilla com Supabase e RLS."

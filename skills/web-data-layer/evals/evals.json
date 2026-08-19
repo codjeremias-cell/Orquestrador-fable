@@ -1,0 +1,61 @@
+{
+  "skill_name": "web-data-layer",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "web-data-layer-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "a tela chama a API toda vez que eu volto nela e o filtro se perde quando troco de aba",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "Aciona a camada de dados: separa server-state (cache/refetch/invalidação) de client-state, com um schema Zod único.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-data-layer é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "web-data-layer-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "monta a camada de dados com TanStack Query e Zustand",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "Aciona por frase-gatilho literal; o schema Zod é contrato da API, do formulário e do tipo.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-data-layer é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "web-data-layer-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "cria o botão com variantes de tamanho e cor",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: é componente de UI, domínio de web-component.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-data-layer NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

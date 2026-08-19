@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plano de Riqueza"
+  short_description: "Construa um plano financeiro completo e numérico"
+  default_prompt: "Use $plano-riqueza para montar um plano financeiro completo com metas e revisões."

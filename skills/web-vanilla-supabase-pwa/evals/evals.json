@@ -1,0 +1,46 @@
+{
+  "skill_name": "web-vanilla-supabase-pwa",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "web-vanilla-supabase-pwa-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "quero um app que abra no celular e instale na tela inicial, mas sem framework nenhum e com banco na nuvem",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o gerador vanilla: HTML/CSS/JS ES6 sobre Supabase com RLS, empacotado como PWA instalável.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-vanilla-supabase-pwa é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "web-vanilla-supabase-pwa-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "cria um PWA com Supabase sem framework",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; é o stack real dos apps do Jeremias.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-vanilla-supabase-pwa é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "web-vanilla-supabase-pwa-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "qual framework de frontend eu escolho pra esse projeto novo",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é escolha de stack, domínio de frontend-stack-decisor.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-vanilla-supabase-pwa NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

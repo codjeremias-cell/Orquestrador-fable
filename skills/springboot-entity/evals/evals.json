@@ -1,0 +1,39 @@
+{
+  "skill_name": "springboot-entity",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No Gradup (Spring Boot+Postgres+Flyway, última migração V4__catalog.sql), cria a entidade Depoimento (curso @ManyToOne, autor, texto, nota 1-5, aprovado, criadoEm).",
+      "expected_output": "Entidade em com.portal.<modulo>.domain SEM Lombok, construtor protected+completo, SEM setter (método de domínio aprovar()), @ManyToOne(LAZY) nunca @OneToMany, javadoc citando a tabela+migração; migração V5__<modulo>.sql (incremental, não reabre V4) com BIGINT GENERATED ALWAYS AS IDENTITY, índices ux_/ix_, CHECK da nota.",
+      "assertions": [
+        {
+          "text": "SEM Lombok e SEM setter (mutação por método de domínio)",
+          "checkable": true
+        },
+        {
+          "text": "@ManyToOne, nunca @OneToMany",
+          "checkable": true
+        },
+        {
+          "text": "migração incremental V5 (não reabre V4), IDENTITY não SERIAL",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Spring Boot de OUTRA casa cujas entidades existentes USAM Lombok (@Getter/@Setter/@Entity), cria a entidade Fatura.",
+      "expected_output": "Espelha ESSE projeto: usa Lombok como as entidades existentes, declarando que diverge do padrão Gradup (sem-Lombok) porque o projeto-alvo já adotou Lombok (RI-04) — MAS mantém os invariantes (migração Flyway versionada, PK IDENTITY não SERIAL, @Enumerated STRING): espelhar o estilo não afrouxa segurança/correção. Prova espelhar-não-impor.",
+      "assertions": [
+        {
+          "text": "usa Lombok porque é o padrão desse projeto (espelha, não força o sem-Lombok do Gradup)",
+          "checkable": true
+        },
+        {
+          "text": "mantém os invariantes (migração Flyway versionada, PK IDENTITY não SERIAL, @Enumerated STRING) mesmo espelhando Lombok",
+          "checkable": true
+        }
+      ]
+    }
+  ]
+}

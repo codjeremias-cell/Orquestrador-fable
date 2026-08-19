@@ -1,0 +1,4 @@
+interface:
+  display_name: "Descoberta de Requisitos"
+  short_description: "Transforme ideias em requisitos acionaveis"
+  default_prompt: "Use $requisitos-descoberta para descobrir o escopo, o MVP e os critérios de aceite desta ideia."

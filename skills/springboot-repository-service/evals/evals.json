@@ -1,0 +1,39 @@
+{
+  "skill_name": "springboot-repository-service",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No Gradup, cria o repositório e o serviço de Depoimento: listar aprovados de um curso (com média de nota) e aprovar depoimento.",
+      "expected_output": "Repositório em infrastructure (JpaRepository, @Query text block com join fetch, ou derivado quando basta); serviço em application, injeção por construtor private final, @Transactional(readOnly) na leitura e @Transactional na escrita, NUNCA devolve a entidade — mapeia para record de leitura; média por @Query agregada (não em memória).",
+      "assertions": [
+        {
+          "text": "serviço nunca devolve entidade JPA — mapeia para record",
+          "checkable": true
+        },
+        {
+          "text": "injeção por construtor (sem @Autowired em campo, sem Lombok)",
+          "checkable": true
+        },
+        {
+          "text": "join fetch / @Transactional(readOnly) na leitura",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Spring de outra casa que já usa @RequiredArgsConstructor (Lombok) e uma BusinessException própria nos serviços, cria o serviço de Pedido.",
+      "expected_output": "Espelha ESSE projeto: usa @RequiredArgsConstructor e lança a BusinessException existente, declarando divergência do padrão Gradup (construtor puro + IllegalArgumentException) porque o projeto já adotou os seus (RI-04) — MAS mantém os invariantes (join fetch anti-N+1, @Transactional(readOnly) na leitura, serviço não vaza a entidade JPA: mapeia para record): espelhar o estilo não afrouxa esses.",
+      "assertions": [
+        {
+          "text": "usa o padrão do projeto (Lombok RAC + BusinessException) em vez de impor o do Gradup",
+          "checkable": true
+        },
+        {
+          "text": "mantém os invariantes (join fetch anti-N+1, @Transactional readOnly, serviço não vaza entidade — mapeia para record) mesmo espelhando RAC+BusinessException",
+          "checkable": true
+        }
+      ]
+    }
+  ]
+}

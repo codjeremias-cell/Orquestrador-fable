@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tema JavaFX por Tokens"
+  short_description: "Padronize temas JavaFX com tokens CSS"
+  default_prompt: "Use $javafx-theme-tokens para criar ou ajustar o tema JavaFX usando tokens."

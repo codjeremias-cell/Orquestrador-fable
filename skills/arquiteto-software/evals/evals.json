@@ -1,0 +1,57 @@
+{
+  "skill_name": "arquiteto-software",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "arquiteto-software-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "esse sistema virou uma bola de lama: mexer num canto quebra outro, e ninguém sabe o que depende do quê",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a lente de arquitetura: acoplamento, fronteiras de módulo, e registro da decisão como ADR.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-software é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "src/Pedido.java",
+          "conteudo": "public class Pedido { Estoque e; Fatura f; Email m; Relatorio r; }\n"
+        },
+        {
+          "caminho": "src/Estoque.java",
+          "conteudo": "public class Estoque { Pedido p; Fatura f; }\n"
+        },
+        {
+          "caminho": "src/Fatura.java",
+          "conteudo": "public class Fatura { Pedido p; Estoque e; Email m; }\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "arquiteto-software-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "vale a pena microsserviços?",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e responde por trade-off explícito, nunca por moda.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-software é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "arquiteto-software-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "por que esse teste quebra quando rodo duas vezes seguidas?",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é depuração pontual, domínio de dev-senior.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-software NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

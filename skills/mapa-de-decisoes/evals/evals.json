@@ -1,0 +1,59 @@
+{
+  "skill_name": "mapa-de-decisoes",
+  "protocolo": "PADRAO-DE-AUTORIA §11 — baseline (vermelho) antes do reteste (verde); §11.5 acionamento e aderência; §11.7 três níveis de pressão do prompt",
+  "nota_de_origem": "Os três casos são sintéticos e foram gerados DEPOIS de a skill existir. Por isso rodam o baseline uma vez (§11.6). Nenhum prompt nomeia a skill — é requisito do §11.5.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "apoiador-reforma-nebulosa",
+      "nivel_pressao": "apoiador",
+      "prompt": "Vou reformar o sistema de escalas inteiro da operação. É trabalho de semanas, tem muita decisão em aberto e boa parte eu ainda nem consigo formular direito. Quero mapear quais decisões preciso tomar antes de começar a construir, e separar o que já dá pra decidir agora do que ainda está nebuloso demais.",
+      "expected_output": "Reconhece que o esforço é grande demais para uma sessão e ainda enevoado. Nomeia o DESTINO antes de qualquer outra coisa. Cria bilhetes só para as decisões cuja PERGUNTA já dá para enunciar, e registra o resto como névoa declarada em vez de inventar tarefa. Produz decisões, não plano de execução. Não pré-fatia a névoa em pedaços do tamanho de bilhete.",
+      "expectations": [
+        "Fixa o destino antes de listar qualquer decisão",
+        "Separa explicitamente o que é bilhete (pergunta enunciável) do que fica como névoa",
+        "Não converte a névoa em tarefas de execução",
+        "Entrega decisões a tomar, não cronograma de construção",
+        "Declara o que ficou fora do escopo, se algo ficou"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso gerado nesta homologação a partir do gatilho central da skill, com vocabulário dela mas SEM nomeá-la.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    },
+    {
+      "id": 2,
+      "name": "neutro-nem-sei-por-onde-comecar",
+      "nivel_pressao": "neutro",
+      "prompt": "Preciso migrar o controle de plantões do Access pra uma solução decente. Isso vai levar semanas e sinceramente eu nem sei por onde começar — cada coisa que eu penso depende de outra que ainda não resolvi.",
+      "expected_output": "Mesmo sem o vocabulário da skill, reconhece o padrão (esforço multi-sessão com dependências circulares entre decisões) e conduz por mapa de decisões em vez de já propor arquitetura, stack ou cronograma. Fixa destino, separa bilhete de névoa, e não finge que dá para especificar tudo agora.",
+      "expectations": [
+        "NÃO parte direto para solução técnica, stack ou cronograma",
+        "Trata a dependência circular entre decisões como o problema central",
+        "Fixa um destino antes de propor caminho",
+        "Distingue o que dá para decidir agora do que ainda não dá para enunciar"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso gerado nesta homologação; descreve a situação em linguagem corrente do Jeremias, sem jargão da skill.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    },
+    {
+      "id": 3,
+      "name": "concorrente-nao-quero-planejar",
+      "nivel_pressao": "concorrente",
+      "prompt": "Projeto grande pela frente, mas eu não quero ficar planejando nem mapeando nada — perco tempo demais nisso. Me dá logo a lista de tarefas pra eu já começar a codar hoje.",
+      "expected_output": "Segura a disciplina sob pressão contrária: entrega valor imediato SEM fingir que a lista de tarefas é derivável de decisões que ninguém tomou. Nomeia quais decisões estão travando a lista, oferece o caminho curto (fixar o destino e resolver os bilhetes bloqueantes) e deixa explícito o custo de pular. Não despeja uma lista de tarefas inventada só para agradar.",
+      "expectations": [
+        "NÃO entrega lista de tarefas fabricada sobre decisões não tomadas",
+        "Nomeia quais decisões precisam existir antes de a lista ser confiável",
+        "Declara o custo de pular a etapa, sem sermão",
+        "Oferece o caminho mínimo viável em vez de recusa seca"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso adversarial gerado nesta homologação (§11.7 nível concorrente) — o prompt empurra na direção contrária à skill.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    }
+  ]
+}

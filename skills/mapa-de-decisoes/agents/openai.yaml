@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mapa de Decisões"
+  short_description: "Carte trabalho nebuloso em bilhetes de decisão"
+  default_prompt: "Use $mapa-de-decisoes para cartografar este esforço grande e ainda nebuloso em bilhetes de decisão."

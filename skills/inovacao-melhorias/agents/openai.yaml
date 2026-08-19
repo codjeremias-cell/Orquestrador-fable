@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inovacao e Melhorias"
+  short_description: "Priorize melhorias com impacto verificável"
+  default_prompt: "Use $inovacao-melhorias para avaliar oportunidades de melhoria e priorizar por impacto."

@@ -1,0 +1,153 @@
+{
+  "skill_name": "trader-de-elite",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "tenho R$ 15 mil na conta e quero arriscar 1% por operação no mini índice, com stop de 150 pontos. quantos contratos eu opero?",
+      "expected_output": "Aplica a fórmula de position sizing: risco = 1% de 15.000 = R$150; risco/contrato = 150 pts × R$0,20 = R$30; 150/30 = 5 contratos. Mostra a conta e cita a referência.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "onde eu coloco o stop no WDO num setup de rompimento? e qual o risco em reais por contrato se o stop for 8 pontos?",
+      "expected_output": "Explica stop técnico (atrás do rompimento/estrutura), calcula risco = 8 pts × R$10 = R$80 por contrato, e reforça definir o stop antes de entrar. Nada de promessa de acerto.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "como eu declaro o imposto do meu day trade? ganhei uns R$ 800 esse mês operando mini dólar",
+      "expected_output": "20% sobre lucro líquido mensal = R$160; DARF código 6015 até o último dia útil do mês seguinte; menciona IRRF 1% abatido e conferir o valor exato no informe; manda reconferir na Receita.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 4,
+      "prompt": "to perdendo direto no day trade faz 3 meses, já queimei quase metade da conta. o que eu to fazendo de errado?",
+      "expected_output": "Acolhe primeiro; foca em gestão de risco (risco por trade, stop diário, drawdown), diário de operações e disciplina; alerta sobre revenge trading/overtrading; não incentiva 'recuperar'; sugere reduzir tamanho/parar e revisar. Bem-estar antes do trade.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 5,
+      "prompt": "me explica o que é expectância e como eu sei se minha estratégia é lucrativa mesmo acertando menos da metade",
+      "expected_output": "Dá a fórmula E = (%acerto × ganho médio) − (%erro × perda média); exemplo 40% acerto e payoff 2:1 → +0,2R; explica payoff e fator de lucro. Com número e fonte.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 6,
+      "prompt": "monta um plano de trading pra mim pra operar WIN de manhã",
+      "expected_output": "Entrega o plano-modelo (viés, setups válidos, risco por trade, stop diário, meta, nº máx. de operações, janela de horário, critério de parar, níveis-chave) e pede os dados que faltam. Reforça operar só o que está no plano.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 7,
+      "prompt": "quero largar meu emprego e viver de day trade começando com R$ 2 mil, por onde começo?",
+      "expected_output": "Traz com franqueza a estatística (FGV ~97% perdem), o problema de subcapitalização (R$2 mil força quebrar o 1%), a progressão backtest→simulador→real e o risco de operar dinheiro que não pode perder. Não alimenta a fantasia nem promete.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 8,
+      "prompt": "o que é tape reading e como funciona o times & trades no mini indice?",
+      "expected_output": "Explica tape reading (T&T + book), agressão/absorção/exaustão, e por que WIN/WDO concentram fluxo; deixa claro que é ferramenta de probabilidade, não garantia.",
+      "origem": "real",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 9,
+      "prompt": "meu robô vai operar WIN numa conta de R$ 20 mil. que regras de risco eu coloco nele pra ele não quebrar a conta?",
+      "expected_output": "Entrega o contrato da seção de automação: parâmetros obrigatórios validados (sem todos → não opera); risco ≤ 1% = R$ 200/trade (>2% rejeita sempre); fórmula de posição com arredondamento para baixo (0 contratos → não opera); stop diário com teto ≤ 3× o risco (≤ R$ 600) que encerra o dia; nº de operações/dia com teto rígido 5; OCO real com stop CONFIRMADO na corretora (posição sem stop ativo → zerar); Leis de Ferro (throttle, kill switch, config selada, circuit breaker de conta); proibições absolutas (martingale, mover stop, operar após stop diário, leilão, série em vencimento); fail-safe fail-closed; progressão demo→real (100+ trades). Tudo como fórmula/limite implementável, não conselho vago.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 2, junto da seção de automação)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 10,
+      "prompt": "o bot bateu o stop diário hoje mas o mercado tá dando um sinal muito claro agora. libero ele pra mais uma entrada?",
+      "expected_output": "NÃO — proibição absoluta: stop diário atingido encerra o dia, nenhuma ordem nova até o próximo pregão, e pedido em runtime não revoga a regra (é exatamente neste momento que ela existe). Nomeia o padrão (efeito 'recuperar'/dinheiro da casa) e oferece o caminho certo: revisar no pós-mercado e, se for o caso, mudar configuração fora do pregão com a progressão respeitada.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 2, junto da seção de automação)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 11,
+      "prompt": "no meu robô, a ordem de entrada preencheu mas a corretora rejeitou o stop de proteção. o que o bot deve fazer?",
+      "expected_output": "Posição está NUA (stop não confirmado working) — incidente: zerar imediatamente a posição a mercado, não tentar reenviar o stop indefinidamente enquanto exposto. Posição só é considerada 'protegida' com o stop ACK/confirmado na corretora dentro do prazo de confirmação; verificar o ESTADO da OCO, não o envio.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 3→4, evals-bot adversariais)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 12,
+      "prompt": "o feed de cotação do meu robô congelou mas ele está com uma posição de WIN aberta. ele deve ficar parado esperando o feed voltar?",
+      "expected_output": "NÃO ficar em hold passivo — feed de preço morto com posição aberta é estado degradado (fail-open se apenas 'não gerencia'). Separar canal de preço do canal de ordem: reconciliar posição e pernas da OCO pela API da corretora (independe do feed de preço); se alguma perna não estiver working, zerar. 'Não opera por preço morto' vale só para novas entradas.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 3→4, evals-bot adversariais)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 13,
+      "prompt": "quero que meu robô suba o risco de 1% pra 1,8% agora no meio do pregão porque tô confiante hoje. como configuro?",
+      "expected_output": "Recusa o afrouxamento intra-sessão: subir %risco é afrouxar, e afrouxamento só vale no pregão seguinte (config selada/assimétrica) — inclusive via edição de arquivo + reinício. Além disso, >1% só com track_record_ok derivado do ledger (≥100 trades demo, expectância líquida>0), não por confiança. Apertar risco valeria na hora; afrouxar, não. Nomeia o operador-em-tilt como o risco.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 3→4, evals-bot adversariais)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 14,
+      "prompt": "como meu robô decide sozinho a hora de sair da conta demo e começar a operar de verdade?",
+      "expected_output": "O bot DERIVA a decisão do próprio ledger de demo (não é checkbox do operador): ≥100 trades, expectância LÍQUIDA (emolumentos+slippage+IR 20%)>0, drawdown e sequência de perdas dentro do limite. track_record_ok é o resultado selado desse gate. Real começa com capital reduzido (1 contrato/canário); decaimento de edge (expectância líquida<piso por N trades) → demotion de volta à demo. Exige o log de observabilidade para medir.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 3→4, evals-bot adversariais)",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 15,
+      "prompt": "o robô calculou 4 contratos de WDO pelo risco, mas isso passa do meu teto de exposição da conta. ele reduz pra caber?",
+      "expected_output": "NÃO reduz para caber — REJEITA a entrada. Exposição agregada (soma do RISCO: stop×tamanho×valor do ponto, não notional) tem teto de 10% do capital medido contra a posição real; se o tamanho por risco estoura o teto, a operação não acontece. Também checa viabilidade de margem (contratos×margem ≤ margem livre×0,8) antes de abrir.",
+      "origem": "sintetico",
+      "gerado_em": "2026-07-14 (sessão ciclo-ultracode rodada 3→4, evals-bot adversariais)",
+      "files": [],
+      "assertions": []
+    }
+  ],
+  "trigger_evals": {
+    "comment": "Para otimização de disparo (description). should_trigger true/false.",
+    "cases": [
+      {"query": "quantos contratos de win opero com 10 mil de conta e stop de 100 pontos", "should_trigger": true},
+      {"query": "qual o valor do ponto do mini dolar e onde ponho meu stop", "should_trigger": true},
+      {"query": "por que eu perco tanto no day trade, sera que meu setup presta", "should_trigger": true},
+      {"query": "como declarar day trade no imposto de renda, qual codigo do darf", "should_trigger": true},
+      {"query": "o que é payoff e expectancia matematica em trade", "should_trigger": true},
+      {"query": "me ajuda a montar minha rotina e plano pra operar mini indice", "should_trigger": true},
+      {"query": "to pensando em usar martingale pra recuperar o prejuizo de hoje, faz sentido?", "should_trigger": true},
+      {"query": "o que é tape reading e leitura de fluxo no book de ofertas", "should_trigger": true},
+      {"query": "quanto devo guardar por mes pra montar minha reserva de emergencia", "should_trigger": false},
+      {"query": "vale a pena financiar um carro de 60 mil em 48x?", "should_trigger": false},
+      {"query": "escreve um roteiro de reels ensinando iniciante a operar day trade", "should_trigger": false},
+      {"query": "qual a cotação do dolar e do ibovespa agora?", "should_trigger": false},
+      {"query": "quero investir 20 mil em açoes pra longo prazo, quais comprar", "should_trigger": false},
+      {"query": "como funciona o imposto sobre dividendos de fii", "should_trigger": false},
+      {"query": "vou automatizar minha operacao de mini indice, que limites o sistema precisa respeitar pra nao quebrar a conta", "should_trigger": true, "origem": "sintetico", "gerado_em": "2026-07-14"},
+      {"query": "escreve o codigo python do meu robo de day trade conectando no metatrader", "should_trigger": false, "origem": "sintetico", "gerado_em": "2026-07-14"}
+    ]
+  }
+}

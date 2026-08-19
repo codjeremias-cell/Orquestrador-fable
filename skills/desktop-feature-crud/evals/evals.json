@@ -1,0 +1,56 @@
+{
+  "skill_name": "desktop-feature-crud",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "desktop-feature-crud-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "preciso guardar e listar os fornecedores nesse app, com a telinha pra cadastrar",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "Aciona o gerador de feature desktop: migração SQLite up/down, comando Rust fino sobre SQL parametrizado, binding tipado e tela.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-feature-crud é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "desktop-feature-crud-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "cria a entidade Produto ponta a ponta nesse app Tauri",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "Aciona por frase-gatilho literal, de forma idempotente.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-feature-crud é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "desktop-feature-crud-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "monta o projeto base desse app desktop do zero",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é scaffold, domínio de desktop-tauri-scaffold.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-feature-crud NÃO é acionada; a rota correta é a skill irmã do track"
+      ]
+    }
+  ]
+}

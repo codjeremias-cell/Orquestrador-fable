@@ -27,7 +27,12 @@
         "Reconhece o pedido como camada isolada",
         "Aciona/direciona springboot-repository-service diretamente",
         "Não refaz entidade/migração nem tela que já existem"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "springboot-repository-service"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     },
     {
       "id": 2,
@@ -39,7 +44,39 @@
         "Identifica que o projeto-alvo é do track JavaFX/JDBC, não Spring Boot",
         "Direciona para spec-javafx-crud-feature",
         "Não gera artefatos JPA/Flyway/Thymeleaf para um app desktop JavaFX"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "spec-javafx-crud-feature"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
+    },
+    {
+      "id": 20,
+      "name": "spec-springboot-crud-feature-neutro-2",
+      "nivel_pressao": "neutro",
+      "prompt": "falta o cadastro de Categoria funcionando do banco até a tela",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "pom.xml",
+          "conteudo": "<project><modelVersion>4.0.0</modelVersion><groupId>com.gradup</groupId><artifactId>portal</artifactId><version>1.0</version></project>\n"
+        },
+        {
+          "caminho": "src/main/java/com/gradup/Curso.java",
+          "conteudo": "package com.gradup;\nimport jakarta.persistence.*;\n@Entity public class Curso { @Id Long id; String nome; }\n"
+        },
+        {
+          "caminho": "src/main/resources/templates/lista.html",
+          "conteudo": "<html><body></body></html>\n"
+        }
+      ],
+      "expected_output": "Aciona o orquestrador do track Spring: entidade+migração, repositório+serviço, controller+template.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill spec-springboot-crud-feature é acionada sem ser nomeada"
+      ],
+      "nota_origem": "Segundo prompt neutro, angulo diferente, adicionado em 2026-08-11 (T44). A varredura tinha n=1 por skill, e o caso do zelador-do-catalogo provou que n=1 nao distingue skill quebrada de prompt ruim."
     }
   ]
 }

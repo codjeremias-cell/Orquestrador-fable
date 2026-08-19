@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sistema JavaFX Completo"
+  short_description: "Conduza um sistema JavaFX do zero ao pacote"
+  default_prompt: "Use $spec-javafx-new-system para conduzir este sistema JavaFX do projeto vazio ao instalador."

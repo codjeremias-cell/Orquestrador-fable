@@ -1,0 +1,4 @@
+interface:
+  display_name: "Painel de Juízes"
+  short_description: "Compare alternativas com julgamento cego"
+  default_prompt: "Use $painel-de-juizes para comparar estas alternativas às cegas e justificar a vencedora."

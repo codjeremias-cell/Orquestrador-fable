@@ -1,0 +1,61 @@
+{
+  "skill_name": "mobile-flutter-feature",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "mobile-flutter-feature-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "preciso da tela de catálogo puxando os dados e mostrando carregando e erro",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "pubspec.yaml",
+          "conteudo": "name: app\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\ndependencies:\n  flutter:\n    sdk: flutter\n  flutter_riverpod: ^2.5.0\n"
+        }
+      ],
+      "expected_output": "Aciona o gerador de feature: repositório abstrato + implementação, modelo imutável, ViewModel Riverpod.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-feature é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "mobile-flutter-feature-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "cria a feature de login",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "pubspec.yaml",
+          "conteudo": "name: app\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\ndependencies:\n  flutter:\n    sdk: flutter\n  flutter_riverpod: ^2.5.0\n"
+        }
+      ],
+      "expected_output": "Aciona por frase-gatilho literal, em projeto que já existe.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-feature é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "mobile-flutter-feature-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "conecta esse app ao Firebase e configura o login na nuvem",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "pubspec.yaml",
+          "conteudo": "name: app\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\ndependencies:\n  flutter:\n    sdk: flutter\n  flutter_riverpod: ^2.5.0\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: é conector de backend, domínio de mobile-flutter-firebase.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill mobile-flutter-feature NÃO é acionada; a rota correta é a skill irmã do track"
+      ]
+    }
+  ]
+}

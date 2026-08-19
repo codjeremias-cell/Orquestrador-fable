@@ -1,0 +1,51 @@
+{
+  "skill_name": "java-package-desktop",
+  "evals": [
+    {
+      "id": 1,
+      "origem": "real",
+      "fonte": "sistema-cot/empacotar.ps1 + shade do pom.xml + Launcher.java (lidos 2026-07-18, ver referencia-exemplos-reais-sigo.md)",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB",
+      "prompt": "No projeto SIGO/sistema-cot, gera o pacote de distribuição do app desktop (fat-jar SistemaCOT.jar via shade, main-class br.com.cot.Launcher) pronto para rodar sem Java instalado na máquina do usuário.",
+      "expected_output": "Espelha o empacotar.ps1 real do SIGO: [1/4] fat-jar (mvn -q -B clean package -DskipTests) → [2/4] jpackage --type app-image --name \"Sistema COT\" --main-jar SistemaCOT.jar --main-class br.com.cot.Launcher --dest dist --add-modules java.se,jdk.unsupported → [3/4] pacote montado à mão (docs/INSTALACAO.txt + config.properties modelo comentado ao lado do .exe) → [4/4] zip com retentativa (5x, espera 3s) por causa de antivírus travando o runtime recém-criado. Entregável final é o .zip, não o .exe solto.",
+      "assertions": [
+        {"text": "--main-class aponta para br.com.cot.Launcher, não App", "checkable": true},
+        {"text": "--add-modules java.se,jdk.unsupported presente (UCanAccess)", "checkable": true},
+        {"text": "fat-jar (maven-shade) gerado ANTES do jpackage", "checkable": true},
+        {"text": "entregável final é o .zip com retentativa, não o .exe solto nem a pasta dist/ sem compactar", "checkable": true},
+        {"text": "config.properties modelo comentado + docs/INSTALACAO.txt empacotados junto (costume real do SIGO)", "checkable": true}
+      ]
+    },
+    {
+      "id": 2,
+      "origem": "sintetico",
+      "fonte": "n/a (caso sintético — outra casa, gerado após a skill existir; roda como baseline também, §11.6 do PADRAO-DE-AUTORIA)",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB",
+      "prompt": "Num projeto Java desktop diferente do SIGO, cujo script de empacotamento existente gera SOMENTE o instalador .msi via WiX (sem app-image solto, sem zip, sem config.properties modelo) e distribui direto pelo instalador, empacota a versão nova.",
+      "expected_output": "Espelha ESSE projeto: gera o .msi via jpackage --type msi a partir do fat-jar, confirma WiX instalado, e entrega SÓ o .msi — sem inventar o zip-com-retentativa nem o config.properties modelo do SIGO, porque não é o costume desse projeto. Mostra que a skill segue a forma do entregável que o projeto-alvo já usa, não uma regra fixa do gabarito SIGO.",
+      "assertions": [
+        {"text": "entrega só .msi, sem forçar o zip com retentativa nem o config.properties do padrão SIGO", "checkable": true},
+        {"text": "confirma WiX instalado antes de gerar o .msi (trava obrigatória)", "checkable": true},
+        {"text": "não copia --main-class Launcher nem --add-modules java.se,jdk.unsupported se o projeto não usa UCanAccess", "checkable": true}
+      ]
+    },
+    {
+      "id": 3,
+      "origem": "sintetico",
+      "fonte": "n/a (caso sintético — greenfield, gerado após a skill existir; roda como baseline também, §11.6 do PADRAO-DE-AUTORIA)",
+      "data": "2026-07-19",
+      "sessao": "C1-ondaB",
+      "prompt": "Projeto Java desktop novo (greenfield), sem script de empacotamento próprio ainda e sem projeto-irmão para espelhar. Pede o primeiro empacotamento em .exe.",
+      "expected_output": "Propõe o app-image MÍNIMO (jpackage --type app-image com --name final, main-class real do projeto confirmada no pom.xml, sem módulos extras salvo necessidade confirmada) e declara SUPOSIÇÃO: explicitamente (RI-04) sobre a forma do entregável (pasta dist/<App>/ solta, por exemplo). CHECKLIST NEGATIVO — NÃO faz por reflexo: (1) não monta zip com retentativa 5x anti-antivírus; (2) não gera config.properties modelo comentado; (3) não usa --main-class Launcher (usa a main-class real do projeto); (4) não adiciona --add-modules java.se,jdk.unsupported sem confirmar que o projeto usa UCanAccess ou dependência equivalente. Essas 4 são decisões do SIGO (UCanAccess + distribuição por rede), não requisitos universais do jpackage.",
+      "assertions": [
+        {"text": "declara SUPOSIÇÃO: explicitamente para a decisão de forma do entregável (RI-04), não apenas cita RO-01/RI-01 genericamente", "checkable": true},
+        {"text": "NÃO importa o zip com retentativa 5x do SIGO por reflexo", "checkable": true},
+        {"text": "NÃO gera o config.properties modelo comentado do SIGO por reflexo", "checkable": true},
+        {"text": "NÃO usa --main-class Launcher nem --add-modules java.se,jdk.unsupported sem confirmar que o projeto novo realmente precisa (UCanAccess ou equivalente)", "checkable": true},
+        {"text": "propõe o app-image mínimo em vez do fluxo de 4 passos completo do SIGO", "checkable": true}
+      ]
+    }
+  ]
+}

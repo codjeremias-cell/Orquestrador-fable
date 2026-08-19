@@ -1,0 +1,4 @@
+interface:
+  display_name: "DAO JDBC Java"
+  short_description: "Crie DAOs JDBC seguros e testaveis"
+  default_prompt: "Use $java-jdbc-dao para criar o DAO JDBC desta entidade com transações seguras."

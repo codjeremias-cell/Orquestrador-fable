@@ -1,0 +1,46 @@
+{
+  "skill_name": "conselheiro-financeiro",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "conselheiro-financeiro-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "sobrou uns mil e quinhentos esse mês e eu não sei se guardo ou se adianto parcela do carro",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona a lente de finanças pontuais: responde COM número e fórmula, citando o autor por trás da recomendação.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conselheiro-financeiro é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "conselheiro-financeiro-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "vale a pena financiar esse carro ou imóvel",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; entrega UMA resposta, não um plano documentado.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conselheiro-financeiro é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "conselheiro-financeiro-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "quero montar um passo a passo pra organizar minha vida financeira do zero e revisar todo mês",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: pedido de PLANO documentado e acompanhado no tempo é plano-riqueza.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conselheiro-financeiro NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

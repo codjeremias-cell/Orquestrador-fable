@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conteúdo de Riqueza"
+  short_description: "Crie conteúdo financeiro responsável e util"
+  default_prompt: "Use $conteudo-riqueza para criar uma peca de conteúdo sobre riqueza com fontes e salvaguardas."

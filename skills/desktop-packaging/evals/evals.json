@@ -1,0 +1,84 @@
+{
+  "skill_name": "desktop-packaging",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "desktop-packaging-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "como eu entrego isso pro pessoal instalar sem pedir pra instalarem nada antes",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "Aciona o empacotamento: instaladores por SO, assinatura e auto-update via GitHub Releases.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-packaging é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "desktop-packaging-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "gera o instalador do app Tauri",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "Aciona por frase-gatilho literal; distribui, não constrói feature.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-packaging é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "desktop-packaging-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "adiciona o cadastro de clientes nesse app",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: é feature CRUD, domínio de desktop-feature-crud.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-packaging NÃO é acionada; a rota correta é a skill irmã do track"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "desktop-packaging-neutro-2",
+      "nivel_pressao": "neutro",
+      "prompt": "esse app já está pronto, agora preciso que os outros consigam usar na máquina deles",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        },
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"app\",\"devDependencies\":{\"@tauri-apps/cli\":\"^2.0.0\"}}\n"
+        }
+      ],
+      "expected_output": "Aciona o empacotamento: instaladores por SO, assinatura e auto-update.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-packaging é acionada sem ser nomeada"
+      ],
+      "nota_origem": "Segundo prompt neutro, angulo diferente, adicionado em 2026-08-11 (T44). A varredura tinha n=1 por skill, e o caso do zelador-do-catalogo provou que n=1 nao distingue skill quebrada de prompt ruim."
+    }
+  ]
+}

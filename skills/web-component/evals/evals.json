@@ -1,0 +1,61 @@
+{
+  "skill_name": "web-component",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "web-component-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "preciso de um seletor suspenso que funcione no teclado e no leitor de tela",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "Aciona o gerador de componente: comportamento de a11y vem de primitiva headless, estilo só por tokens, variantes via CVA.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-component é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "web-component-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "monta o componente de modal acessível",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "Aciona por frase-gatilho literal; nunca troca button por div e sempre espalha props.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-component é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "web-component-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "de onde vem esse dado e como eu evito refazer a chamada toda hora",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "package.json",
+          "conteudo": "{\"name\":\"web\",\"dependencies\":{\"react\":\"^19.0.0\",\"@tanstack/react-query\":\"^5.0.0\",\"zod\":\"^3.23.0\"}}\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: é camada de dados, domínio de web-data-layer.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill web-component NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

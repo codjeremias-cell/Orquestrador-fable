@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fundação de Banco Java"
+  short_description: "Crie a base JDBC segura do projeto Java"
+  default_prompt: "Use $java-db-foundation para criar a fundação de acesso ao banco deste projeto Java."

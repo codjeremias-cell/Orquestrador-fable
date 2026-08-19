@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decisor de Stack Frontend"
+  short_description: "Escolha o stack frontend pelo contexto real"
+  default_prompt: "Use $frontend-stack-decisor para escolher o stack frontend e registrar os critérios da decisao."

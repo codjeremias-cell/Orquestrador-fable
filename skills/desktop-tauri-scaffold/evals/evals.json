@@ -1,0 +1,51 @@
+{
+  "skill_name": "desktop-tauri-scaffold",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "desktop-tauri-scaffold-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "quero um programa de computador leve, sem ser aquele monstro de Electron, e a pasta está vazia",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o scaffold Tauri: estrutura, segurança default-deny com capabilities e CSP, updater e CI.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-tauri-scaffold é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "desktop-tauri-scaffold-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "scaffold do Tauri v2",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; é a base, não a feature nem o empacotamento.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-tauri-scaffold é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "desktop-tauri-scaffold-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "gera o instalador assinado e publica o release com auto-update",
+      "espera_acionamento": false,
+      "files": [
+        {
+          "caminho": "src-tauri/tauri.conf.json",
+          "conteudo": "{\"productName\":\"app\",\"version\":\"0.1.0\",\"identifier\":\"com.ex.app\"}\n"
+        }
+      ],
+      "expected_output": "NÃO deve acionar: é distribuição, domínio de desktop-packaging.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill desktop-tauri-scaffold NÃO é acionada; a rota correta é a skill irmã do track"
+      ]
+    }
+  ]
+}

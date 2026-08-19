@@ -1,0 +1,16 @@
+# Placar baseline × com-skill — spec-desktop-app
+
+> Medição do §11 do PADRAO-DE-AUTORIA - **2026-07-09**. Executor: **Sonnet** (baseline sem acesso ao catálogo vs. com a SKILL.md carregada). **Juiz cego** por eval (ordem A/B alternada), pontuando 1 / 0,5 / 0 por expectation; score = fração das expectations atendidas. Workflow `placar-baseline-orquestradores` (run `wf_8db22f26-e56`, 84 agentes, 28 evals, 0 erros).
+
+| Eval | Baseline | Com skill |
+|---|---|---|
+| desktop-moderno-galho-tauri | 0,33 | 0,92 |
+| handoff-para-track-javafx | 0,33 | 1,00 |
+| galho-sem-gerador-para-e-avisa | 0,38 | 1,00 |
+| **Média** | **0,35** | **0,97** |
+
+## Observações do juiz (evidência RI-04)
+
+- **desktop-moderno-galho-tauri:** A segue rigorosamente o processo da skill: tree de decisão com ADR explícito, trava o Gate 1 de descoberta com perguntas concretas, cita nominalmente os geradores desktop-tauri-scaffold/desktop-feature-crud/desktop-packaging, lista mockups aceitos antes do scaffold, teste vN→vN+1 e veredito do auditor-responsabilidades com relatório datado do testador-real. Só falha em detalhar capabilities/CSP especificamente (fica em "segurança default-deny" genérico). B produz um plano tecnicamente sólido e até com boas perguntas de descoberta e comparação de stacks, mas não segue o padrão da skill: nunca menciona ADR, nunca delega aos geradores desktop-* (descreve fazendo os passos manualmente), não passa por mockups antes da UI, allowlist do Tauri aparece dentro do próprio passo de scaffold (não antes, e sem CSP), e não fecha com relatório datado nem veredito do auditor — só "suite de testes rodando verde".
+- **handoff-para-track-javafx:** Resposta A conduz um planejamento manual coerente e de boa qualidade geral (perguntas relevantes, ordem de execução, evidências), mas nunca reconhece a árvore de decisão da skill spec-desktop-app nem faz o handoff explícito para spec-javafx-new-system — trata o pedido como um scaffold genérico a ser planejado do zero, sem mencionar orquestrador de track dedicado. Não força Tauri (permanece em JavaFX), então atende parcialmente ao espírito do eval, mas falha nos dois itens centrais que testam justamente o comportamento de handoff da árvore de decisão. Resposta B identifica explicitamente o galho JavaFX/Access na árvore de decisão da skill, cita o texto do SKILL.md, recusa conduzir os passos Tauri e recomenda o próximo passo como acionar spec-javafx-new-system — atende às três expectations de forma clara e verificável.
+- **galho-sem-gerador-para-e-avisa:** Resposta A segue a spec-desktop-app à risca: identifica Avalonia com justificativa ligada ao critério dado, formaliza ADR-001 explícito (Contexto/Decisão/Consequência), declara claramente a ausência de geradores Avalonia no catálogo citando a condição de parada obrigatória da skill, e não força Tauri (oferece como pergunta reconsiderável, sem empurrar). Nenhum artefato de scaffold é criado, coerente com "para e avisa". Resposta B é um bom plano de arquitetura .NET genérico, mas ignora completamente a mecânica da skill: não produz ADR formal, não menciona geradores do catálogo nem a lacuna de track Avalonia, e hedgeia entre WPF/Avalonia condicionado a plataforma-alvo em vez de convergir para Avalonia como determina a árvore de decisão do eval. Cumpre apenas claramente a expectativa de não forçar Tauri.

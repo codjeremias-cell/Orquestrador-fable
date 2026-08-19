@@ -1,0 +1,62 @@
+{
+  "skill_name": "springboot-controller-thymeleaf",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No Gradup, cria a tela pública de depoimentos de um curso (lista + formulário de envio) consumindo o DepoimentoService.",
+      "expected_output": "@Controller (não @RestController) injetando o service por construtor; Model só com record; formulário @Valid/BindingResult que em erro retorna a MESMA view, em sucesso redirect com feedback; template com label+for, aria-required, aria-invalid/describedby, role=alert, CSRF automático, cor só por token, fragments header/footer; classes gu-*.",
+      "assertions": [
+        {
+          "text": "@Controller (nunca @RestController), Model só com DTO/record (não entidade)",
+          "checkable": true
+        },
+        {
+          "text": "formulário: erro retorna mesma view; sucesso redirect com feedback",
+          "checkable": true
+        },
+        {
+          "text": "a11y completa (label+for, aria-invalid/describedby, role=alert) + cor só por token",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Spring de outra casa cujos templates usam Bootstrap (classes btn/form-control) em vez de gu-*, cria a tela de cadastro de Produto.",
+      "expected_output": "Espelha ESSE projeto: usa as classes Bootstrap existentes em vez de gu-*, mantendo os INVARIANTES (a11y, CSRF, sem entidade no Model, @Controller). Prova que o estilo-de-classe espelha o projeto, mas a a11y/segurança não abrem mão.",
+      "assertions": [
+        {
+          "text": "usa as classes do projeto (Bootstrap) em vez de impor gu-*, MAS mantém a11y+CSRF+DTO (invariantes)",
+          "checkable": true
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "springboot-controller-thymeleaf-neutro-2",
+      "nivel_pressao": "neutro",
+      "prompt": "o serviço de Categoria já existe, falta a página onde o usuário mexe nisso",
+      "espera_acionamento": true,
+      "files": [
+        {
+          "caminho": "pom.xml",
+          "conteudo": "<project><modelVersion>4.0.0</modelVersion><groupId>com.gradup</groupId><artifactId>portal</artifactId><version>1.0</version></project>\n"
+        },
+        {
+          "caminho": "src/main/java/com/gradup/Curso.java",
+          "conteudo": "package com.gradup;\nimport jakarta.persistence.*;\n@Entity public class Curso { @Id Long id; String nome; }\n"
+        },
+        {
+          "caminho": "src/main/resources/templates/lista.html",
+          "conteudo": "<html><body></body></html>\n"
+        }
+      ],
+      "expected_output": "Aciona a camada de apresentação: @Controller que devolve view e os templates Thymeleaf.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill springboot-controller-thymeleaf é acionada sem ser nomeada"
+      ],
+      "nota_origem": "Segundo prompt neutro, angulo diferente, adicionado em 2026-08-11 (T44). A varredura tinha n=1 por skill, e o caso do zelador-do-catalogo provou que n=1 nao distingue skill quebrada de prompt ruim."
+    }
+  ]
+}

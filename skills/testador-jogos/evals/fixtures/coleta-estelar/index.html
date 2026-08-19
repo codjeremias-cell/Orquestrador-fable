@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⭐ Coleta Estelar</title>
+<style>
+  body { margin:0; background:#0b0e2a; color:#eee; font-family:system-ui,sans-serif;
+         display:flex; flex-direction:column; align-items:center; }
+  h1 { margin:12px 0 4px; font-size:22px; }
+  #hud { display:flex; gap:24px; font-size:15px; margin:6px 0; }
+  canvas { background:#101540; border:2px solid #3a4bd8; border-radius:6px; }
+  #msg { min-height:48px; text-align:center; margin-top:8px; font-size:14px; white-space:pre-line; }
+  .dica { color:#8892d8; font-size:12px; }
+</style>
+</head>
+<body>
+<h1>⭐ Coleta Estelar</h1>
+<!-- BUG C1 (plantado): typo no rótulo do HUD -->
+<div id="hud">
+  <span>Pontacão: <b id="score">0</b></span>
+  <span>Vidas: <b id="lives">3</b></span>
+  <span>Tempo: <b id="time">60</b></span>
+</div>
+<canvas id="cv" width="480" height="360"></canvas>
+<div id="msg"></div>
+<script>
+"use strict";
+const cv = document.getElementById("cv"), cx = cv.getContext("2d");
+const $score = document.getElementById("score"), $lives = document.getElementById("lives"),
+      $time = document.getElementById("time"), $msg = document.getElementById("msg");
+
+let estado = "menu";          // menu | jogando | pausado | fim
+let player = null;            // criado só no startGame — BUG A1 depende disso
+let stars = [], meteors = [];
+let score = 0, lives = 3, tempo = 60;
+let keys = {};
+let timerId = null;
+
+function showMenu() {
+  estado = "menu";
+  $msg.textContent = "ENTER — começar · Setas — mover · P — pausar\n(colete ⭐, desvie dos ☄️)";
+  cx.fillStyle = "#101540"; cx.fillRect(0,0,cv.width,cv.height);
+  cx.fillStyle = "#ffd447"; cx.font = "26px system-ui";
+  cx.fillText("COLETA ESTELAR", 130, 150);
+  cx.fillStyle = "#8892d8"; cx.font = "14px system-ui";
+  cx.fillText("aperte ENTER para jogar", 160, 190);
+}
+
+function startGame() {
+  // BUG A2 (plantado): score NÃO é zerado aqui — herda o valor da partida anterior.
+  lives = 3; tempo = 60;
+  player = { x: 220, y: 300, w: 34, h: 22, v: 4 };
+  stars = []; meteors = [];
+  estado = "jogando";
+  $msg.textContent = "";
+  atualizaHud();
+  // BUG B4 (plantado): o interval anterior nunca é limpo — a cada restart
+  // um novo timer de spawn/relógio se acumula e o jogo "acelera".
+  timerId = setInterval(tick1s, 1000);
+}
+
+function tick1s() {
+  // BUG B1 (plantado): o relógio ignora o estado "pausado".
+  if (estado === "jogando" || estado === "pausado") {
+    tempo--;
+    if (tempo <= 0) return gameOver("⏱️ Tempo esgotado!");
+    if (Math.random() < 0.9) stars.push(novoObj("star"));
+    if (Math.random() < 0.6) meteors.push(novoObj("meteor"));
+    atualizaHud();
+  }
+}
+
+function novoObj(tipo) {
+  return { tipo, x: 12 + Math.random() * (cv.width - 24), y: -14,
+           v: 1.2 + Math.random() * 1.8, r: tipo === "star" ? 9 : 12 };
+}
+
+function gameOver(motivo) {
+  estado = "fim";
+  $msg.textContent = motivo + "\nPontuação final: " + score + " — ENTER para jogar de novo";
+}
+
+function togglePause() {
+  // BUG A1 (plantado): não checa o estado — no menu, player é null e
+  // player.v lança TypeError; além disso estado vira "pausado" e o ENTER
+  // do menu (que só funciona em "menu"/"fim") morre: softlock até o F5.
+  if (estado === "pausado") {
+    estado = "jogando";
+    player.frozenV = null;
+    $msg.textContent = "";
+  } else {
+    estado = "pausado";
+    player.frozenV = player.v;
+    // BUG C2 (plantado): placeholder esquecido na tela de pausa.
+    $msg.textContent = "⏸️ PAUSADO — P para voltar\nTODO: instruções de pausa";
+  }
+}
+
+function atualizaHud() {
+  $score.textContent = score;
+  $lives.textContent = lives;
+  $time.textContent = tempo;
+}
+
+document.addEventListener("keydown", e => {
+  keys[e.code] = true;
+  if (e.code === "Enter" && (estado === "menu" || estado === "fim")) startGame();
+  if (e.code === "KeyP") togglePause();
+});
+document.addEventListener("keyup", e => { keys[e.code] = false; });
+
+function frame() {
+  if (estado === "jogando") {
+    // movimento
+    if (keys["ArrowLeft"])  player.x -= player.v;
+    if (keys["ArrowRight"]) player.x += player.v;
+    if (keys["ArrowUp"])    player.y -= player.v;
+    if (keys["ArrowDown"])  player.y += player.v;
+    // BUG B2 (plantado): limite só na direita/baixo/cima — a parede
+    // ESQUERDA não é checada e a nave sai da tela (x fica negativo).
+    if (player.x + player.w > cv.width) player.x = cv.width - player.w;
+    if (player.y < 0) player.y = 0;
+    if (player.y + player.h > cv.height) player.y = cv.height - player.h;
+
+    // objetos caem
+    for (const o of [...stars, ...meteors]) o.y += o.v;
+    stars = stars.filter(o => o.y < cv.height + 20);
+    meteors = meteors.filter(o => o.y < cv.height + 20);
+
+    // colisões — estrelas
+    stars = stars.filter(o => {
+      if (colide(o)) { score += 10; atualizaHud(); return false; }
+      return true;
+    });
+    // colisões — meteoros
+    // BUG B3 (plantado): o mesmo acerto desconta vida DUAS vezes
+    // (uma no filter, outra na varredura "de segurança" logo abaixo).
+    let bateu = false;
+    meteors = meteors.filter(o => {
+      if (colide(o)) { lives--; bateu = true; return false; }
+      return true;
+    });
+    if (bateu) { lives--; atualizaHud(); if (lives <= 0) return fimDeVidas(); }
+    atualizaHud();
+  }
+  desenha();
+  requestAnimationFrame(frame);
+}
+
+function fimDeVidas() {
+  gameOver("💥 Suas vidas acabaram!");
+  desenha();
+  requestAnimationFrame(frame);
+}
+
+function colide(o) {
+  return o.x > player.x - o.r && o.x < player.x + player.w + o.r &&
+         o.y > player.y - o.r && o.y < player.y + player.h + o.r;
+}
+
+function desenha() {
+  cx.fillStyle = "#101540"; cx.fillRect(0,0,cv.width,cv.height);
+  if (estado === "menu") { showMenuArt(); return; }
+  cx.font = "16px system-ui";
+  for (const o of stars)   { cx.fillText("⭐", o.x - 8, o.y + 6); }
+  for (const o of meteors) { cx.fillText("☄️", o.x - 8, o.y + 6); }
+  if (player) { cx.fillStyle = "#5ee0ff"; cx.fillRect(player.x, player.y, player.w, player.h); }
+  if (estado === "pausado") {
+    cx.fillStyle = "rgba(0,0,0,.55)"; cx.fillRect(0,0,cv.width,cv.height);
+    cx.fillStyle = "#fff"; cx.font = "22px system-ui"; cx.fillText("PAUSADO", 190, 180);
+  }
+  if (estado === "fim") {
+    cx.fillStyle = "#ffd447"; cx.font = "24px system-ui"; cx.fillText("FIM DE JOGO", 165, 170);
+  }
+}
+
+function showMenuArt() {
+  cx.fillStyle = "#ffd447"; cx.font = "26px system-ui";
+  cx.fillText("COLETA ESTELAR", 130, 150);
+  cx.fillStyle = "#8892d8"; cx.font = "14px system-ui";
+  cx.fillText("aperte ENTER para jogar", 160, 190);
+}
+
+showMenu();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -2,55 +2,70 @@
   "skill_name": "javafx-dashboard",
   "evals": [
     {
-      "id": 0,
-      "name": "executivo-saude-operacao",
-      "prompt": "Preciso de um painel executivo pro gerente do COT bater o olho de manhã: disponibilidade das LTs, eventos críticos abertos, e o cumprimento das janelas de manutenção da semana. Tem que dar pra entender a saúde da operação em 5 segundos, sem afogar em detalhe. Pode já montar o FXML e o controller no padrão do projeto — considere o mockup pré-aprovado.",
-      "expected_output": "Um blueprint identificando o arquetipo Executivo (poucos KPIs com contexto/meta, baixa densidade, tendencia via linha), seguido de DashboardView FXML + controller no padrao SIGCOT: tokens -sigo-*, acesso a banco assincrono em Task+daemon, estados vazio/carregando/erro/sem-dado, charts nativos do JavaFX. Cada numero aponta para uma fonte real (DAO) ou marca a suposicao.",
+      "id": 1,
+      "name": "sigo-sigcot-executivo-saude-operacao",
+      "prompt": "No projeto SIGO/sistema-cot (SIGCOT), preciso de um painel executivo pro gerente do COT bater o olho de manhã: disponibilidade das LTs, eventos críticos abertos, e o cumprimento das janelas de manutenção da semana. Tem que dar pra entender a saúde da operação em 5 segundos, sem afogar em detalhe. Pode já montar o FXML e o controller no padrão do projeto — considere o mockup pré-aprovado.",
+      "expected_output": "Blueprint identificando o arquétipo Executivo (poucos KPIs com contexto/meta, baixa densidade, tendência via linha), seguido de DashboardView FXML + controller no padrão SIGCOT real: tokens -sigo-* declarados no .root, 4 temas (claro/escuro/cinza/grafite — não 6), acesso a banco assíncrono em Task+daemon, estados vazio/carregando/erro/sem-dado, charts nativos do JavaFX, erro amigável via AlertHelper (não AlertaUtil — esse é o nome de outro projeto). Cada número aponta para uma fonte real (DAO) ou marca a suposição.",
       "files": [],
       "expectations": [
         "Produz um blueprint/design antes do codigo, com proposito, publico e as perguntas que o painel responde",
         "Identifica explicitamente o arquetipo Executivo/Estrategico e mantem baixa densidade (poucos KPIs)",
         "Cada KPI carrega contexto (meta, comparacao ou tendencia), nao um numero solto",
         "Acesso a banco roda em Task + thread daemon com Platform.runLater no onSucceeded (nunca na FX-thread)",
-        "Usa tokens -sigo-* para cor, sem hex fixo no FXML/controller",
+        "Usa tokens -sigo-* para cor, sem hex fixo no FXML/controller, e nao afirma '6 temas' (sao 4: claro/escuro/cinza/grafite)",
         "Cobre os estados vazio, carregando e erro, e trata sem-dado diferente de zero",
         "Usa os charts nativos do JavaFX (LineChart/BarChart/etc) sem introduzir biblioteca de terceiros",
+        "Erro tratado via AlertHelper (o helper real do SIGCOT) e nao via um nome inventado ou generico",
         "Aponta a fonte (DAO/metodo) de cada numero ou marca claramente como suposicao, sem inventar API"
-      ]
-    },
-    {
-      "id": 1,
-      "name": "operacional-tempo-real",
-      "prompt": "Quero um painel operacional pra sala de controle ficar aberto o dia todo: SIs em andamento por estagio, AES em campo agora, e o que esta perto de estourar a janela. Precisa atualizar sozinho e deixar claro quando foi a ultima atualizacao. Ja pode construir o FXML e o controller, mockup aprovado.",
-      "expected_output": "Blueprint do arquetipo Operacional/Tempo real (densidade alta com hierarquia, refresh automatico, alertas que saltam, carimbo de frescor), seguido de FXML+controller com auto-refresh via scheduler daemon, carimbo 'atualizado as HH:mm', tabelas/KPIs assincronos e estados cobertos. Escolha de grafico justificada (barra para estagio, nao pizza).",
-      "files": [],
-      "expectations": [
-        "Produz um blueprint/design antes do codigo identificando o arquetipo Operacional/Tempo real",
-        "Implementa atualizacao automatica (scheduler daemon + Platform.runLater) e exibe carimbo de frescor (ultima atualizacao)",
-        "Acesso a banco roda em Task + thread daemon, nunca na FX-thread, com guarda anti-empilhamento",
-        "Escolhe barra ordenada para o backlog por estagio e justifica pela pergunta (evita pizza para comparacao)",
-        "Destaca visualmente o que exige acao (alerta/cor semantica via token) sem codificar apenas por cor",
-        "Trata sem-dado diferente de zero e cobre estados vazio/carregando/erro",
-        "Usa tokens -sigo-* e charts nativos do JavaFX, sem inventar biblioteca nem token",
-        "Aponta a fonte (DAO/metodo) de cada numero ou marca como suposicao"
-      ]
+      ],
+      "origem": "real",
+      "fonte": "referencia/sigcot-stack.md + referencia-exemplos-reais-sigo.md (DashboardController.java + DashboardView.fxml + theme-base.css, com.sigo.*, extraidos do codigo de producao SIGCOT/SIGO, lidos 2026-07-18) + SKILL.md Historico 2026-07-18 (correcao 6->4 temas, batendo com Tema.java/styles.css e javafx-theme-tokens)",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
     },
     {
       "id": 2,
-      "name": "decisao-programacao-semana",
-      "prompt": "Monta uma tela pra eu decidir a programacao da semana: backlog de SI por estagio, volume previsto por tipo nos proximos dias, e a PV prevista. Quero poder filtrar por regional pra comparar SE, SCO e NNE. Pode seguir e codar o FXML e o controller, considere o mockup ok.",
-      "expected_output": "Blueprint do arquetipo Decisao/Analitico (explorabilidade: filtro por regional, comparacao, serie temporal), seguido de FXML+controller com filtro por regional, grafico de tendencia (linha) para volume por dia e barra para backlog, PV com contexto, assincrono e com estados. Justifica cada escolha de grafico pela pergunta.",
+      "name": "outra-casa-armazemfacil-operacional",
+      "prompt": "Projeto ArmazémFácil (JavaFX desktop, NÃO é SIGO/SIGCOT): quero um painel operacional pra sala de expedição ficar aberta o turno todo, com pedidos por status, conferentes ativos agora, e o que está perto de estourar o prazo de coleta. Convenções reais deste projeto: tokens de tema com prefixo `-af-*` (só 2 temas hoje — claro e escuro — declarados em `app-theme.css`), erro amigável tratado por `Notificador.mostrarErro(titulo, msg)` (classe em `com.armazemfacil.ui`, não existe HoverDetalhe nem AlertHelper aqui), e o painel não tem auto-refresh — só botão manual 'Atualizar' (decisão do time, painel fica numa TV mas o refresh automático já causou tela piscando antes). Pode montar o FXML e o controller, mockup já aprovado.",
+      "expected_output": "Blueprint do arquétipo Operacional/Tempo real, seguido de FXML+controller que ESPELHA as convenções reais do ArmazémFácil informadas no prompt: tokens `-af-*` (não -sigo-*), apenas os 2 temas declarados (claro/escuro — não inventa cinza/grafite do SIGCOT), erro via `Notificador.mostrarErro(...)` (não AlertHelper), refresh só manual (não implementa o scheduler de 30 min do SIGCOT porque o projeto decidiu não ter auto-refresh). Mantém os invariantes: Task+daemon, estados cobertos, sem-dado != zero, charts nativos, fonte real de cada número ou suposição declarada.",
+      "files": [],
+      "expectations": [
+        "Produz um blueprint/design antes do codigo identificando o arquetipo Operacional/Tempo real",
+        "Usa o prefixo de token -af-* informado no prompt, NAO -sigo-*, e so os 2 temas declarados (claro/escuro) sem inventar cinza/grafite",
+        "Usa Notificador.mostrarErro(...) para erro amigavel, NAO AlertHelper nem AlertaUtil (nomes de outros projetos)",
+        "NAO implementa auto-refresh de 30 min nem scheduler daemon — respeita a decisao real do projeto de refresh so manual",
+        "NAO usa HoverDetalhe (componente que nao existe neste projeto) — se propuser detalhe sob demanda, usa mecanismo simples (Tooltip/expandir) e declara a escolha",
+        "Acesso a banco roda em Task + thread daemon com Platform.runLater (invariante, independe do projeto)",
+        "Cobre estados vazio/carregando/erro e trata sem-dado diferente de zero",
+        "Usa charts nativos do JavaFX sem introduzir biblioteca nova",
+        "Aponta a fonte (DAO/metodo) de cada numero ou marca como suposicao, sem inventar API"
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSICAO (RO-01): nao existe, no cofre, uma segunda casa JavaFX com referencia de dashboard REAL alem do SIGO/SIGCOT (confirmado por busca no catalogo inteiro nesta sessao — nenhuma outra skill do track Java/JavaFX tem referencia-exemplos-reais-* cobrindo um dashboard de outro projeto). Caso construido como projeto fictício 'ArmazemFacil' com convencoes explicitadas no proprio prompt (para o eval ser checavel sem depender de fonte externa), nao promovido a 'real' por falta de fonte citavel. Promover a 'real' exigiria ler codigo de um segundo projeto JavaFX vivo com dashboard.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 3,
+      "name": "greenfield-sem-projeto-irmao",
+      "prompt": "Projeto Java/JavaFX novo (greenfield) chamado TarefasFlow — NÃO é SIGO/SIGCOT, NÃO tem projeto-irmão real para copiar: ainda sem nenhum dashboard, sem tema definido, sem helper de alerta, sem componente de detalhe sob demanda. Preciso de um painel de decisão simples pra eu acompanhar o volume de tarefas por status e decidir a prioridade da semana. Pode montar já o FXML e o controller, mockup considerado aprovado. Importante: este projeto não herda nada do SIGO/SIGCOT — qualquer convenção de nome, tema, helper ou cadência de atualização precisa ser decidida do zero para o TarefasFlow, não copiada de outro sistema.",
+      "expected_output": "Blueprint do arquétipo Decisão/Analítico, seguido de FXML+controller que cumpre os invariantes (Task+daemon, cor só por token declarado no .root, estados cobertos, sem-dado != zero, controller fino, charts nativos) SEM importar por reflexo o gabarito SIGCOT: NÃO usa `-sigo-*` como prefixo de token, NÃO cria/assume `AlertHelper`, `HoverDetalhe`, `SvgIcons`, `EstadoTabela`, `ScalingRoot` nem pacote `com.sigo.*`, NÃO implementa o refresh manual+30min do SIGCOT nem assume 4 temas como se fossem regra universal. Em vez disso, propõe a decisão mais simples para cada ponto que varia (prefixo de token, nome do helper de alerta, mecanismo de detalhe se houver, cadência de refresh, contagem de temas, nomes de classes utilitárias, estrutura de pastas) e declara explicitamente SUPOSIÇÃO: para cada uma, com base no arquétipo (Decisão/Analítico raramente precisa de auto-refresh agressivo).",
       "files": [],
       "expectations": [
         "Produz um blueprint/design antes do codigo identificando o arquetipo Decisao/Analitico",
-        "Inclui filtro/drill por regional (SE/SCO/NNE) para permitir comparacao e exploracao",
-        "Usa linha para tendencia (volume por dia) e barra para comparacao (backlog por estagio), justificando a escolha",
-        "Acesso a banco roda em Task + thread daemon com Platform.runLater (nunca na FX-thread)",
-        "Usa tokens -sigo-* para cor sem hex fixo e charts nativos do JavaFX",
-        "Cobre estados vazio/carregando/erro e trata sem-dado diferente de zero",
-        "PV prevista aparece com contexto (nao um numero solto sem referencia)",
-        "Aponta a fonte (DAO/metodo) de cada numero ou marca como suposicao, sem inventar API"
-      ]
+        "NAO usa o prefixo -sigo-* nem nenhum outro prefixo do SIGCOT como se fosse universal — declara SUPOSICAO: para o prefixo escolhido (ex.: -color-* ou equivalente proprio do projeto novo)",
+        "NAO cria/assume uma classe chamada AlertHelper nem HoverDetalhe como se fossem padrao universal do dashboard — usa Alert nativo do JavaFX ou declara SUPOSICAO: para um helper simples proprio",
+        "NAO implementa o refresh manual+automatico de 30 min do SIGCOT por reflexo — decide a cadencia pelo arquetipo (Decisao/Analitico) e declara SUPOSICAO:",
+        "NAO afirma ou assume 4 temas (claro/escuro/cinza/grafite) como padrao obrigatorio do projeto novo — decide a contagem de temas do TarefasFlow e declara SUPOSICAO:",
+        "ASSERTION NEGATIVA EXPLICITA: a resposta nao contem, em nenhum lugar (blueprint, codigo, comentario), nenhuma das strings/nomes especificos do SIGCOT — '-sigo-', 'AlertHelper', 'HoverDetalhe', 'SvgIcons', 'EstadoTabela', 'ScalingRoot', 'com.sigo' — exceto se for para explicitamente dizer que NAO vai usa-los",
+        "Cumpre os invariantes independentes de projeto: Task + thread daemon para banco, cor so por token declarado no .root, estados vazio/carregando/erro cobertos, sem-dado tratado diferente de zero, controller fino",
+        "Usa charts nativos do JavaFX (sem inventar biblioteca)",
+        "Toda decisao de projeto que nao e universal vem rotulada explicitamente como SUPOSICAO: (RO-01), nao apresentada como fato"
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotetico, sem projeto-irmao validado — declarado no proprio enunciado do caso (nenhuma fonte real por tras). Caso desenhado deliberadamente para testar a licao do caso 3 vermelho de java-db-foundation (placar-baseline.md, 2026-07-19): sem mandato explicito no ramo greenfield, execucoes tendem a importar o gabarito SIGO por reflexo mesmo quando o corpo pede o caminho simples. Endurecido em 2026-07-19 (correcao pos-painel C1/Lote 2): prompt tornado inequivoco (projeto nomeado 'TarefasFlow', frase explicita 'nao herda nada do SIGO/SIGCOT'), assertion negativa explicita adicionada (checagem de ausencia literal dos nomes do SIGCOT na resposta), SKILL.md ganhou checklist negativo dedicado na secao 'O que varia por projeto' listando o mesmo conjunto de nomes a nao importar por reflexo.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
     }
   ]
 }

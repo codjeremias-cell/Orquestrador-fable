@@ -1,0 +1,49 @@
+{
+  "skill_name": "arquiteto-dados",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "arquiteto-dados-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "a loja vai passar a vender em três países e cada um cobra imposto diferente; preciso guardar isso de um jeito que não quebre depois",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a lente de dados: propõe o modelo (imposto por país como dado, não como coluna fixa), trata evolução de schema sem downtime e declara o grão.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-dados é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "schema.sql",
+          "conteudo": "CREATE TABLE produto (id SERIAL PRIMARY KEY, nome VARCHAR(120), preco NUMERIC, imposto NUMERIC);\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "arquiteto-dados-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "que banco uso aqui?",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e conduz a escolha por padrão de acesso, não por preferência.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-dados é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "arquiteto-dados-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "essa tela ficou feia e o botão some no modo escuro",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é interface e tema, domínio de designer-ux-ui. Acionar aqui é disparo indevido.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill arquiteto-dados NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

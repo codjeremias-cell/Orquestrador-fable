@@ -1,0 +1,52 @@
+{
+  "skill_name": "javafx-screen-fxml",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria a tela de cadastro (form) de Comunicado: campos data e titulo, botao Salvar e Cancelar, consumindo ComunicadoDAO direto (sem servico).",
+      "expected_output": "FXML em resources/br/com/cot/view/comunicado_form.fxml no padrao SIGO (VBox raiz, form-secao, form-rotulo, labelErro com form-erro+wrapText, botoes CENTER_RIGHT com Salvar defaultButton+accent) + controller em br.com.cot.ui.ComunicadoFormController: handlers ao... (aoSalvar/aoCancelar, nunca handleSave), DAO direto (ComunicadoDAO), configurar(entidade) alterna novo x edicao, isSalvou() para a tela-mae, validacao campo a campo com labelErro inline, botao 'Salvando...' durante a gravacao. A escrita (dao.inserir/dao.atualizar) e SINCRONA dentro de aoSalvar, SEM Task -- e a forma real do gabarito SIGO para escrita simples de um unico registro. Erro tratado com mensagem amigavel + br.com.cot.util.Log.erro(...), nunca stack trace ao usuario.",
+      "assertions": [
+        {"text": "handlers nomeados ao... (aoSalvar/aoCancelar), nao handleSave/onSave", "checkable": true},
+        {"text": "controller fala com o DAO direto (sem servico intermediario), pacote br.com.cot.ui", "checkable": true},
+        {"text": "escrita do form e SINCRONA (sem Task) -- espelha o gabarito real do SIGO, nao aplica RO-J1 literal por reflexo", "checkable": true},
+        {"text": "validacao no controller com labelErro inline (nao AlertaUtil/dialog) + botao 'Salvando...' durante a gravacao", "checkable": true},
+        {"text": "estados cobertos: erro com mensagem amigavel + log, nunca stack trace exposta ao usuario", "checkable": true},
+        {"text": "mockup apresentado e aceite registrado antes do codigo (RO-06)", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (comunicado_form.fxml + ComunicadoFormController.java, SIGO/sistema-cot, lido 2026-07-18, projeto vivo)",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto JavaFX diferente do SIGO, cujas telas de formulario existentes (ex.: PedidoFormController) chamam o DAO SEMPRE dentro de uma Task (mesmo para gravar um unico registro), com cursor de espera e onSucceeded fechando a janela, cria a tela de cadastro de Produto consumindo ProdutoDAO.",
+      "expected_output": "Espelha ESSE projeto: escreve o form novo (ProdutoFormController) chamando dao.inserir/dao.atualizar dentro de uma Task (thread daemon), com cursor de espera, botao desabilitado durante a gravacao e fechamento da janela no onSucceeded -- mesmo sendo uma escrita simples de um unico registro, porque e a forma que ESTE projeto pratica para forms, nao o padrao sincrono do SIGO. Os invariantes continuam valendo: estados vazio/carregando/erro/sucesso cobertos, RO-09 (FXML frageis numa linha), RO-12 (cor so por token), RO-08 (Log4j2, sem System.out), controller fino sem regra de negocio nem SQL, mockup aceito antes do codigo (RO-06).",
+      "assertions": [
+        {"text": "usa Task+thread daemon mesmo para a escrita simples do form, porque E o padrao deste projeto (nao importa o form sincrono do SIGO por reflexo)", "checkable": true},
+        {"text": "cursor de espera + botao desabilitado durante a carga + atualizacao da UI no onSucceeded/onFailed", "checkable": true},
+        {"text": "invariantes preservados: RO-09, RO-12, RO-08, controller fino, estados vazio/carregando/erro/sucesso", "checkable": true},
+        {"text": "mockup apresentado e aceite antes do codigo (RO-06)", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSICAO (RO-01): nao ha, no cofre, uma segunda casa JavaFX com referencia REAL de codigo para telas de formulario alem do SIGO (a familia SIGCOT e a unica com referencia-exemplos-reais-sigo.md deste tipo); caso construido para testar se a skill espelha uma casa que faz o oposto do SIGO (Task mesmo em forms simples) sem se prender ao exemplo unico disponivel. Promover para 'real' exige ler um projeto JavaFX real fora da familia SIGO/SIGCOT com telas de formulario -- nao disponivel nesta sessao.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto JavaFX novo (greenfield), ainda sem nenhuma tela FXML/controller existente para copiar, banco proprio ainda sem forms de referencia, cria a tela de cadastro de Cliente consumindo ClienteDAO (inserir/atualizar/buscarPorId).",
+      "expected_output": "Cria o FXML+controller mais simples que atende aos invariantes (mockup aceito RO-06, estados vazio/carregando/erro/sucesso, RO-09, RO-12, RO-08, controller fino) e usa Task+thread daemon (RO-J1 literal) para a escrita, DECLARANDO explicitamente que a escolha e o padrao seguro por FALTA de um form existente no projeto para copiar -- SEM importar automaticamente o naming/pacote do SIGO (view/<nome_snake>.fxml, br.com.cot.ui, handlers ao..., labelErro) como se fossem regra universal, ja que nao ha evidencia de que este projeto siga a convencao SIGO. Decisoes de forma sem padrao do projeto para se apoiar (ex.: mecanismo de exibicao de erro, nome do pacote do controller) sao declaradas com SUPOSICAO: (RO-01).",
+      "assertions": [
+        {"text": "usa Task (RO-J1) para a escrita, justificando como padrao seguro por FALTA de exemplo do projeto -- nao por copiar cegamente o form sincrono do SIGO sem justificar", "checkable": true},
+        {"text": "declara SUPOSICAO: para decisoes de forma sem padrao do projeto para copiar (RO-01)", "checkable": true},
+        {"text": "NAO importa naming/path do SIGO (view/<nome_snake>.fxml, pacote br.com.cot.ui, handlers ao...) como regra fixa sem declarar que e uma escolha, nao um padrao do projeto observado", "checkable": true},
+        {"text": "invariantes presentes: mockup aceito antes do codigo (RO-06), estados vazio/carregando/erro/sucesso, RO-09, RO-12, RO-08, controller fino", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotetico, sem projeto-irmao validado -- declarado no proprio enunciado do caso (nenhuma fonte real por tras). Mandato do ramo escrito apos a licao do caso 3 vermelho da java-db-foundation (placar-baseline.md): pos-skill importou a trava de 2 niveis do SIGO por reflexo em vez de declarar SUPOSICAO no ramo greenfield.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "CRUD Spring Boot Completo"
+  short_description: "Orquestre CRUD completo em Spring Boot"
+  default_prompt: "Use $spec-springboot-crud-feature para criar esta feature CRUD Spring Boot de ponta a ponta."

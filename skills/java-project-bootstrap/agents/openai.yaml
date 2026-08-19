@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bootstrap de Projeto Java"
+  short_description: "Crie projetos JavaFX Maven prontos para evoluir"
+  default_prompt: "Use $java-project-bootstrap para criar a fundação Maven e JavaFX deste novo projeto."

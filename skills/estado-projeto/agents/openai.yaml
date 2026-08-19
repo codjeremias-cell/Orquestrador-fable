@@ -1,0 +1,4 @@
+interface:
+  display_name: "Estado de Projeto"
+  short_description: "Mantenha tarefas retomaveis entre sessões"
+  default_prompt: "Use $estado-projeto para registrar e regenerar o estado operacional deste projeto."

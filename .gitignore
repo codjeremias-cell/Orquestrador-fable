@@ -1,14 +1,11 @@
-# Lixo de SO
-Thumbs.db
-desktop.ini
+# OS / editor
 .DS_Store
-
-# Temporarios
-*.tmp
-~$*
-
-# Obsidian (estado local do editor, se o cofre alcancar esta pasta)
+Thumbs.db
+Desktop.ini
 .obsidian/
+.vscode/
+*.swp
+*~
 
-# Relatorios de QA gerados (ficam no projeto testado, nao no catalogo)
-qa-reports/
+# Runtime deploy target (não versionar cópias sincronizadas)
+.claude/

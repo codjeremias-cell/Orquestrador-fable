@@ -1,0 +1,42 @@
+{
+  "skill_name": "memoria-de-projeto",
+  "protocolo": "PADRAO-DE-AUTORIA §11 — §11.5 acionamento e aderência; §11.7 níveis de pressão do prompt (apoiador · neutro · concorrente · alheio)",
+  "nota_de_origem": "Casos sintéticos, gerados DEPOIS de a skill existir — logo o baseline vale uma rodada só (§11.6). Nenhum prompt nomeia a skill, requisito do §11.5. LACUNA DECLARADA (RI-04): esta bateria cobre só os níveis neutro e alheio, que é o mínimo pedido pelo inventário de 2026-08-10; os níveis apoiador e concorrente ainda não foram escritos, e NENHUM destes casos foi executado — não há placar, e nada aqui pode ser lido como prova de acionamento.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "neutro-fim-de-sessao-sem-jargao",
+      "nivel_pressao": "neutro",
+      "prompt": "Terminamos por hoje. No meio do caminho você errou duas vezes o mesmo nome de coluna e eu te corrigi, e a gente decidiu que daqui pra frente todo relatório sai em PT-BR com o código em inglês. Amanhã eu volto e não quero explicar tudo de novo.",
+      "expected_output": "Reconhece o fim de sessão produtiva como gatilho de consolidação, sem que o usuário peça 'memória' ou 'handoff'. Aplica o teste dos 7 dias e ROTEIA antes de escrever: a convenção PT-BR/inglês e a correção recorrente são duráveis e entram na memória do projeto como FATO DECLARATIVO ('Jeremias prefere…' / 'a convenção do projeto é…'), nunca como imperativo; o que for progresso, pendência ou próximo passo vai para estado-projeto. Mescla com o arquivo existente em vez de recomeçar, incrementa a versão e data com a data da sessão atual.",
+      "expectations": [
+        "Aciona sem que o prompt use as palavras memória, contexto ou handoff",
+        "Aplica o teste dos 7 dias para separar o durável do efêmero",
+        "Registra fato declarativo, não instrução imperativa a si mesmo",
+        "Roteia progresso/pendência/próximo passo para estado-projeto em vez de gravar na memória",
+        "Mescla com o conteúdo existente e atualiza versão e data da sessão"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso gerado a partir do gatilho 'detectar durante a conversa preferência/correção que valha registro' da description, escrito em linguagem corrente e SEM o vocabulário da skill.",
+      "data": "2026-08-11",
+      "sessao": "inventario-catalogo-2026-08-10-lote-L2"
+    },
+    {
+      "id": 2,
+      "name": "alheio-vizinha-estado-projeto",
+      "nivel_pressao": "alheio",
+      "prompt": "Onde a gente parou ontem? Marca a tarefa 3 como implementada, me diz o que falta pra fechar e qual é o próximo passo.",
+      "expected_output": "NÃO aciona esta skill. O pedido é status, transição de tarefa e próximo passo — tudo com validade menor que uma semana, logo reprovado no teste dos 7 dias e explicitamente proibido na estrutura do arquivo de memória. O destino é estado-projeto (estado.json como fonte da verdade, TAREFAS.md como view). Acerto do nível alheio é 'acionou = N'; 'aderiu' e 'ordem' não se aplicam.",
+      "expectations": [
+        "NÃO aciona memoria-de-projeto",
+        "Aponta estado-projeto como dona do caso",
+        "Não grava status, pendência ou próximo passo em arquivo de memória",
+        "Se explicar, usa o teste dos 7 dias como critério da fronteira"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso de vizinha real, não de absurdo: usa o vocabulário que a seção 'Fronteira da família' e a cauda da description de estado-projeto tentam afastar ('onde paramos', 'marca a tarefa', 'o que falta', 'próximo passo').",
+      "data": "2026-08-11",
+      "sessao": "inventario-catalogo-2026-08-10-lote-L2"
+    }
+  ]
+}

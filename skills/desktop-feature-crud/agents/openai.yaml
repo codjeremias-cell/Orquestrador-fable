@@ -1,0 +1,4 @@
+interface:
+  display_name: "CRUD Desktop Tauri"
+  short_description: "Implemente CRUD completo em apps Tauri"
+  default_prompt: "Use $desktop-feature-crud para implementar esta entidade de ponta a ponta no app Tauri."

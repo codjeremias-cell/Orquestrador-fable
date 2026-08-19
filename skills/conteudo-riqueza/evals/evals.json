@@ -1,0 +1,46 @@
+{
+  "skill_name": "conteudo-riqueza",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "conteudo-riqueza-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "preciso de material pro meu Instagram falando de juros compostos de um jeito que prenda",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona a lente de conteúdo: peça editorial para publicar, ancorada na base de livros de riqueza.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conteudo-riqueza é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "conteudo-riqueza-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "me dá 5 ideias de post sobre finanças",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; a saída é PEÇA para terceiros, não conselho pessoal.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conteudo-riqueza é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "conteudo-riqueza-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "estou endividado no cartão, o que eu faço",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é conselho para a própria vida financeira, domínio de conselheiro-financeiro.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill conteudo-riqueza NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

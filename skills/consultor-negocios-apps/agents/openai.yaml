@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consultor de Negócios para Apps"
+  short_description: "Avalie apps como produtos e negócios digitais"
+  default_prompt: "Use $consultor-negocios-apps para avaliar este app como negócio e recomendar os próximos testes de mercado."

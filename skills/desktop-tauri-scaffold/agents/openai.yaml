@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scaffold Desktop Tauri"
+  short_description: "Crie a base segura de um aplicativo Tauri"
+  default_prompt: "Use $desktop-tauri-scaffold para criar a fundação deste aplicativo desktop com Tauri."

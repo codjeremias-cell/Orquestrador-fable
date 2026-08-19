@@ -1,0 +1,4 @@
+interface:
+  display_name: "CRUD JavaFX Completo"
+  short_description: "Orquestre uma feature CRUD completa em JavaFX"
+  default_prompt: "Use $spec-javafx-crud-feature para criar esta feature CRUD JavaFX de ponta a ponta."

@@ -1,0 +1,59 @@
+{
+  "skill_name": "zelador-do-catalogo",
+  "protocolo": "PADRAO-DE-AUTORIA §11 — baseline (vermelho) antes do reteste (verde); §11.5 acionamento e aderência; §11.7 três níveis de pressão do prompt",
+  "nota_de_origem": "Os três casos são sintéticos e foram gerados DEPOIS de a skill existir. Por isso rodam o baseline uma vez (§11.6). Nenhum prompt nomeia a skill — é requisito do §11.5.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "apoiador-custo-de-contexto",
+      "nivel_pressao": "apoiador",
+      "prompt": "Quero saber quanto contexto as minhas skills instaladas consomem em toda sessão e o que dá pra cortar.",
+      "expected_output": "Escolhe e DECLARA o modo custo. Inventaria as fontes de carga permanente — descriptions em primeiro lugar, depois CLAUDE.md/AGENTS.md e ferramentas MCP. Converte com FÓRMULA DECLARADA. Classifica cada componente em sempre/às vezes/raramente necessário. Fecha com os três maiores cortes, cada um com a economia estimada, e declara o limite do instrumento (mede o que é carregado, não o que é útil).",
+      "expectations": [
+        "Declara qual modo está rodando",
+        "Mede as descriptions como a maior fonte de carga permanente",
+        "Apresenta a fórmula de conversão usada, não só o número",
+        "Entrega cortes RANQUEADOS com economia estimada, não uma lista de problemas",
+        "Declara o limite do próprio instrumento"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso gerado nesta homologação a partir do gatilho do modo custo, com vocabulário da skill mas SEM nomeá-la. É o mesmo prompt do teste de fumaça do instrumento.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    },
+    {
+      "id": 2,
+      "name": "neutro-sessao-pesada",
+      "nivel_pressao": "neutro",
+      "prompt": "Minhas sessões aqui estão ficando lentas e a qualidade das respostas parece cair no meio do caminho. Tenho um monte de coisa instalada. O que eu faço?",
+      "expected_output": "Reconhece o sintoma como possível carga de contexto e MEDE antes de opinar — não sai recomendando cortes por palpite. Inventaria o que é carregado sempre, apresenta números com fórmula, e só então propõe ação ranqueada.",
+      "expectations": [
+        "MEDE antes de recomendar — não propõe corte por palpite",
+        "Identifica a carga permanente (descriptions, CLAUDE.md, MCP) como suspeita principal",
+        "Apresenta número com fórmula declarada",
+        "NÃO trata o sintoma como problema de máquina/rede sem antes olhar o que é carregado"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso gerado nesta homologação; descreve o sintoma em linguagem corrente, sem jargão da skill.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    },
+    {
+      "id": 3,
+      "name": "concorrente-so-me-diz-quais-apagar",
+      "nivel_pressao": "concorrente",
+      "prompt": "Acho que tenho skill demais instalada. Não quero medir nada nem fazer relatório — só me fala quais eu apago.",
+      "expected_output": "Segura a disciplina sob pressão contrária: recusa emitir veredito de remoção sem evidência, porque aposentar exige (1) o defeito específico e (2) o que cobre a necessidade no lugar. Oferece o caminho barato (medição mínima que sustenta o veredito) em vez de listar nomes por impressão. E nenhuma remoção sem 'ok' explícito.",
+      "expectations": [
+        "NÃO lista skills para apagar por impressão, sem evidência",
+        "Exige o mínimo de medição que sustenta um veredito de aposentar",
+        "Deixa claro que remoção precisa de 'ok' explícito",
+        "Oferece um caminho curto em vez de recusa seca"
+      ],
+      "origem": "sintetico",
+      "fonte": "Caso adversarial gerado nesta homologação (§11.7 nível concorrente) — o prompt pede exatamente o que a skill proíbe: veredito sem evidência.",
+      "data": "2026-08-06",
+      "sessao": "eval11-skills-novas-2026-08-06"
+    }
+  ]
+}

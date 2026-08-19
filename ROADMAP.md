@@ -99,7 +99,4 @@ versão: v1.1
 
 ### 📜 Histórico
 - **2026-07-05 (parte 3):** Jeremias confirmou `Sistemas Prontos\escalaope` como fonte da verdade do EscalaOper; criado `escalaoper-testador`. Item 4 agora só falta o Embalo.
-- **2026-07-05 (parte 2):** Item 5 (geradores Spring Boot) concluído. Item 4 avançado (SIGCOT e Sentinela ✅; EscalaOper bloqueado por ambiguidade de diretório, aguardando o Jeremias; Embalo ainda não iniciado). `testador-real` enriquecido com técnicas do `testador-sigcot`.
-- **2026-07-05:** Itens 3 e 6 concluídos (Reforma Lendária; arquivamento do workspace). Adicionados itens 4 e 5 (instâncias de testador, geradores Spring Boot). Cofre inicializado como repositório git para versionar o catálogo.
-- **2026-06-15 (v1):** Criado. Registrados o track Web/Supabase (Embalo) e a limpeza de duplicação como pendências combinadas.
-- **2026-06-15:** Item 2 (limpeza/fonte única) concluído. Resta o item 1 (track Web/Supabase).
+- **2026-07-05 (parte 2):** Item 5 (geradores Spring Boot) concluído. Item 4 avançado (SIGCOT e Sentinela ✅; EscalaOper bloqueado por ambiguidade de diretório, aguardando o Jeremias; Embalo ainda não iniciado). `testador-real` enriquecido com técnicas do `testador-sigc

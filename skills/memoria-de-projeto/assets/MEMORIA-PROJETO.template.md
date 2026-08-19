@@ -10,7 +10,7 @@
 ## 📌 Visão geral
 
 - **Projeto:** _o que é, em uma frase_
-- **Objetivo atual:** _onde estamos e o que se quer alcançar agora_
+- **Propósito durável:** _por que o projeto existe e para quem_
 - **Stack / ferramentas:** _linguagens, frameworks, libs, IDE_
 
 ## ⚖️ Regras invioláveis
@@ -38,11 +38,15 @@
 
 -
 
-## 🗂️ Pendências / decisões em aberto
+## 🧭 Decisões duráveis
 
-> O que ficou para depois ou ainda precisa ser decidido.
+> Decisões de arquitetura, produto ou processo que continuarão válidas em sessões futuras, com o motivo. Não registrar tarefa, status ou próximo passo aqui.
 
 -
+
+## ▶️ Estado operacional
+
+> Fonte única do progresso: `estado/estado.json`; visão humana: `estado/TAREFAS.md`. Se o trabalho não é multi-sessão e esses arquivos não existem, não invente estado dentro desta memória.
 
 ---
 

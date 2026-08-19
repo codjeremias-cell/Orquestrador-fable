@@ -1,0 +1,48 @@
+{
+  "skill_name": "javafx-theme-tokens",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, cria o tema para uma tela nova (um badge de urgência), garantindo que os 4 temas (claro/escuro/cinza/grafite) fiquem consistentes e sem hex fixo.",
+      "expected_output": "Token novo adicionado ao MESMO conjunto de chaves nos 4 temas do styles.css (raiz sem classe = claro; .tema-escuro; .tema-cinza; .tema-escuro.tema-grafite), reaproveitando o prefixo -sigo-*/-status-* já em uso (sem criar um segundo prefixo). Call-site nunca usa hex — pinta via token/Cores.status(s). Aplicação de tema segue Tema.cena/aplicar/aplicarModo (SIGO real), nenhum mecanismo de troca inventado.",
+      "assertions": [
+        {"text": "token novo aparece nos 4 blocos de tema, não só em 2 (claro/escuro)", "checkable": true},
+        {"text": "nenhum hex fixo na tela nova — só referência a token/Cores.status", "checkable": true},
+        {"text": "aplicação de tema segue Tema.cena/aplicar/aplicarModo (SIGO), não um mecanismo inventado", "checkable": true},
+        {"text": "prefixo de token existente (-sigo-*/-status-*) reaproveitado, sem criar um segundo prefixo paralelo", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "referencia-exemplos-reais-sigo.md (Tema.java + Cores.java + styles.css, SIGO/sistema-cot, lido 2026-07-18, projeto vivo)",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 2,
+      "prompt": "Num outro projeto JavaFX (não-SIGO) cujo tema já existe como dois arquivos separados, base.css e tema-escuro.css, trocados INTEIROS via Application.setUserAgentStylesheet(...), com tokens no prefixo -app-*, cria o token -app-cor-alerta para uma tela nova.",
+      "expected_output": "Espelha ESSA casa: adiciona -app-cor-alerta nos DOIS arquivos (base.css e tema-escuro.css, mesmo conjunto de chaves, 2 temas), mantendo a troca por arquivo inteiro. NÃO introduz classes de raiz, NÃO importa AtlantaFX nem os 4 temas do SIGO — a arquitetura desta casa é diferente e prevalece. Call-site usa -app-cor-alerta, nunca hex.",
+      "assertions": [
+        {"text": "token adicionado nos DOIS arquivos (base.css e tema-escuro.css), não só num deles", "checkable": true},
+        {"text": "NÃO importa o mecanismo de 4 temas por classe de raiz nem a base AtlantaFX do SIGO — mantém a troca por stylesheet inteiro desta casa", "checkable": true},
+        {"text": "prefixo -app-* reaproveitado, sem misturar com -sigo-*/-status-*", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "SUPOSIÇÃO (RO-01): não há segunda casa JavaFX com referência real de tema no cofre nesta rodada (C1-lote2-ondaA) — cenário construído para testar que a skill espelha uma casa DIFERENTE do SIGO (2 temas, troca por arquivo inteiro, prefixo -app-*) sem importar a arquitetura do few-shot SIGO.",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto JavaFX novo (greenfield), ainda sem nenhum CSS de tema. O cliente pediu 'quero claro e escuro', sem citar o SIGO nem mostrar código existente.",
+      "expected_output": "Cria o par mais simples que atende aos invariantes (mesmo conjunto de tokens de base — fundo, texto, primária, bordas — nos 2 temas pedidos; declarado antes de usado; contraste 4.5:1 conferido; sem hex fixo) e declara SUPOSIÇÃO: para a contagem de temas (2, conforme o pedido) e o prefixo do token escolhido. NÃO importa a arquitetura de 2 camadas + AtlantaFX + 4 temas do SIGO por reflexo, já que o pedido é só claro/escuro, sem projeto-irmão SIGO citado.",
+      "assertions": [
+        {"text": "declara SUPOSIÇÃO: para o prefixo do token escolhido, já que não há projeto existente para copiar", "checkable": true},
+        {"text": "NÃO importa a arquitetura de 4 temas/2 camadas/AtlantaFX do SIGO só porque é o few-shot da skill", "checkable": true},
+        {"text": "os 2 temas pedidos compartilham o mesmo conjunto de chaves, nenhum hex fixo, contraste 4.5:1 conferido", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "fonte": "greenfield hipotético, sem projeto-irmão validado — declarado no próprio enunciado do caso (nenhuma fonte real por trás).",
+      "data": "2026-07-19",
+      "sessao": "C1-lote2-ondaA"
+    }
+  ]
+}

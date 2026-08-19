@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repositorio e Serviço Spring Boot"
+  short_description: "Crie repositórios e serviços Spring consistentes"
+  default_prompt: "Use $springboot-repository-service para criar o repositorio e o serviço desta entidade Spring Boot."

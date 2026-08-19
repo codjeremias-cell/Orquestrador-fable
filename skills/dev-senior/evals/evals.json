@@ -1,0 +1,56 @@
+{
+  "skill_name": "dev-senior",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão por skill (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "dev-senior-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "esse método passou de duzentas linhas e ninguém entende mais o que ele faz",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a lente de implementação: propõe extração com patch cirúrgico (RO-02), sem reescrever o arquivo inteiro.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill dev-senior é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "src/Relatorio.java",
+          "conteudo": "public class Relatorio {\n    public String gerar(int t) {\n        // passo 1\n        if (t == 1) { return calc(1); }\n        // passo 2\n        if (t == 2) { return calc(2); }\n        // passo 3\n        if (t == 3) { return calc(3); }\n        // passo 4\n        if (t == 4) { return calc(4); }\n        // passo 5\n        if (t == 5) { return calc(5); }\n        // passo 6\n        if (t == 6) { return calc(6); }\n        // passo 7\n        if (t == 7) { return calc(7); }\n        // passo 8\n        if (t == 8) { return calc(8); }\n        // passo 9\n        if (t == 9) { return calc(9); }\n        // passo 10\n        if (t == 10) { return calc(10); }\n        // passo 11\n        if (t == 11) { return calc(11); }\n        // passo 12\n        if (t == 12) { return calc(12); }\n        // passo 13\n        if (t == 13) { return calc(13); }\n        // passo 14\n        if (t == 14) { return calc(14); }\n        // passo 15\n        if (t == 15) { return calc(15); }\n        // passo 16\n        if (t == 16) { return calc(16); }\n        // passo 17\n        if (t == 17) { return calc(17); }\n        // passo 18\n        if (t == 18) { return calc(18); }\n        // passo 19\n        if (t == 19) { return calc(19); }\n        // passo 20\n        if (t == 20) { return calc(20); }\n        // passo 21\n        if (t == 21) { return calc(21); }\n        // passo 22\n        if (t == 22) { return calc(22); }\n        // passo 23\n        if (t == 23) { return calc(23); }\n        // passo 24\n        if (t == 24) { return calc(24); }\n        // passo 25\n        if (t == 25) { return calc(25); }\n        // passo 26\n        if (t == 26) { return calc(26); }\n        // passo 27\n        if (t == 27) { return calc(27); }\n        // passo 28\n        if (t == 28) { return calc(28); }\n        // passo 29\n        if (t == 29) { return calc(29); }\n        // passo 30\n        if (t == 30) { return calc(30); }\n        // passo 31\n        if (t == 31) { return calc(31); }\n        // passo 32\n        if (t == 32) { return calc(32); }\n        // passo 33\n        if (t == 33) { return calc(33); }\n        // passo 34\n        if (t == 34) { return calc(34); }\n        // passo 35\n        if (t == 35) { return calc(35); }\n        // passo 36\n        if (t == 36) { return calc(36); }\n        // passo 37\n        if (t == 37) { return calc(37); }\n        // passo 38\n        if (t == 38) { return calc(38); }\n        // passo 39\n        if (t == 39) { return calc(39); }\n        // passo 40\n        if (t == 40) { return calc(40); }\n        // passo 41\n        if (t == 41) { return calc(41); }\n        // passo 42\n        if (t == 42) { return calc(42); }\n        // passo 43\n        if (t == 43) { return calc(43); }\n        // passo 44\n        if (t == 44) { return calc(44); }\n        // passo 45\n        if (t == 45) { return calc(45); }\n        // passo 46\n        if (t == 46) { return calc(46); }\n        // passo 47\n        if (t == 47) { return calc(47); }\n        // passo 48\n        if (t == 48) { return calc(48); }\n        // passo 49\n        if (t == 49) { return calc(49); }\n        // passo 50\n        if (t == 50) { return calc(50); }\n        // passo 51\n        if (t == 51) { return calc(51); }\n        // passo 52\n        if (t == 52) { return calc(52); }\n        // passo 53\n        if (t == 53) { return calc(53); }\n        // passo 54\n        if (t == 54) { return calc(54); }\n        // passo 55\n        if (t == 55) { return calc(55); }\n        // passo 56\n        if (t == 56) { return calc(56); }\n        // passo 57\n        if (t == 57) { return calc(57); }\n        // passo 58\n        if (t == 58) { return calc(58); }\n        // passo 59\n        if (t == 59) { return calc(59); }\n        return \"\";\n    }\n    String calc(int x){ return \"\"+x; }\n}\n"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "dev-senior-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "revisa esse código",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal; nunca inventa API — pede o fonte real ou declara a suposição (RO-01).",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill dev-senior é acionada sem ser nomeada no prompt"
+      ],
+      "files": [
+        {
+          "caminho": "src/calc.py",
+          "conteudo": "def media(vs):\n    return sum(vs) / len(vs)\n\ndef desconto(v, p):\n    return v - v * p\n"
+        }
+      ],
+      "nota_bench": "Bancada mínima adicionada em 2026-08-11 (T39): o prompt pressupõe projeto e a pasta estava vazia — sem ela o caso é falso-negativo garantido."
+    },
+    {
+      "id": 3,
+      "name": "dev-senior-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "quanto devo cobrar pelo plano mensal do app?",
+      "espera_acionamento": false,
+      "expected_output": "NÃO deve acionar: é preço e modelo de negócio, domínio de consultor-negocios-apps.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill dev-senior NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

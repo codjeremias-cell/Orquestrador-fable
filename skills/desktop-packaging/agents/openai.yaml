@@ -1,0 +1,4 @@
+interface:
+  display_name: "Empacotamento Desktop"
+  short_description: "Empacote e distribua aplicativos Tauri"
+  default_prompt: "Use $desktop-packaging para preparar o empacotamento e a distribuição deste app Tauri."

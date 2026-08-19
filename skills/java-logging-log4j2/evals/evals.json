@@ -1,0 +1,47 @@
+{
+  "skill_name": "java-logging-log4j2",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No projeto SIGO/sistema-cot, tira os printStackTrace da tela de cadastro de Colaborador e loga direito o erro.",
+      "expected_output": "Chama a fachada única Log (Log.erro(msg, e)), nunca abre LogManager.getLogger direto na tela; a fachada usa logger nomeado fixo \"COT\" (não por classe), métodos PT-BR erro/aviso/info; log4j2.xml com RollingFile em dados/logs/sistema-cot.log, rotação diária, filePattern .gz, retenção 30 dias (DefaultRolloverStrategy max=\"30\"); Throwable como último argumento; nenhum printStackTrace/System.out restante.",
+      "assertions": [
+        {"text": "usa a fachada Log.erro(msg, e) existente, NÃO abre LogManager.getLogger direto na tela", "checkable": true},
+        {"text": "logger nomeado fixo \"COT\" (padrão SIGO), não por classe", "checkable": true},
+        {"text": "log4j2.xml com rotação diária, .gz e retenção 30 dias (valores reais do projeto, não inventados)", "checkable": true},
+        {"text": "Throwable como último argumento; zero printStackTrace/System.out restante", "checkable": true},
+        {"text": "a mensagem passada a Log.erro(mensagem, causa) é uma String pronta (montada/formatada ANTES da chamada) porque a fachada SIGO não tem slot de placeholder {} — isso é o padrão da casa, não um desvio; o invariante que vale de fato é não concatenar dado sensível na mensagem e não perder o Throwable (passado à parte, no 2º argumento)", "checkable": true}
+      ],
+      "origem": "real",
+      "fonte": "sistema-cot/.../util/Log.java + resources/log4j2.xml, via referencia-exemplos-reais-sigo.md (lidos 2026-07-18)",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    },
+    {
+      "id": 2,
+      "prompt": "Num projeto Java genérico cujo padrão já é 'private static final Logger log = LogManager.getLogger(NomeClasse.class);' em cada classe (sem fachada, sem nome fixo de logger), com log.error(\"msg {}\", var, ex) — padroniza o logging da classe PedidoService, que hoje usa printStackTrace.",
+      "expected_output": "Espelha ESSE projeto: cria/usa `private static final Logger log = LogManager.getLogger(PedidoService.class);` na própria classe (sem fachada, sem logger nomeado fixo) — porque é o padrão desse projeto, diferente do SIGO. Os invariantes seguem valendo mesmo espelhando um estilo distinto: printStackTrace eliminado, Throwable como último argumento, mensagem com placeholder {}, nenhum dado sensível logado.",
+      "assertions": [
+        {"text": "usa Logger por classe (LogManager.getLogger(PedidoService.class)) porque É o padrão desse projeto, não a fachada do SIGO (espelha, não impõe o padrão de outra casa)", "checkable": true},
+        {"text": "mesmo espelhando um estilo diferente do SIGO, os invariantes seguem: Throwable último argumento, placeholder {} em vez de concatenação, zero printStackTrace, nenhum dado sensível logado", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "nota_origem": "Não há Log4j2/logger-por-classe documentado nas referências reais do Gradup (springboot-repository-service, springboot-entity, springboot-controller-thymeleaf, revisadas em 2026-07-19) — Gradup é Spring Boot e não expõe stack de log real nesses gabaritos. Caso hipotético (padrão Java genérico comum fora do SIGO), não forçado a 'real' sem fonte apontável (RO-01).",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    },
+    {
+      "id": 3,
+      "prompt": "Projeto Java novo (greenfield), ainda sem log4j2.xml nem nenhuma classe usando logger — configura o Log4j2 do zero.",
+      "expected_output": "Sem padrão existente para espelhar, aplica o default genérico do Log4j2 (Logger por classe via LogManager.getLogger(NomeClasse.class), níveis error/warn/info/debug, RollingFile com rotação e retenção razoáveis) e DECLARA EXPLICITAMENTE 'SUPOSICAO:' sobre os valores de rotação/retenção escolhidos, deixando claro que não são um padrão confirmado do projeto (RO-01).",
+      "assertions": [
+        {"text": "aplica o default genérico (logger por classe, não a fachada nomeada do SIGO) por ausência de padrão real a espelhar", "checkable": true},
+        {"text": "declara explicitamente 'SUPOSICAO:' sobre os valores/forma escolhidos (RO-01), não apresenta como fato do projeto", "checkable": true}
+      ],
+      "origem": "sintetico",
+      "nota_origem": "Greenfield por definição — projeto hipotético sem código real para citar.",
+      "data": "2026-07-19",
+      "sessao": "rodada2-destravamento-C1"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Garimpo Externo"
+  short_description: "Julga fonte de terceiro contra esta casa"
+  default_prompt: "Use $garimpo-externo para julgar esta fonte antes de qualquer adoção: audite direito e risco declarando a massa que não foi lida, classifique método × produto, preencha 'nosso estado' abrindo a skill e citando a seção, exija cliente com nome próprio, calcule o menor degrau com o arquivo exato e o guardrail, e entregue o laudo datado com veredito e motivo autossuficiente por achado. Nenhum arquivo de skill é tocado — aplicar é outro ato, com o ok dele por item."

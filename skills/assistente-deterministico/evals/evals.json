@@ -1,0 +1,46 @@
+{
+  "skill_name": "assistente-deterministico",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "assistente-deterministico-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "queria uma busca dentro do sistema que ache a norma mesmo se a pessoa digitar errado, e que funcione sem internet",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o construtor determinístico: busca tolerante a typo, base editável, motor de documentos — 100% offline, sem LLM.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill assistente-deterministico é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "assistente-deterministico-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "quero um assistente dentro do sistema",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal; é o OPOSTO de chatbot — determinístico por construção.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill assistente-deterministico é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "assistente-deterministico-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "monta um chatbot com IA pra responder os clientes",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: pedido explícito de LLM contradiz o domínio desta skill.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill assistente-deterministico NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

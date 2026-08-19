@@ -1,0 +1,46 @@
+{
+  "skill_name": "email-marketing-html",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-08-11 na campanha T38. Nenhum prompt nomeia a skill nem usa o vocabulário dela — §11.5. Três níveis de pressão (§11.7). Limite declarado: escritos na mesma sessão que construiu o runner, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "email-marketing-html-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "preciso disparar uma promoção pra base e no Outlook o layout sempre quebra",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona o gerador de e-mail: HTML bulletproof só com table/tr/td, CSS inline, 600px, CTA nunca como imagem, rodapé com descadastro.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill email-marketing-html é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "email-marketing-html-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "monta um e-mail de marketing em HTML",
+      "espera_acionamento": true,
+      "files": [],
+      "expected_output": "Aciona por frase-gatilho literal e passa no lint antes de entregar.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill email-marketing-html é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "email-marketing-html-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "escreve um artigo explicando essa novidade de IA pro blog",
+      "espera_acionamento": false,
+      "files": [],
+      "expected_output": "NÃO deve acionar: é conteúdo editorial, domínio de redator-tecnologia-ia.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill email-marketing-html NÃO é acionada; a rota correta é outra"
+      ]
+    }
+  ]
+}

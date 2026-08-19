@@ -1,6 +1,6 @@
 ---
 name: assistente-deterministico
-description: Use ao criar, modelar ou evoluir um assistente determinístico (offline, sem LLM/API) embutido em qualquer sistema/aplicação. Cobre o motor de busca tolerante, a base de conhecimento, o motor de documentos (form guiado, autopreenchimento, validação, saída), o padrão de reuso por histórico de entidade (ex.: carregar itens de documentos anteriores da mesma entidade-chave), os pontos de agregação no sistema hospedeiro e as convenções de dados e auditoria. É um template parametrizável (preencher o Perfil do sistema-alvo). Acione quando o pedido mencionar "assistente", "busca de procedimento", "motor de documentos", "autopreenchimento", "reuso de histórico", ou geração de documento dentro de um sistema.
+description: "Modela e constrói um assistente DETERMINÍSTICO (100% offline, sem LLM e sem API) embutido num sistema hospedeiro: busca tolerante a typo, base de conhecimento editável, motor de documentos com form guiado, autopreenchimento, validação e saída numerada, e reuso por histórico de entidade. Acione com \"assistente\", \"quero um assistente dentro do sistema\", \"busca de procedimento/norma offline\", \"motor de documentos\", \"gerar/preencher documento a partir do cadastro\", \"autopreenchimento por entidade\", \"reuso de itens de documentos anteriores\", \"wizard/árvore de decisão\", \"assistente sem internet\". NÃO acione para chatbot/LLM ou tema livre (é o oposto: determinístico), nem confunda com orquestração (orquestrador-fable rege, painel-de-juizes compara, auditor-responsabilidades audita) — aqui você CONSTRÓI um subsistema."
 ---
 
 # Assistente Determinístico (template para qualquer sistema)
@@ -156,8 +156,25 @@ nova sem autorização.
 - [ ] Trabalho pesado fora da thread de UI (se aplicável)
 - [ ] Acesso a dados parametrizado; nenhuma dependência nova sem aval
 
+## Verificação (prova executada, não "parece pronto")
+
+O checklist acima é intenção; a prova é execução. Antes de dar por pronta a frente,
+rode a bateria do `testador-real` (ou o testador do projeto) contra os três pontos
+que mais quebram na prática:
+- **Busca:** consulta com typo e com sinônimo devolve o item certo **e cita a fonte**.
+- **Autopreenchimento/validação:** entidade-chave puxa os campos de fonte "dados";
+  obrigatório vazio, formato inválido e incoerência (entidade inexistente/estado
+  errado) são **barrados com mensagem clara**, sem derrubar a tela.
+- **Reuso:** item herdado entra como rascunho com **proveniência visível** e exige
+  **revisão** antes de finalizar; o **log de auditoria** registra origem e reuso.
+
 ## 🔗 Rede da skill
 - **Lentes que ativam junto (RI-06):** `arquiteto-software` (fronteira e pacotes do subsistema) · `dev-senior` (implementação) · `especialista-seguranca` (consultas parametrizadas e log de auditoria).
 - **Vem antes:** o sistema hospedeiro com dados e telas reais (o Perfil sai deles).
 - **Vem depois:** `testador-real` (validação executada da busca, validações e reuso) · `docs-projeto` (manual do assistente).
-- **Não confundir com:** um chatbot/LLM — este assistente é 100% determinístico e offline.
+- **Não confundir com:** um chatbot/LLM (este assistente é 100% determinístico e offline) — nem com as skills de orquestração do conjunto (`orquestrador-fable` rege agentes, `painel-de-juizes` compara, `auditor-responsabilidades` audita); aqui você **constrói um subsistema**, não coordena o comitê.
+
+### 📜 Histórico
+
+- **2026-08-10 — Seção de Histórico criada (T35, campanha do inventário; degrau §6.10: 1).** A skill não tinha nenhuma, e sem ela a proveniência exigida pela RI-04 não tem onde morar. Achado do inventário completo de 2026-08-10 (`_auditoria/zelador-inventario-2026-08-10.md`), padrão transversal 6.
+- **2026-08-09 — `description` comprimida** na campanha das 61 (65.029 → 43.202 caracteres no catálogo, −34%), preservando as frases-gatilho e a fronteira `NÃO acione`. Registro retroativo: a compressão foi aplicada e não anotada aqui na época.

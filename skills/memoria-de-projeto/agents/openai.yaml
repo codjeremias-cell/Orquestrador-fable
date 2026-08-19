@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memória de Projeto"
+  short_description: "Preserve decisões e lições duráveis"
+  default_prompt: "Use $memoria-de-projeto para consolidar a memória durável deste projeto sem misturar tarefas."

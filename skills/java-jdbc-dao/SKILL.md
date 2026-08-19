@@ -1,84 +1,88 @@
 ---
 name: java-jdbc-dao
-description: Cria ou completa um DAO/repositório JDBC para uma entidade em projeto Java desktop (JavaFX + Access/UCanAccess ou outro banco), com SQL parametrizado, try-with-resources, colunas explícitas, transações atômicas e uso do utilitário de retry do projeto. Acione quando o usuário disser coisas como "cria o DAO de Cliente", "preciso do CRUD no banco pra essa entidade", "faz o repositório que salva e busca Funcionário", "monta as queries de Produto" ou pedir persistência/acesso a dados. NÃO acione para criar a entidade (use java-javafx-entity), a tela (use javafx-screen-fxml) nem a regra de negócio (use java-service-usecase).
+description: "Cria ou completa um DAO/repositório JDBC de uma entidade em projeto Java desktop, espelhando o padrão de DAO real do projeto — SQL parametrizado, try-with-resources, colunas explícitas e a resiliência onde o projeto a coloca. Camada de PERSISTÊNCIA do pipeline desktop Java. Acione com \"cria o DAO de Cliente\", \"preciso do CRUD no banco pra essa entidade\", \"faz o repositório que salva e busca Funcionário\", \"monta as queries de Produto\", \"grava/lê no banco\", \"insere/atualiza/lista essa tabela\", \"salva no banco\", \"busca por id\", \"listar todos\", \"SQL de inserir/atualizar/excluir\", \"repositório da entidade X\". NÃO acione para criar a entidade (use java-javafx-entity), a tela (use javafx-screen-fxml) nem a regra de negócio (use java-service-usecase)."
+argument-hint: [nome-da-entidade]
 ---
 
 # Java — DAO / Persistência JDBC
 
+📍 **No pipeline Java:** camada de persistência. Vem depois de `java-db-foundation` (provedor + retry/serialização) e `java-javafx-entity` (a entidade mapeada); é consumido por `java-service-usecase` e provado por `testador-real`.
+
 ## Objetivo
 
-Implementar o acesso a dados de uma entidade via JDBC seguindo o padrão real do projeto, com segurança (SQL parametrizado), recursos sempre fechados, colunas explícitas e transações atômicas em operações multi-passo. O DAO só persiste e mapeia linha↔objeto — não tem regra de negócio nem toca na UI.
+Implementar o acesso a dados de uma entidade **na forma que o projeto já usa** — o DAO novo tem que ser indistinguível dos DAOs existentes. O DAO só persiste e mapeia linha↔objeto; sem regra de negócio, sem UI.
 
 ## Entradas obrigatórias
 
-1. Entidade alvo (ex.: `Cliente`) ou o arquivo da entidade.
-2. Operações desejadas (ex.: `inserir`, `atualizar`, `excluir`, `buscarPorId`, `listar`).
+1. Entidade alvo (ou o arquivo dela).
+2. Operações desejadas (`inserir`, `atualizar`, `excluir`, `buscarPorId`, `listar`…).
 3. Nome real da tabela e colunas, OU autorização para ler do schema/projeto.
 
-## Entradas opcionais
+## Trava obrigatória (RO-01)
 
-- Filtros/buscas específicas (ex.: `buscarPorCidade`).
-- Se a operação faz parte de um fluxo multi-passo que exige transação.
+- Não gerar sem a entidade e o mapeamento **real** tabela↔colunas. Colunas não confirmadas → **parar e pedir**, nunca adivinhar nome de coluna.
+- Mais de uma tabela candidata → pedir a certa.
 
-## Trava obrigatória
+## Os invariantes inegociáveis (valem em qualquer projeto)
 
-- Não gerar sem a entidade alvo e o mapeamento real tabela↔colunas. Se a tabela/colunas não forem confirmadas, **parar e pedir** — nunca adivinhar nomes de coluna (RO-01).
-- Se houver mais de uma entidade/tabela candidata, pedir a correta.
+Estes não variam — são segurança e correção, não estilo:
 
-## Leituras obrigatórias (RO-01 — nunca inventar o padrão)
+- **RO-04 — toda ENTRADA vai parametrizada.** `PreparedStatement` com `?` para qualquer valor vindo de fora; **nunca** concatenar entrada na query (anti-injection). Query **sem entrada** (ex.: `SELECT COUNT(*)`, listar-tudo) pode usar `Statement` simples — é o que o gabarito SIGO faz; parametrizar não é banir `Statement`, é blindar a entrada.
+- **RO-10 — recursos sempre fechados.** `try-with-resources` em `Connection`, `Statement`/`PreparedStatement` e `ResultSet`. Recurso vazado esgota o provedor único de conexão e trava o app.
+- **Colunas explícitas.** `SELECT col1, col2, …` — nunca `SELECT *`, nunca trazer coluna sensível (`senha_hash`) para listagem.
+- **Atomicidade QUANDO multi-passo (o QUE é invariante).** Gravou em 2+ tabelas num fluxo? A operação é atômica — `setAutoCommit(false)` + `commit()`/`rollback()`. Operação de passo único **não** abre transação. **ONDE mora a fronteira transacional (DAO × camada de serviço) VARIA** — se o projeto orquestra transação no serviço (ver `java-service-usecase`), o DAO expõe a operação e o serviço abre a transação; detecte a colocação do projeto, não force no DAO. **Em greenfield não há o que detectar:** sem projeto para espelhar, a transação abre **no DAO** e isso se declara como **SUPOSIÇÃO:** (RO-01) — é o precedente do gabarito SIGO, onde a operação multi-tabela usa transação explícita nos DAOs grandes (`OrcamentoItemDAO`/`ManifestacaoDAO`).
+- **Concorrência da conexão única (UCanAccess/Access):** nunca duas consultas concorrentes — a serialização é responsabilidade do provedor (ver abaixo), não do DAO.
 
-Antes de escrever, ler do projeto real:
+## O que VARIA por projeto — espelhe, não prescreva
 
-1. Um DAO já existente para copiar o padrão de conexão, mapeamento e nomes.
-2. O provedor de conexão do projeto (ex.: classe de `Connection`/datasource) — **não instanciar conexão nova fora desse padrão**.
-3. O utilitário de retry de banco do projeto, se existir (ex.: `RetryDB.executar(...)`), e como ele é chamado.
-4. A entidade alvo (campos e tipos) e como datas/números são mapeados.
+A parte que mais erra sem ler o projeto: **onde vivem a resiliência e o log.** Não há resposta única — há a decisão que **este** projeto tomou. Leia um DAO existente + o provedor de conexão e copie:
 
-Se algum desses não existir, declarar a suposição de forma destacada antes de seguir.
+- **Retry e serialização:** vivem no **provedor de conexão** (ex.: uma classe `Database` com `ReentrantLock` + `FileLock` + retry) ou o DAO chama um `RetryDB.executar(...)`? Se o provedor já resolve, **o DAO fica limpo** — não recrie retry/lock nele.
+- **Log de erro:** o DAO loga (Log4j2, `Throwable` como último argumento) ou **propaga `throws SQLException` limpo** e quem loga é a camada de cima? Copie a escolha do projeto.
+- **Retorno das escritas:** `void`? `boolean`? id gerado (`RETURN_GENERATED_KEYS`)? Busca por id devolve `Optional`, `null` ou lança? Espelhe.
+- **Forma do SQL:** String local por método ou constantes de classe? Alias de JOIN de exibição? Helper de data nula (`setNull(i, Types.DATE)`)? `mapear(rs)` privado? Copie.
 
-## Convenções obrigatórias (Regras de Ouro do track)
-
-- **RO-04 — SQL sempre parametrizado.** `PreparedStatement` com `?`; **nunca** concatenar entrada do usuário na query. Anti-injection.
-- **RO-10 — JDBC seguro.** `try-with-resources` em `Connection`, `Statement`/`PreparedStatement` e `ResultSet`. Operações críticas dentro do `RetryDB.executar()` (ou equivalente real do projeto). Conexão única (UCanAccess) **não é thread-safe** — serializar o acesso, nunca disparar duas consultas concorrentes na mesma conexão.
-- **Colunas explícitas.** `SELECT col1, col2, ...` — nunca `SELECT *`, e nunca trazer colunas sensíveis (ex.: `senha_hash`) para listagens.
-- **Transação atômica em multi-passo.** `setAutoCommit(false)` + `commit()` no sucesso + `rollback()` no erro. Nunca deixar gravação parcial.
-- **RO-08 — Log4j 2.** Erros via logger (`Throwable` como último argumento); nunca `printStackTrace`/`System.out`.
-- **RO-11 — Encoding/Locale** explícitos quando relevante.
+**Gabarito SIGO (código real):** projeto-alvo sendo o **SIGO/SIGCOT ou família**, carregue `referencia-exemplos-reais-sigo.md` — `ViagemDAO.java` + `Database.java` verbatim. No SIGO: pacote `br.com.cot.db`; colunas snake_case com data prefixada (`data_viagem`); métodos PT-BR; **escritas `void`**; SQL local por método; `setData`/`mapear` privados; e **retry + dupla trava (JVM + arquivo) + log vivem na `Database`, o DAO fica limpo, `throws SQLException`**. Seguir isso é acerto — o corpo genérico não manda logar nem dar retry dentro do DAO.
 
 ## Fluxo
 
-1. Validar entrada e confirmar tabela↔colunas reais.
-2. Ler DAO existente, provedor de conexão e utilitário de retry.
-3. Implementar cada operação com `PreparedStatement` parametrizado e `try-with-resources`.
-4. Mapear `ResultSet`↔entidade num método privado de mapeamento.
-5. Envolver operação crítica/multi-passo em transação atômica e/ou `RetryDB`.
-6. Tratar erro com logger; propagar exceção coerente com o projeto (sem engolir).
-7. Rodar build/teste relevante e reportar arquivos e suposições.
-
-## Regras de implementação
-
-- DAO não contém regra de negócio (isso é do serviço) nem chama a UI.
-- Reusar o provedor de conexão; não duplicar configuração de conexão.
-- Buscas que retornam coleção devolvem lista; busca por id devolve `Optional`/`null` no padrão do projeto.
+1. Confirmar tabela↔colunas reais.
+2. **Ler um DAO existente + o provedor de conexão** — extrair: onde vive retry/log, retorno das escritas, forma do SQL, mapeamento.
+3. Implementar cada operação parametrizada, `try-with-resources`, colunas explícitas, **na forma detectada**.
+4. `mapear(ResultSet)↔entidade` num método privado.
+5. Transação atômica só se multi-passo. Erro tratado como o projeto trata (logar OU propagar limpo — não as duas).
+6. Rodar build/teste e reportar arquivos + suposições.
 
 ## Guardrails
 
-- Nunca concatenar string em SQL (RO-04). Nunca `SELECT *` em listagem.
-- Não inventar nome de tabela, coluna, método de conexão ou de retry (RO-01).
-- Não abrir conexão fora do provedor do projeto. Não deixar `ResultSet`/`Statement` sem fechar.
-- Não misturar acesso concorrente na conexão única do Access.
+- Nunca concatenar **entrada** em SQL (RO-04) — literais de query montados em blocos de `String` são ok, o que não pode é valor vindo de fora fora do `?`; nunca `SELECT *` em listagem.
+- Não inventar tabela, coluna, método de conexão/retry (RO-01).
+- Não deixar `ResultSet`/`Statement` sem fechar; não abrir conexão fora do provedor único.
+- **Não impor retry/log dentro do DAO se o projeto os coloca na infraestrutura** — recriar o que a `Database` já faz é erro, não zelo.
 
 ## Saída esperada
 
-- DAO da entidade no pacote de persistência do projeto, com as operações pedidas.
-- Mapeamento linha↔objeto, transações onde necessário, retry nas operações críticas.
-- Nota com tabela/colunas usadas e suposições (RO-01).
+- DAO no pacote de persistência do projeto, operações pedidas, mapeamento, na forma real.
+- Nota com tabela/colunas usadas, onde vivem retry/log neste projeto, e suposições (RO-01).
+
+## Verificação de fechamento (RI-04)
+
+O DAO fecha quando compila e, quando há banco, as operações rodam de verdade:
+
+1. **Compila:** `mvn -q -DskipTests compile` (ou `./gradlew compileJava`) verde — o DAO bate com a entidade, o provedor e a API do driver reais.
+2. **Operações rodam (quando há banco de teste acessível):** um round-trip real (inserir → buscarPorId → listar → excluir) via `testador-real`, provando o mapeamento coluna↔campo e o SQL. Sem banco na sessão, vira **SKIP declarado** com o motivo, nunca "passou" fingido.
+3. **Checklist de segurança:** toda entrada passa por `?` (grep por concatenação em SQL no arquivo novo); nenhum `SELECT *` em listagem; nenhuma coluna sensível numa lista.
 
 ## Sugestões de evolução (RO-07)
-Fechar com 2–3 sugestões (ex.: extrair SQL para constantes; paginar `listar`; índice na coluna de busca mais usada).
+Feche com 2–3 (ex.: extrair SQL para constantes; paginar `listar`; índice na coluna de busca mais usada).
 
 ## 🔗 Rede da skill
 - **Lentes que ativam junto (RI-06):** `especialista-seguranca` (RO-04, colunas sensíveis fora de listagem) · `dev-senior` (mapeamento e recursos sempre fechados).
-- **Vem antes:** `java-db-foundation` (provedor + RetryDB) · `java-javafx-entity` (a entidade mapeada).
+- **Vem antes:** `java-db-foundation` (provedor + retry/serialização) · `java-javafx-entity` (a entidade mapeada).
 - **Vem depois:** `java-service-usecase` (consome o DAO) · `testador-real` (prova as operações contra o banco).
 - **Não confundir com:** `java-db-foundation` (infraestrutura de conexão — aqui é o DAO da entidade).
+
+### 📜 Histórico
+- **2026-08-11 — Ponteiro circular de transação quebrado no ramo greenfield (inventário do catálogo, `_auditoria/zelador-inventario-2026-08-10.md`, grupo "regra que precisa migrar"):** o bullet "Atomicidade QUANDO multi-passo" mandava detectar a colocação e apontava para `java-service-usecase`, que aponta de volta para cá — em greenfield não há o que detectar. Acrescentado o default explícito (transação no DAO, declarada como SUPOSIÇÃO), ancorado no precedente já escrito em `referencia-exemplos-reais-sigo.md` (multi-tabela com transação explícita em `OrcamentoItemDAO`/`ManifestacaoDAO`). `description` intocada.
+
+Registro completo de rodadas de evolução movido para [referencia/HISTORICO.md](referencia/HISTORICO.md) (progressive disclosure — metadado de autoria não precisa custar token a cada turno). Última rodada: **2026-07-18 — Evolução ao 9,5 (núcleo SIGO)** (corpo em invariantes × o que varia; verificação de fechamento RI-04; evals com 2 casos).

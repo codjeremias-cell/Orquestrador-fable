@@ -1,0 +1,4 @@
+interface:
+  display_name: "Projeto Desktop Completo"
+  short_description: "Conduza um app desktop da ideia à entrega"
+  default_prompt: "Use $spec-desktop-app para conduzir este aplicativo desktop da descoberta ao pacote final."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shell de Aplicação JavaFX"
+  short_description: "Crie janela, navegação e alertas em JavaFX"
+  default_prompt: "Use $javafx-app-shell para criar o shell e a navegação principal deste app JavaFX."

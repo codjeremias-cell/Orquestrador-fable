@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aplicativo Mobile Completo"
+  short_description: "Conduza um app mobile da ideia à entrega"
+  default_prompt: "Use $spec-mobile-app para conduzir este aplicativo mobile da descoberta à entrega."

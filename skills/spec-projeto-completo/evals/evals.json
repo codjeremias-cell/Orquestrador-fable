@@ -26,7 +26,14 @@
         "Reconhece que o pedido é uma etapa isolada, não o projeto inteiro",
         "Não força a sequência completa de 10 etapas para um pedido pontual",
         "Direciona para a skill de testes específica (testador-real ou instância do projeto)"
-      ]
+      ],
+      "precisa_bench": true,
+      "motivo_precisa_bench": "exige um sistema completo com suite de testes; caso mede handoff, nao construcao",
+      "espera_acionamento": false,
+      "rota_correta": [
+        "testador-real"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     },
     {
       "id": 2,
@@ -38,7 +45,12 @@
         "Identifica que a plataforma-alvo (desktop JavaFX) já tem um track de geradores dedicado",
         "Prefere/aciona spec-javafx-new-system em vez de reconstruir manualmente a sequência com as lentes",
         "Não ignora ou duplica o trabalho do orquestrador de track específico"
-      ]
+      ],
+      "espera_acionamento": false,
+      "rota_correta": [
+        "spec-javafx-new-system"
+      ],
+      "nota_fronteira": "Caso de FRONTEIRA: o expected_output manda rotear para outra skill. Marcado em 2026-08-11 — sem este campo o runner reprovava o acerto."
     }
   ]
 }
