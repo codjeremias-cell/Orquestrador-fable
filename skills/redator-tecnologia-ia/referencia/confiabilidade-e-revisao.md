@@ -73,6 +73,32 @@ houve uso substancial de IA e pergunta se a peça levará divulgação;
 política conhecida do canal de destino cumpre-se como bloqueador. O
 agente nunca decide omitir.
 
+## Contrato da proposição antes de aparar
+
+Antes de enxugar, humanizar ou remover rastros de sessão, registre o
+contrato de cada proposição que carrega fato, requisito, decisão ou
+instrução:
+
+- **ator + ação** — quem faz o quê;
+- **condição + tempo + ordem** — quando ocorre e do que depende;
+- **modalidade** — obrigação, permissão ou proibição;
+- **negação + exceção** — o que não vale e em qual borda;
+- **dono + efeito + falha + consequência** — quem responde e o que muda
+  se a ação funcionar ou falhar.
+
+Depois da revisão, releia o texto como um leitor situado no estado atual,
+sem acesso à conversa que o produziu. Pronome, “isso”, “acima”, “antes”,
+“nova versão” e referência semelhante precisam resolver dentro do próprio
+documento; se dependem do histórico da sessão, reescreva em torno do
+sujeito e do comportamento atuais.
+
+**Fronteira da limpeza:** preserve a justificativa necessária para
+segurança, contrato ou decisão. Corte diário de mudança, coreografia de
+revisão e raciocínio de sessão que não servem ao leitor. Fatos, ressalvas,
+modalidade, negação, código e links permanecem semanticamente intactos.
+
+*Proveniência D2: `deepseek-ai/deepseek-harness` @ `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e` (MIT), `.agents/skills/dsh-prose-standard/SKILL.md` (SHA-256 `60fb954529bf5388d8acf0de99036c9c3299eb659221b355fd07988f6313915c`) e `.agents/skills/dsh-trim-cot-leakage/SKILL.md` (SHA-256 `e46f456241d918649ab724e622dc256d9990732d17b765fe92c448c414604fc8`) — laudo `garimpo-lote-4-repositorios-2026-08-27.md` §D2.*
+
 ## Checklist binário de revisão final (fecha a entrega — sem item aberto)
 
 Marcar item a item, anexado à entrega:
@@ -98,3 +124,6 @@ Marcar item a item, anexado à entrega:
 - [ ] As 4 lentes editoriais aprovaram (reprovações corrigidas e
       repassadas).
 - [ ] Uso de IA informado ao usuário + pergunta de divulgação feita.
+- [ ] Toda proposição relevante preserva ator, ação, condição, modalidade,
+      negação/exceção, dono e consequência aplicáveis; nenhuma referência
+      depende da conversa ou de uma versão anterior para ser entendida.

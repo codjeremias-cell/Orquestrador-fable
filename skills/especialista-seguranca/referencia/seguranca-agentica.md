@@ -180,6 +180,46 @@ Neste cofre a varredura foi feita em **2026-08-08**: das 61 skills e suas refer�
 
 **Companheira, para quem administra máquina de terceiro:** `strictPluginOnlyCustomization` bloqueia skills, agents, hooks e MCP vindos de usuário e de projeto, deixando só plugins e configuração gerenciada. **Não sirva para este cofre** — as 61 skills são implantadas em `~/.claude/skills`, origem *usuário*, e a chave desligaria o catálogo inteiro. Fica registrada como ferramenta de frota, não de estação de trabalho.
 
+## Quatro defesas nomeadas, para o agente com acesso a navegador
+
+As seções acima dizem **por que** o conteúdo que entra é hostil. Estas quatro dizem **o que
+instalar** — são implementação, não princípio, e vêm de um harness que roda agente com browser em
+produção.
+
+**1. Classificador de injeção na entrada.** Todo conteúdo buscado de fora — página, PDF, resposta
+de API, screenshot com texto — passa por um classificador **antes** de chegar ao agente
+privilegiado. Não é o mesmo modelo que vai agir: é um passo separado, cuja única saída é
+`suspeito` / `limpo`. O ponto não é acertar sempre; é que exista **um lugar onde a decisão é
+tomada**, em vez de ela se dissolver no julgamento do agente que já está no meio da tarefa.
+
+**2. Checagem da transcrição por modelo barato.** Um segundo modelo, pequeno e rápido, lê a
+transcrição em andamento procurando desvio de objetivo — o agente que começou a resumir uma página
+e está agora exfiltrando um token. Roda **fora** do fio principal, e é barato de propósito: caro
+demais e ninguém liga, e trava que ninguém liga não é trava.
+
+**3. Canary token.** Um valor único e inerte é plantado no material que o agente vai ler. Se ele
+aparecer numa requisição de saída, numa mensagem ou num arquivo escrito, houve exfiltração — e
+você sabe **por qual documento** ela entrou, porque cada canário é distinto. É a única das quatro
+que detecta o ataque **depois** de ele funcionar, e por isso é a que fecha o ciclo: sem ela, o
+sucesso do atacante é silencioso.
+
+**4. Allowlist de CDP por negação padrão.** O protocolo de automação do navegador expõe muito mais
+que "clicar e ler": há comandos que leem cookie, injetam script e alcançam outras abas. A postura
+é a mesma do resto desta página — **nega por padrão, libera comando a comando**, e o que ninguém
+declarou fica fora. Bloquear por lista de proibidos é a forma que envelhece: cada versão nova do
+protocolo acrescenta comando, e a lista de proibidos não acompanha sozinha.
+
+**As quatro juntas cobrem coisas diferentes, e é por isso que são quatro:** (1) filtra o que entra,
+(2) vigia o que está acontecendo, (3) detecta o que já saiu, (4) limita o que a ferramenta pode
+fazer. Instalar só a primeira é a tentação — e deixa três buracos.
+
+> **Limite desta página, declarado.** As quatro estão **descritas, não implementadas nem medidas
+> nesta casa**. Não há aqui classificador escrito, nem canário em uso, nem allowlist de CDP
+> configurada. O que esta seção entrega é o **nome e o formato** de cada defesa, para que a
+> ausência delas seja uma lacuna nomeada em vez de um ponto cego. Instalar qualquer uma exige
+> medição própria — e a barra mínima abaixo continua sendo o que se exige antes de rodar, não isto.
+
+
 ## Barra mínima para rodar agente autônomo
 
 - [ ] Identidade do agente separada da conta pessoal
@@ -202,8 +242,11 @@ Neste cofre a varredura foi feita em **2026-08-08**: das 61 skills e suas refer�
 - [ ] Existe uma classe de trava que o **modo de bypass não desliga**
 - [ ] Execução de shell dentro de skill **desligada** (`disableSkillShellExecution`) — depois de varrer e confirmar que nenhuma skill a usa
 - [ ] **Fonte externa lida uma vez, e só pelo pai** — worker não busca, não dereferencia, não segue link; recarregar exige o usuário fornecer a URL de novo
+- [ ] Agente com **navegador**: classificador de injeção na entrada, checagem de transcrição por modelo barato, **canary token** no material lido e allowlist de CDP por negação padrão — as quatro, porque cobrem etapas diferentes
 
 ## Proveniência
+
+**2026-08-27, T59 (terceira pepita da T56)** — a seção "Quatro defesas nomeadas" e a linha correspondente da barra mínima vêm do que o **gstack** declara para o agente com acesso a navegador: classificador de injeção, checagem de transcrição por modelo barato, canary tokens e allowlist CDP por negação padrão. Princípio absorvido, redação e o argumento do "por que quatro" desta casa. **O que esta casa acrescenta, e é o limite:** as quatro estão nomeadas e **nenhuma foi implementada ou medida aqui** — está escrito na própria seção, para que a lacuna fique nomeada em vez de virar cobertura presumida. A tarefa esteve **bloqueada por fronteira de escrita** de 2026-08-22 a 2026-08-27, não por conteúdo: o alvo é skill do Catálogo e a frente ativa tinha `Catalogo-Skills-Unificado/skills/**` no `nao_toca`. Destravada por decisão de Jeremias, registrada em `hooks/escopo-de-frente.json`.
 
 **2026-08-10, garimpo codex-security H7** — a seção "Quem busca, e quantas vezes" e a linha correspondente da barra mínima vêm de `sdk/typescript/_bundled_plugin/skills/security-diff-scan/SKILL.md` (§"Phase Sequence" passo 3 e §"Scan Routing") de `openai/codex-security`, Apache-2.0, commit `ac3b71f94e2ce32e84970a11210a0b61cae0c861`. Princípio absorvido, redação reescrita. Laudo em `garimpo-codex-security-2026-08-10.md`, Rodada 2.
 

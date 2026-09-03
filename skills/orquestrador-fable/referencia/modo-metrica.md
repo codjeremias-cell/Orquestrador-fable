@@ -64,11 +64,23 @@ O maestro deriva e **mostra ao Jeremias para ok** (gate de disparo — nenhuma i
 
 **Checkpoint:** a cada ~8 iterações, o executor devolve ao maestro um resumo (tendência, kept/discarded, melhor resultado) — é onde o maestro decide seguir, parar ou replanejar.
 
-## 4. Parada — platô mecânico (anti-estagnação do modo)
+## 4. Parada — as 6 condições canônicas de encerramento *(2026-08-27, garimpo Loopy · G1)*
 
-- **Platô:** janela dos últimos **5 valores computados** sem progresso líquido — o último não é estritamente melhor que o primeiro da janela. **Oscilação que zera é platô** (sobe-desce alternando = loop batendo cabeça; parar antes do teto).
-- **Ciclo `unknown`** (crash de infraestrutura, métrica incomputável): **não conta** como zero progresso — mas **2 seguidos = BLOCKED** (parar e reportar; algo está quebrado, insistir é desperdício).
-- **Teto** (25 padrão) e **meta atingida** também param, claro.
+Toda iteração termina com **exatamente um** dos 6 motivos abaixo. O ledger (§3, coluna `status`) registra o código; o fechamento (§5) o valida. Enum fechado — motivo que não caiba aqui **é um defeito no loop, não uma exceção no motivo**.
+
+| Código | Quando | Ação |
+|---|---|---|
+| `SUCESSO` | Critério de aceite (Verify) satisfeito **comprovadamente** (métrica atingiu a meta na direção certa E Guard passou). | Ir para o fechamento (§5). |
+| `NO_OP` | A iteração não produziu mudança — o escopo inteiro já está no estado desejado. | Registrar e ir para o fechamento. |
+| `BLOQUEADOR` | Dependência externa ou infraestrutura insolúvel pelo executor (falta de permissão, serviço fora, compilação quebrada por fator externo). | Parar e reportar ao Jeremias; **2 BLOQUEADORES seguidos = BLOCKED definitivo** (algo está quebrado, insistir é desperdício). |
+| `FRONTEIRA_APROVACAO` | Próxima ação exigiria decisão sensível, irreversível ou fora do escopo autorizado. | Parar e escalar ao Jeremias — o loop **pausa e persiste** (o estado fica no ledger para retomada), não abandona. |
+| `ORCAMENTO_ESGOTADO` | Teto numérico de iterações atingido (25 padrão; ajustável no ok do gate de disparo, nunca ilimitado por padrão). | Entregar o melhor resultado + ledger; o que ficou de fora é dívida declarada, não omissão. |
+| `SEM_AVANCO_MENSURAVEL` | Janela dos últimos **5 valores computados** sem progresso líquido — o último não é estritamente melhor que o primeiro da janela. **Oscilação que zera é platô** (sobe-desce alternando = loop batendo cabeça; parar antes do teto). | Parar e reportar a tendência. |
+
+**Regras de composição:**
+- **`BLOQUEADOR` por crash:** ciclo `unknown` (crash de infraestrutura, métrica incomputável) **não conta** como zero progresso para o platô — mas 2 seguidos = `BLOQUEADOR` (parar e reportar).
+- **Precedência:** `SUCESSO` e `FRONTEIRA_APROVACAO` têm prioridade sobre `ORCAMENTO_ESGOTADO` (se a meta é atingida na última iteração, o motivo é `SUCESSO`, não esgotamento).
+- **O teto é o último recurso, não o único** — quem lê só este passo precisa saber que existem 5 paradas antes dele.
 
 ## 5. Fechamento — quem aceita não é quem otimiza (anti-overfit)
 

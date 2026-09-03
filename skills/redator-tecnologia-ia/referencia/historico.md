@@ -24,6 +24,7 @@ SKILL.md aponta pra cá em "Recursos desta skill".
 
 ## 📜 Histórico
 
+- **2026-08-27 — Preservação semântica D2 + taxonomia anti-slop H1 (degrau §6.10: 2 — duas referências existentes).** `confiabilidade-e-revisao.md` ganhou o contrato da proposição antes da limpeza — ator/ação, condição/tempo/ordem, modalidade, negação/exceção, dono/efeito/falha/consequência — e a prova de que referências se resolvem sem a conversa. `voz-e-tiques.md` ganhou oito famílias ausentes de prosa artificial e guardas contra falso positivo. O corpus real continua acima da regra genérica, o travessão não foi proibido globalmente e fatos, links, código, frontmatter e intenção ficam preservados. Proveniências: `github.com/deepseek-ai/deepseek-harness` @ `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e` (MIT), hashes `60fb954529bf5388d8acf0de99036c9c3299eb659221b355fd07988f6313915c` e `e46f456241d918649ab724e622dc256d9990732d17b765fe92c448c414604fc8`; `github.com/blader/humanizer` @ `e2e92e7b4b8229253ed5c8e81dc65463fdeddda5` (MIT), hash `14fc8a965b6e0a8dc100ba4dffeab55cb94bbac112abbde7e014d5c15a35c202`. Laudos: `garimpo-lote-4-repositorios-2026-08-27.md` §D2 e `garimpo-lote-5-repositorios-2026-08-26.md` §H1. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-11 — Ponteiros mortos (inventário do zelador,
   `_auditoria/zelador-inventario-2026-08-10.md`, ação ATUALIZAR 14).**
   `deep-research` não existe: nem no catálogo, nem em `~/.claude/skills`,

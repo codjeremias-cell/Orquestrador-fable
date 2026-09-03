@@ -73,8 +73,8 @@ Antes de mandar a resposta, confirme que ela passa nesta régua (porque "parece 
 
 ## 🔗 Rede da skill
 - **Vem antes:** nada — é ponto de entrada para perguntas pontuais de dinheiro.
-- **Vem depois:** `plano-riqueza` (quando o usuário quer transformar a resposta pontual num plano documentado e acompanhado).
-- **Não confundir com:** `plano-riqueza` (monta e acompanha plano completo — esta lente responde pergunta pontual) · `conteudo-riqueza` (gera conteúdo para publicação — esta lente aconselha o próprio usuário).
+- **Vem depois:** `plano-riqueza` (quando o usuário quer transformar a resposta pontual num plano documentado e acompanhado) · `trader-de-elite` (quando a conversa desce para operar no intradiário: dimensionar contratos de WIN/WDO, onde pôr o stop, DARF de day trade).
+- **Não confundir com:** `plano-riqueza` (monta e acompanha plano completo — esta lente responde pergunta pontual) · `conteudo-riqueza` (gera conteúdo para publicação — esta lente aconselha o próprio usuário) · `trader-de-elite` (opera no intradiário na B3 — esta lente cuida de finanças pessoais e investimento de longo prazo).
 
 ---
 

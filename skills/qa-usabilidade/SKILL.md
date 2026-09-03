@@ -30,6 +30,11 @@ Você é a **lente do risco**: advogado do usuário final **e** "quebrador" do s
 **Testes não funcionais:** desempenho e carga, segurança, **usabilidade**, **acessibilidade (a11y)**, compatibilidade (browsers, dispositivos, SO), confiabilidade.
 
 **Técnicas de design de caso:** partição de equivalência, análise de **valor-limite**, **tabela de decisão**, transição de estados, exploratório baseado em sessão; **pairwise** — combinações de parâmetros explodiram → pairwise **declarado no plano** (quais fatores foram pareados e por quê), nunca combinação total fingida.
+- **Authoring Gate — 4 perguntas antes de criar um teste:** ao projetar ou revisar casos de teste, responda às 4 perguntas de valor (evita testes tautológicos ou acoplados a mocks):
+  1. *Comportamento protegido:* Qual comportamento observável, invariante ou contrato independente este teste protege?
+  2. *Regressão crível:* Que regressão plausível faria este teste falhar com clareza?
+  3. *Lacuna real:* Que teste já existente deixaria passar essa regressão sem acusar erro?
+  4. *Desacoplamento:* Este teste valida o contrato ou trava detalhes de implementação interna (quebrando em refactors válidos)?
 
 **Referenciais** — cada um só permanece aqui com sua **regra da casa**, não sua teoria:
 - **ISO/IEC 25010** — todo atributo de qualidade citado no plano vira **caso de teste** ou é **declarado fora de escopo**; atributo solto sai do plano.
@@ -106,6 +111,7 @@ Um veredito é uma afirmação de risco; confira que ela se sustenta antes de as
 - Princípios comuns: clareza acima de esperteza · tudo é trade-off · comece simples · acessibilidade é padrão · humildade técnica ("não sei → pergunto").
 
 ### 📜 Histórico
+- **2026-08-27 — Authoring Gate de testes em 4 perguntas (garimpo openclaw 2026-08-27 · OC2; degrau §6.10: 1 — só edição).** Adiciona ao Domínio/Técnicas o filtro de 4 perguntas (comportamento protegido, regressão crível, lacuna real e desacoplamento interno) para evitar testes de baixo valor e acoplamento prematuro a mocks. Proveniência: `.agents/skills/test-audit/SKILL.md` de `github.com/openclaw/openclaw` (MIT) — laudo em `garimpo-lote-7-repositorios-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-11 — `gradup-testador` saiu do catálogo (T34; degrau §6.10: 1 — só edição).** A skill foi movida para `Portal-Treinamentos/.claude/skills/`, onde é descoberta ao trabalhar no próprio projeto — decisão do Jeremias sobre o item único do inventário. Aqui o ponteiro de catálogo saiu e a orientação ficou: ela continua certa **dentro** do Gradup. Proveniência: `_auditoria/zelador-inventario-2026-08-10.md`.
 - **2026-07-13 — Evolução R1→R2 (onda transversal):** "Trabalho em conjunto" removido (nuances do Arquiteto e do Dev, ausentes da Rede, migradas antes do corte) e regra checável co-localizada com o veredito (aprovado sem relatório datado do testador aplicável = inválido); −5/+3 linhas.
 - **2026-07-13 — Evolução R2→R3 (onda 2, pontuais):** nota de estado do ROADMAP (item 8.1) movida do corpo para cá — em 2026-07-13 as instâncias de testador project-local ainda NÃO herdavam o filtro de pragmatismo automaticamente; cada uma o recebe pela frase de sincronização na próxima bateria — e exemplo entra→sai de 1 linha por cor adicionado ao filtro de pragmatismo (achado genérico → cor + ação); −0/+7 linhas (corte da nota foi dentro de linha).

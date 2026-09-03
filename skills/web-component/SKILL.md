@@ -50,6 +50,7 @@ são CVA e a **fronteira a11y** é preservada.
 - **`ref` como prop + `{...props}`** sempre (React ≥19: `ref` é prop comum e `forwardRef` deixou de ser
   necessário — a doc oficial já o dá como a depreciar; em React 18, `forwardRef`); `asChild` quando a
   primitiva suporta composição.
+- **Microinterações físicas táteis (pepita JK1):** botões e controles recebem feedback com `active:scale-[0.96] transition-transform` (nunca `transition: all`); contadores e valores dinâmicos usam `tabular-nums` para zerar layout shift; alvo de toque mínimo de 40×40px em desktop e 44×44px em touch.
 
 ## Fronteira a11y invariável (RO-FE3 — nunca cruzar)
 
@@ -150,6 +151,7 @@ testes de a11y no CI com axe; documentar variantes num story/preview quando o De
 - **Não confundir com:** `design-tokens-gen` (define os tokens; aqui se consomem) · `web-data-layer` (estado/dados; aqui é a casca visual + a11y).
 
 ### 📜 Histórico
+- **2026-08-27 — Microinterações físicas em componentes de UI (garimpo jakubkrehel 2026-08-27 · JK1; degrau §6.10: 1 — só edição).** Adiciona às Convenções obrigatórias o feedback de clique tátil com `active:scale-[0.96] transition-transform` (banindo `transition: all`), números tabulares em contadores dinâmicos e área mínima de toque de 40×40px/44×44px. Proveniência: `skills/make-interfaces-feel-better/SKILL.md` de `github.com/jakubkrehel/make-interfaces-feel-better` (MIT) — laudo em `garimpo-lote-9-fontes-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-11 — React ≥19: `ref` como prop no lugar de `forwardRef`:** Convenções bullet 3 e o few-shot do Button reescritos sem `forwardRef` (`function Button({ ..., ref, ...props })`), mantendo `cva`, `Slot`/`asChild` e o *"Por que assim"*. **Guardrails e a Fronteira a11y invariável (RO-FE3) não mudaram** — o invariante segue sendo `ref` e `{...props}` chegando ao nó real. Fato externo **confirmado antes de editar** (RO-01) na doc oficial React: *"In React 19, `forwardRef` is no longer necessary. Pass `ref` as a prop instead. `forwardRef` will be deprecated in a future release."* (react.dev/reference/react/forwardRef). Proveniência: inventário do zelador de 2026-08-10, ATUALIZAR item 10 (RI-04). `description` **intocada**: "componente com forwardRef e tokens" é frase-gatilho medida. Ficaram fora do escopo do item, e seguem dizendo `forwardRef`: Leituras obrigatórias 3 e Fluxo passo 3.
 - **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens C18, C19, C20, C21, C22, C23; −2 linhas.
 - **2026-07-20 — Polimento de autoria:** gatilho `when_to_use` + `argument-hint`; +few-shot canônico (CVA/`forwardRef`/`Slot`, com o *porquê* da fronteira) e +checklist de Verificação a11y explícito. Descrição e convenções preservadas.

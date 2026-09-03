@@ -142,6 +142,45 @@ A distinção não é detalhe: **é a mesma engrenagem do campo `paths` de skill
 > **Linha de base — teto (2026-08-11).** O `~/.claude/settings.json` desta casa traz `skillListingBudgetFraction: 0.005` — **metade do default**. Efeito conferido contando a listagem de skills recebida numa sessão de 1M: das **61 skills do catálogo, 12 chegam com `description`; as outras 49 chegam só com o NOME**. Elas continuam invocáveis por nome — o que se perde é o **disparo espontâneo**, e é por isso que a alavanca `name-only` acima não custa zero.
 >
 > **Delta contra a linha de base anterior (2026-08-08), e a causa.** Naquela rodada a listagem completa somava **73.049 caracteres** (as 61 do catálogo mais 18 de plugins e bundled) contra orçamento de **30.000**: **59% cortado**, com o catálogo respondendo por **90%** da carga, média de **1.071 caracteres** por skill contra os **~440** que caberiam. O acervo não mudou — continuam 61. **O que mudou foi o teto, que foi baixado**, e baixar o teto é exatamente a alavanca que a inversão acima aponta como a única que devolve contexto: o preço dela aparece aqui, nas 49 sem semântica. Em janela menor que 1M o orçamento cai na mesma proporção e o corte piora — meça na janela em que a sessão vai rodar, não na maior que você tem.
+### A outra metade do orçamento: o que se acumula durante a sessão
+
+Tudo acima mede **carga permanente** — o que entra no arranque de todo turno e não sai: listagem
+de skills, `CLAUDE.md` ancestral, plugins. É a metade que o zelador sabe medir, e é a que se corta
+aposentando componente.
+
+**A outra metade cresce enquanto a sessão roda**, e nenhum corte de acervo a alcança: resultado de
+ferramenta, saída de comando, arquivo lido, transcrição. Um `grep` que devolve 4.000 linhas custa,
+naquela sessão, mais que uma skill inteira — e não aparece em nenhuma medição de catálogo.
+
+O harness tem quatro alavancas nomeadas para essa metade, e o zelador precisa saber que elas
+existem antes de recomendar corte de acervo:
+
+| Alavanca | Sobre o quê age |
+|---|---|
+| `toolResultBudget` | teto por **resultado de ferramenta** — corta a saída gorda na entrada, antes de ela virar contexto |
+| `snipCompact` | remove trechos **pontuais** já resolvidos, preservando o fio |
+| `microCompact` | compactação **incremental**, contínua, sem cortar a conversa em duas |
+| `autoCompact` | compactação **de janela**, disparada por limiar, com a perda concentrada num ponto |
+
+**Por que isto muda a recomendação do modo CUSTO, e não é detalhe de configuração:** medir o
+acervo e propor aposentadoria é a resposta certa para carga **permanente** e a resposta errada para
+carga **de sessão**. Quem sente a janela apertar no meio de um trabalho longo não vai ser salvo por
+cortar três skills — vai ser salvo por um teto de resultado de ferramenta. **Recomendar o corte
+errado gasta acervo e não devolve a janela.**
+
+Ao fechar o modo CUSTO, **diga de qual metade é o aperto**. O sinal é barato: aperto que existe
+já no primeiro turno é permanente; aperto que aparece depois de N chamadas de ferramenta é de
+sessão. A linha *Skills* do `/context` mede a primeira; a diferença entre o contexto do turno 1 e
+o do turno atual mede a segunda.
+
+> **Limite declarado, e ele importa mais que a tabela.** As quatro alavancas acima estão
+> **nomeadas, não medidas nesta casa**. Não sei o teto default de nenhuma delas, não medi quanto
+> cada uma devolve, e não conferi quais estão disponíveis nesta versão do runtime. A inversão de
+> 2026-08-09 — a compressão que devolveu **zero token** — nasceu exatamente de tratar como economia
+> algo que não tinha sido medido. **Antes de propor qualquer uma como alavanca, meça-a como o teto
+> da listagem foi medido:** com o número antes, o número depois, e a receita colada no relatório.
+
+
 
 ---
 
@@ -251,6 +290,9 @@ Relatório datado em `_auditoria/` do catálogo, nomeado pelo modo (`zelador-cus
 - Princípios comuns: clareza acima de esperteza · tudo é trade-off · comece simples · humildade técnica ("não sei → meço").
 
 ### 📜 Histórico
+- **2026-08-27 — A outra metade do orçamento (T70, terceira pepita da T67; degrau §6.10: 1 — só edição).** O Modo CUSTO media **carga permanente** — listagem, `CLAUDE.md` ancestral, plugins — e não dizia nada da carga que **cresce durante a sessão**: resultado de ferramenta, saída de comando, arquivo lido. Entrou a subseção com as quatro alavancas que o harness expõe para essa metade (`toolResultBudget`, `snipCompact`, `microCompact`, `autoCompact`) e, mais importante que a tabela, **o critério para saber de qual metade é o aperto**: aperto já no primeiro turno é permanente; aperto depois de N chamadas de ferramenta é de sessão. Vale porque **recomendar o corte errado gasta acervo e não devolve a janela** — quem sente a janela apertar num trabalho longo não é salvo por aposentar três skills. **Limite declarado no próprio texto:** as quatro estão **nomeadas, não medidas nesta casa** — não sei o teto default de nenhuma, e a inversão de 2026-08-09 (a compressão que devolveu zero token) nasceu exatamente de tratar como economia algo não medido. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0** — a subseção é descritiva e o único abrandamento é o limite declarado, que restringe o que a página afirma saber, não o que ela exige. A tarefa esteve **bloqueada por fronteira de escrita** de 2026-08-22 a 2026-08-27, não por conteúdo; destravada por decisão de Jeremias. Proveniência: `shareAI-lab/learn-claude-code`, laudo da T67.
+
+- **2026-08-27 — Protocolo de Evals Determinísticos para Ferramentas e Extensões (garimpo anthropics 2026-08-27 · AN1; degrau §6.10: 1 — só edição).** Amarra as 5 propriedades de estabilidade (independência, somente-leitura, complexidade realista, verificação exata por string sem juiz probabilístico, estabilidade temporal) ao protocolo de validação e medição de acervo de skills. Fonte canônica no [[PADRAO-DE-AUTORIA]] §11.9. Proveniência: `skills/mcp-builder/SKILL.md` de `github.com/anthropics/skills` (Apache-2.0) — laudo em `garimpo-lote-6-fontes-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-18 — A quinta alavanca do teto: `paths`, filtro por contexto (T21, observação devolvida pelo garimpo `oh-my-opencode` 2026-08-18 · G9; degrau §6.10: 1 — só edição).** O mapa de alavancas do Modo 1 listava quatro e **omitia a única que muda a dimensão do problema**: as quatro escolhiam *quem* perde a description ou *quanto* cabe no orçamento; o `paths` escolhe **quando** a skill aparece — ela sai do arranque e volta ao tocar arquivo do escopo. O campo já era citado **duas vezes** nesta skill (L115 e no Histórico de 2026-08-09), mas só como *analogia de engrenagem* com o carregamento descendente do `CLAUDE.md` — nunca como alavanca de teto, que é onde ele decide. A observação veio de fora: a fonte garimpada filtra a listagem por agente no seu próprio encanamento, e o equivalente portável desta casa é o `paths`. **A ressalva entra junto com a alavanca, e é o que faz dela uma linha honesta:** medido nesta casa que de **9 formas de glob apenas `**` devolve** a skill quando o caminho casa — a metade "remove" foi medida com rigor e a metade "devolve" quase não foi, e é dela que a adoção dependia. Errar o glob produz remoção silenciosa, o mesmo modo de falha do teto. Guardrail declarado: só serve para skill de escopo geográfico claro (track, stack, pasta); em lente universal, remove sem devolver. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.**
 - **2026-08-11 — Linha de base do teto reposta, e o preço do `name-only` (inventário `_auditoria/zelador-inventario-2026-08-10.md`, ação ATUALIZAR 5; RI-04; degrau §6.10: 1 — só edição).** Três correções no passo 6 do Modo 1, todas conferidas antes de escrever: **(a)** o texto afirmava "orçamento de **1%** da janela" como se fosse fixo — 1% é o **default**; o `~/.claude/settings.json` desta casa está em `skillListingBudgetFraction: 0.005`, e agora a skill manda ler o valor efetivo antes de calcular. **(b)** A linha de base do teto ainda era a de 2026-08-08 (73.049 caracteres contra 30.000, 59% cortado); a vigente foi contada na listagem recebida numa sessão de 1M — **12 das 61 chegam com description, 49 chegam só com o nome**. O número antigo ficou como delta explicado, com a causa nomeada: o acervo não mudou (61 então, 61 agora), **o teto é que foi baixado**. **(c)** A alavanca `skillOverrides: "name-only"` custava "zero — só decisão"; é falso — ela troca description por nome, e quem perde a description perde o disparo espontâneo, o que nos geradores de track (medidos disparando direto por semântica) quebra o caminho de entrada. Passou a dizer que a alavanca escolhe **onde** o dano cai, não que ele não existe.
 - **2026-08-09 — Medição por ablação substitui a fórmula, e a inversão do teto (rodada própria do Modo 1; degrau §6.10: 1 — só edição).** Três correções nascidas de executar o próprio modo 1 (`_auditoria/zelador-custo-2026-08-09.md`): **(a)** o passo 2 mandava converter por fórmula e afirmava que *"estimativa com fórmula declarada é medição"* — falso, e caro: a fórmula do MCP (~500 tokens de esquema × 19 ferramentas = 9.500) errou **19×** contra os **337–665** medidos, porque o runtime passou a **diferir** o carregamento e só o nome entra. Entrou a receita de **ablação por flag** lendo o `usage` da API, que mede em vez de estimar. **(b)** O passo 1 ganhou a checagem `deferred tools included` antes de contar ferramenta MCP. **(c)** A alavanca *"encurtar description"* passou de **devolve orçamento a todos** para **devolve zero acima do teto**: como a listagem é truncada até caber, o custo permanente **é o teto** — a compressão de 65.379 → 44.140 (−32,5%) devolveu **zero token**, mudando só a taxa de truncamento (59% → 41%). Só **baixar** o teto, ou levar o acervo para baixo dele, devolve contexto.

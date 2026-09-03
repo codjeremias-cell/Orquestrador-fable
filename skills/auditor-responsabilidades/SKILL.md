@@ -120,6 +120,34 @@ Os dois juntos são defesa em profundidade. E daí sai a regra de autoridade: **
 - **Critério objetivo de reprovação (isso sim reprova):** alegar conclusão sem ter rodado a verificação **nesta mesma entrega** (não uma rodada anterior); aceitar relato de sucesso de outro agente/subagente sem conferir a evidência.
 - **Heurística de atenção (motivo para olhar mais perto, não motivo de reprovação isolado):** uso de "deveria"/"provavelmente"/"parece que" perto de uma alegação de conclusão; satisfação expressada ("Ótimo!", "Perfeito!", "Pronto!") antes de qualquer verificação ter rodado. Presença disso é convite para conferir a evidência de perto — ausência de evidência é o que reprova, não a palavra em si.
 
+## Três invariantes de integridade da auditoria *(2026-08-27, garimpo raptor-loop-hunt · G3/G4/G5)*
+
+Três propriedades que, se violadas, permitem que uma entrega falsa passe por um gate verdadeiro. Cada uma é **invariante mecânica**: não depende do julgamento do auditor — depende da estrutura do processo.
+
+### Invariante 1 — Escrutínio monotônico crescente (G3)
+
+> O nível de rigor aplicado a um artefato entre rodadas **só pode subir ou permanecer igual, nunca descer.**
+
+Se uma rodada reprovou um artefato num critério estrito, a rodada seguinte é **terminantemente proibida** de afrouxar a régua para forçar a aprovação. Concretamente: o conjunto de verificações exigidas na rodada N+1 é **superconjunto** do conjunto da rodada N; checagem removida ou enfraquecida entre rodadas é **não conformidade bloqueante**, independente do resultado final. Isso combate a evasão mais sutil: não é o artefato que muda, é o validador que amolece — o vício de "reclassificar para fazer passar".
+
+**Operação:** o auditor registra no relatório a lista de verificações aplicadas, com versão/referência. Ao auditar uma re-entrega, confere que a lista atual **contém** todas as verificações da rodada anterior. Verificação ausente = gate fechado.
+
+### Invariante 2 — Ledger de disposição de achados com evidência causal (G4)
+
+> Toda alteração de status de um apontamento (de Aberto para Resolvido / Descartado / Aceito com ressalva) **exige comprovação explícita e link do diff que eliminou o problema**.
+
+A mudança de status sem evidência é **proibida**. "Resolvido" sem diff é carimbo; "descartado" sem justificação rastreável é supressão. O auditor não move o estado de um achado por inferência, por pressão de prazo ou por relato verbal — move por **fato depositado** (o commit, o teste que passou, a configuração que mudou), conforme a RI-04. "Ausência de evidência permanece ausência" — princípio da casa, agora com implementação mecânica.
+
+**Operação:** cada apontamento do relatório de auditoria tem o campo `evidência_de_fechamento` (caminho/URL/diff). Campo vazio = achado continua **aberto**, e o veredito final declara a pendência.
+
+### Invariante 3 — Verificação contra a fonte crua (Ground Truth Verification) (G5)
+
+> A verificação final de conformidade inspeciona o **código-fonte/artefato real em disco**, imune ao viés ou raciocínio da conversa do executor.
+
+Aceitar a alegação de um executor ("está corrigido") sem abrir o arquivo é aceitar uma autoavaliação — exatamente o que a seção "Peça FATO" acima proíbe. A verificação ground truth abre o artefato citado, lê as linhas relevantes e confirma que o conteúdo sustenta a alegação. Verificação que cita a resposta do executor em vez do arquivo reprova.
+
+**Operação:** o checklist de prontidão (abaixo) já exige "Abra cada caminho citado no relatório e diga o que leu na linha que sustenta a alegação". A invariante 3 formaliza que este é o **último gate antes do veredito**, e que o auditor **nunca** dispensa esta leitura, mesmo quando o executor apresenta logs de teste aprovados.
+
 ## Formato de entrega
 **Relatório de auditoria:**
 - **Padrão aplicado** (Definition of Done + regras).
@@ -174,6 +202,7 @@ Cada item ausente é uma **não conformidade nomeada**, não um "provavelmente o
 - Princípios comuns: clareza acima de esperteza · tudo é trade-off · comece simples · acessibilidade é padrão · humildade técnica ("não sei → pergunto").
 
 ### 📜 Histórico
+- **2026-08-27 — Três invariantes de integridade da auditoria (garimpo lote-5repos-batch2 2026-08-27 · G3/G4/G5; degrau §6.10: 1 — só edição).** Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0. Adicionada seção com três invariantes mecânicas que fecham brechas de evasão no processo de auditoria. **G3 — Escrutínio monotônico crescente:** o conjunto de verificações aplicadas entre rodadas só pode crescer, nunca encolher; checagem removida = não conformidade bloqueante. Combate o vício de "reclassificar para fazer passar" (rodada N reprova, rodada N+1 afrouxa a régua). **G4 — Ledger de disposição com evidência causal:** toda alteração de status de achado (Aberto → Resolvido/Descartado) exige comprovação depositada (diff, teste, config); campo `evidência_de_fechamento` vazio = achado continua aberto. Implementa mecanicamente o princípio "ausência de evidência permanece ausência". **G5 — Verificação contra a fonte crua (Ground Truth):** o último gate antes do veredito inspeciona o artefato real em disco, imune ao viés da conversa; verificação que cita a resposta do executor em vez do arquivo reprova. Formaliza como invariante o que a seção "Peça FATO" já prescrevia. Proveniência: `SKILL.md` e `references/vuln-class-discovery.md` de `github.com/dinosn/raptor-loop-hunt` (MIT), SHA-256 `b3d1bb4f75699385…be9b293` e `8808bf8168581f45…152fb4` — laudo em `garimpo-lote-5repos-2-2026-08-27.md`.
 - **2026-08-11 — `gradup-testador` saiu do catálogo (T34; degrau §6.10: 1 — só edição).** A skill foi movida para `Portal-Treinamentos/.claude/skills/`, onde é descoberta ao trabalhar no próprio projeto — decisão do Jeremias sobre o item único do inventário. Aqui o ponteiro de catálogo saiu e a orientação ficou: ela continua certa **dentro** do Gradup. Proveniência: `_auditoria/zelador-inventario-2026-08-10.md`.
 - **2026-08-11 — Escopo temporal da trava de ferramenta escrito no corpo (inventário do catálogo, `_auditoria/zelador-inventario-2026-08-10.md`, ação ATUALIZAR 4; RI-04):** a independência desta lente se apoiava num `disallowed-tools` cujo alcance o corpo nunca declarava. Conferido nesta data em [[PADRAO-DE-AUTORIA]] §4.8 (2026-08-09, garimpo 3repos G12-10): a restrição *"se limita à mensagem seguinte e some depois — então ela protege um passo, não uma sessão"*, e `allowed-tools` não restringe (medição T68, 2026-08-08). **+1 linha nas Salvaguardas**; frontmatter **não** tocado, e nenhum critério de veredito alterado.
 - **2026-08-06 — Garimpo `affaan-m/ECC` v2.1.0 (E1, E2, E6; degrau §6.10: 1 — só edição):** nova seção **Peça FATO, não autoavaliação**, com a régua de redação ("item que pode ser respondido sem abrir nada é autoavaliação disfarçada"), a tabela ❌autoavaliação → ✅fato forçado, o **portão de três estágios** (negar → forçar → permitir; parar no negar é atrito sem ganho) e o anti-padrão de pré-responder o portão. Subseção **portão mecânico × portão de raciocínio**, com a regra de autoridade **quem detecta por heurística avisa, quem detecta por fato bloqueia** — que dá fundamento aos "Sinais de atenção" que já existiam — e a exigência de **declarar o limite do próprio portão**. Salvaguardas ganharam **veredito sem evidência restatada é carimbo** (motivo autossuficiente obrigatório; "sem mudanças" proibido). É a correção estrutural de quatro cicatrizes registradas: aviso em prosa não previne erro · verificar presença não é verificar efeito · gate declarado vira gate derivado · teste que passa pela razão errada. Evidência da fonte: A/B 9,0 com portão × 6,75 sem. Proveniência: `gateguard`, `delivery-gate` e `skill-stocktake` do ECC (MIT) — a **regra** foi colhida, o **encanamento** (hooks `.js`/`.py`) foi cortado. Relatório em `garimpo-ecc-2026-08-06.md`.

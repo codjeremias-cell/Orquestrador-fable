@@ -133,6 +133,28 @@ Quando o trabalho orquestrado tem um critério de "pronto" **executável** (ex.:
 - **Fail-closed na retomada:** resolver novamente executável, script, `cwd`, reparse points, shell, argumentos, nomes de ambiente e endpoint. Qualquer divergência, campo ausente, executável ambíguo, script com hash novo ou contexto não comprovado = bloquear, mostrar a diferença ao Jeremias e exigir novo contrato/autorização aplicável.
 - O predicado deve ser **somente leitura/idempotente** e passar pela triagem positiva do `orquestrador-fable`. Produção/dado real, host remoto aceito só por sufixo `_test`/`_ci`, shell indireto, download+execução e credencial embutida são recusados.
 
+## Recibo de execução (Loop Receipt) *(2026-08-27, garimpo Loopy · G2)*
+
+Quando o `orquestrador-fable` conduz um **modo métrica** ou qualquer loop iterativo com evidência, o executor deposita ao término um **recibo de execução** — contrato imutável que prova o que aconteceu, para que a retomada e a auditoria não dependam de memória de conversa.
+
+O recibo é um objeto dentro do `estado.json` (campo opcional `recibo_execucao` na tarefa correspondente) com os seguintes campos mínimos:
+
+| Campo | Conteúdo |
+|---|---|
+| `definicao` | A definição do loop (meta, escopo, Verify, Guard) — copiada verbatim do gate de disparo. |
+| `criterio_aceite` | O critério de sucesso aplicado (a métrica-alvo ou o predicado). |
+| `motivo_parada` | Exatamente um dos 6 códigos canônicos (`SUCESSO`, `NO_OP`, `BLOQUEADOR`, `FRONTEIRA_APROVACAO`, `ORCAMENTO_ESGOTADO`, `SEM_AVANCO_MENSURAVEL`) — ou o motivo de parada do ciclo completo, quando aplicável. |
+| `log_acoes` | Resumo das iterações executadas: `[{iteracao, commit, metrica, delta, guard, status, descricao}]` — o ledger do modo métrica, ou a lista de rodadas do ciclo completo. |
+| `evidencias` | Lista dos artefatos de prova colhidos: caminhos de relatório do testador, screenshots, logs de build, etc. |
+| `baseline` | O valor medido na iteração 0 / rodada 0, antes de qualquer mudança. |
+| `resultado_final` | O valor final da métrica ou a nota final do Comitê. |
+| `registrado_em` | Timestamp ISO 8601 do momento do depósito. |
+
+**Regras:**
+- O recibo é **write-once**: uma vez depositado, nunca é sobrescrito nem apagado — só anotado (campo `correcao` com motivo e timestamp).
+- O recibo **não substitui** o ledger do modo métrica nem o placar do ciclo completo — ele é o **envelope** que aponta para ambos, com os campos de síntese que permitem a retomada ler "o que aconteceu" sem reabrir o log inteiro.
+- Tarefa sem recibo quando houve loop iterativo = **evidência incompleta** (o auditor flagra na RI-04).
+
 ## O que guardar — e o que NÃO guardar
 
 Guarde só o que serve para **retomar**: status, artefatos `{tipo, caminho}`, o que falta e (quando orquestrado) `rodada_atual` + `placar`. **Nunca** grave segredo (senha, token, chave, dado pessoal) no estado — e lembre que o estado é **versionado no git, que preserva histórico**: um segredo vazado fica permanente. Por isso a regra vale também para o **conteúdo dos artefatos** referenciados — artefato com dado sensível vai para o `.gitignore`, não para dentro do estado.
@@ -177,6 +199,7 @@ Rode este checklist e diga **por quê** cada item importa — "parece salvo" nã
 - **Não confundir com:** `memoria-de-projeto` (preferências e lições — *como* trabalhamos) nem `docs-projeto` (documentação de produto). Aqui o assunto é *onde cada tarefa está* (ver "Fronteira da família").
 
 ### 📜 Histórico
+- **2026-08-27 — Recibo de execução / Loop Receipt (garimpo lote-5repos-batch2 2026-08-27 · G2; degrau §6.10: 1 — só edição).** Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0. Quando o `orquestrador-fable` conduz um modo métrica ou loop iterativo, o executor passa a depositar um **recibo de execução** — contrato imutável no `estado.json` (campo opcional `recibo_execucao`) com 8 campos mínimos: definição do loop, critério de aceite, motivo de parada (dos 6 canônicos), log de ações, evidências, baseline, resultado final e timestamp. É write-once, não substitui o ledger — é o envelope que permite a retomada ler o que aconteceu sem reabrir o log. Tarefa sem recibo quando houve loop = evidência incompleta (RI-04). Proveniência: `skills/loopy/SKILL.md` de `github.com/Forward-Future/loopy` (MIT), SHA-256 `fb366c51324a21…55390d5` — laudo em `garimpo-lote-5repos-2-2026-08-27.md`.
 - **2026-08-18 — Grão do `placar[]`: `lente` ao lado de `frente` (T35; degrau §6.10: 1 — só edição).** Fecha o achado da lente `arquiteto-dados` em `orquestrador-fable/evals/placar-comite-2026-07-24.md`, aberto havia **25 dias**: *"o `placar[]` é gravado no grão `rodada×frente`, enquanto a regra de corte e os detectores de anti-estagnação precisam do grão `rodada×lente`"*. Uma rodada orquestrada produz **dois tipos de nota** — a de frente (execução) e a de lente (Comitê) —, e a decisão lê a segunda: persistir só `frente` gravava exatamente o que a decisão não usa, e a cláusula ficava legível e **sem valor calculável**. Entrou o campo `lente`, **obrigatório quando a nota vier do Comitê**, com seção própria explicando os dois grãos, a exigência de registrar quais lentes eram pertinentes (senão o `min` de rodadas diferentes não é comparável) e a retrocompatibilidade: estado antigo sem `lente` continua válido, como o `bloqueada_por`, mas não alimenta detector — e a retomada declara isso em vez de calcular um número que não pode. A regra de agregação vive na fonte única do assunto (`contabilidade-e-placar.md`); aqui fica só o grão do dado. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 1** — o `**opcional**` de `bloqueada_por`, pré-existente e opcional de verdade (retrocompatibilidade); nenhum alterado, e o único modificador novo desta edição é reforço (`obrigatório quando`), não enfraquecimento.
 - **2026-08-06 — Garimpo `mattpocock/skills` (G11; degrau §6.10: 1 — só edição):** nova seção **Como uma tarefa nasce**, cobrindo o que o enum de status não cobria: **fatia vertical (bala traçante)** com três critérios de tamanho checáveis (demonstrável sozinha · cabe numa janela de contexto fresca · preparação é a primeira tarefa), **aresta de bloqueio** via campo **opcional** `bloqueada_por` no `estado.json` — retrocompatível por construção, e o template do `TAREFAS.md` fica intacto porque coluna nova quebraria o contrato de diff determinístico — e a **exceção do refactor largo** (expandir → migrar em lotes por raio de explosão → contrair, cada etapa uma tarefa bloqueada pela anterior; branch de integração com tarefa final quando nem os lotes fecham verdes). Proveniência: `skills/engineering/to-tickets/` de `github.com/mattpocock/skills` @ `6acc160` (MIT) — relatório em `garimpo-mattpocock-2026-08-06.md`.
 - **2026-07-23 — Homologação de retomada segura:** confinamento passa a ser canônico com bloqueio de symlink/junction/reparse point; `predicado_sucesso` pina executável, argumentos, shell, `cwd`, script/hash, ambiente permitido e endpoint e revalida o contexto vivo. O hash duplicado fica explicitamente limitado a detecção acidental, não assinatura.

@@ -90,8 +90,11 @@ juízes: padrão; subir para alto quando o artefato é grande (muitos arquivos a
   `orquestrador-fable`); todo julgamento entra por esta skill.
 - Veredito lê e analisa a evidência: cada julgamento cita o que conferiu no artefato e no
   relatório — impressão sem evidência não vale.
+- Em revisões e disputas técnicas, classifique apontamentos pela **precedência estrita**: (1) Contrato mal lido/incompleto, (2) Válido e acionável, (3) Válido trade-off, (4) Ruído.
+- **Validade da avaliação e verificação de alegações (pepita UK1):** ao julgar testes, benchmarks e baterias de evals, audite as 4 dimensões de validade (PADRÃO §11.10) — coerência das alegações com os dados reais inspecionados, viabilidade física de sucesso/falha sem alucinação de dados ausentes, alinhamento direto com o ground truth (execução real > proxies de mera compilação) e imunidade a acertos acidentais/edge cases.
 
 ### Anti-ancoragem *(2026-08-06, garimpo ECC E5)*
+
 
 Contexto fresco resolve a ancoragem **do juiz**. Falta a metade que ancora **quem sintetiza** —
 e é ela que decide o veredito final:
@@ -173,7 +176,11 @@ Confira cada item — veredito que falha qualquer um volta para refazer, não se
   maestro (escritor único) — esta skill não escreve estado.
 
 ---
+### 📜 Histórico
+- **2026-08-27 — As 4 Dimensões de Validade de Avaliações em Julgamentos (garimpo inspect_evals 2026-08-27 · UK1; degrau §6.10: 1 — só edição).** Incorpora ao Protocolo do Julgamento as 4 dimensões de validade de testes (Claims Coherence, viabilidade/verificabilidade de falha, alinhamento com o ground truth sobre proxies fracos e edge cases). Fonte canônica no [[PADRAO-DE-AUTORIA]] §11.10. Proveniência: `.claude/skills/eval-validity-review/SKILL.md` de `github.com/UKGovernmentBEIS/inspect_evals` (MIT) — laudo em `garimpo-lote-9-fontes-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-08-26 — Classificação de 4 níveis e protocolo de dúvida adversarial (garimpo lote-5repos 2026-08-26 · G1; degrau §6.10: 1 — só edição).** Incorpora a precedência de classificação de achados em 4 níveis (Contrato mal lido, Válido+acionável, Válido trade-off, Ruído) e o princípio de supressão da CLAIM/hipótese do autor no isolamento do artefato para julgamento cego. Proveniência: `skills/doubt-driven-development/SKILL.md` de `github.com/addyosmani/agent-skills` (MIT) — laudo em `garimpo-lote-5repos-2026-08-26.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-18 — Rótulo de concordância no agregado (garimpo oh-my-opencode 2026-08-18 · G5; degrau §6.10: 1 — só edição).**
+
   A regra de agregação já era unânime/maioria/divergência e a publicação da discordância mais
   forte já era obrigatória, mas o **contrato de retorno** devolvia `vencedor · nota · razoes[]`
   sem campo para o nível de acordo — quem lia o placar precisava derivá-lo somando notas, e é

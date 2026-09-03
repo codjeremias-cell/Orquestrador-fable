@@ -13,7 +13,8 @@ cada item e a fronteira entre assinatura do autor e tique de AI-slop.
 
 1. Voz do autor (v2 — corpus real de 3 textos)
 2. Voz e tiques banidos (anti-AI-slop — banir + substituto obrigatório)
-3. Fronteira "assinatura × tique"
+3. Diagnóstico ampliado de prosa artificial (H1)
+4. Fronteira "assinatura × tique"
 
 ---
 
@@ -76,7 +77,54 @@ No resto:
   resolve de verdade. (Fonte única da regra de atenção honesta — as outras
   seções do SKILL.md referenciam esta.)
 
-## 3. Fronteira "assinatura × tique"
+## 3. Diagnóstico ampliado de prosa artificial (H1)
+
+Use estas famílias como sinais combinados de revisão, nunca como detector
+de autoria. Para cada sinal encontrado, preserve a informação e reescreva
+o parágrafo em torno da afirmação concreta:
+
+- **Importância inflada ou fonte sem rosto** — troque legado, “momento
+  decisivo” e tendência grandiosa pelo fato verificável; atribua a fonte
+  pelo nome ou retire a alegação sem lastro.
+- **Profundidade decorativa** — gerúndio de análise rasa, verbo pomposo e
+  frase que promete uma “verdade mais profunda” voltam a sujeito, verbo
+  simples e consequência demonstrada.
+- **Relação fabricada** — intervalo “de X a Y” precisa ser uma escala real;
+  rotação de sinônimos para o mesmo sujeito volta a um nome estável;
+  aberturas repetidas só permanecem quando criam ritmo deliberado.
+- **Resíduo de chatbot ou de estrutura** — retire saudação, concordância,
+  oferta de continuação e anúncio do próximo tópico; após um subtítulo, a
+  primeira frase já acrescenta informação em vez de repetir o título.
+- **Ressalvas empilhadas** — mantenha somente a incerteza sustentada pela
+  fonte e necessária ao significado; ressalva que apenas conserta um
+  exagero anterior dá lugar a uma afirmação calibrada.
+- **Diário de versão no texto atual** — documentação, comentário e página
+  corrente descrevem o comportamento vigente. Histórico de mudança fica
+  em changelog, nota de versão ou guia de migração.
+- **Dramatização fabricada** — sequência de fragmentos, aforismo de efeito
+  e abertura de falsa espontaneidade voltam a uma frase que diga o ponto e
+  a evidência. Uma frase curta de ênfase isolada continua legítima.
+- **Debate inventado** — objeção sem interlocutor e alternativa que ninguém
+  consideraria saem do texto; objeção nomeada, opção plausível e limite de
+  segurança permanecem e recebem resposta completa.
+
+### Guardas contra falso positivo
+
+- O corpus real de Jeremias prevalece sobre esta taxonomia; padrão isolado
+  não basta. Procure famílias acumuladas no mesmo trecho e julgue a função
+  que cumprem.
+- Texto técnico, jurídico ou factual permanece neutro. Preserve avisos de
+  segurança, limites reais, correções, alternativas plausíveis e termos
+  formais exigidos pelo gênero.
+- A revisão preserva fatos, links, código, frontmatter e intenção. Se o
+  corte muda uma proposição, reverta e aplique o contrato semântico de
+  `confiabilidade-e-revisao.md`.
+- Travessão não recebe proibição global: vale a regra local de uso
+  controlado e, acima dela, a frequência observada no corpus real.
+
+*Proveniência H1: `blader/humanizer` @ `e2e92e7b4b8229253ed5c8e81dc65463fdeddda5` (MIT), `SKILL.md`, SHA-256 `14fc8a965b6e0a8dc100ba4dffeab55cb94bbac112abbde7e014d5c15a35c202` — taxonomia e testes adaptados ao PT-BR; laudo `garimpo-lote-5-repositorios-2026-08-26.md` §H1.*
+
+## 4. Fronteira "assinatura × tique"
 
 Dois padrões são **assinatura do autor** em dose pequena e **tique de
 AI-slop** em dose grande — a diferença é frequência e intenção, não a

@@ -9,3 +9,22 @@ Desktop.ini
 
 # Runtime deploy target (não versionar cópias sincronizadas)
 .claude/
+
+# ---------------------------------------------------------------------------
+# O FILTRO DE PROVENIENCIA, agora executavel (2026-09-03).
+#
+# Ate hoje ele existia SO na mensagem do commit 92cf1bb: "nao entram os 20
+# arquivos cujo NOME cita projeto real (...). E neles que mora o codigo dos
+# sistemas privados: entidades, DAOs, queries, FXML." Isso e prosa, e prosa nao
+# previne erro -- `git check-ignore` nos 20 devolvia VAZIO, entao um `git add
+# -A` distraido publicaria codigo de sistema privado num repositorio PUBLICO.
+# Eles reapareceram nao-rastreados nesta data, exatamente os mesmos 20.
+#
+# O LIMITE, repetido aqui porque meia-verdade seria pior: isto remove CODIGO e
+# ESTRUTURA, nao os NOMES. 29 das 60 skills seguem citando SIGO, SIGCOT, Gradup,
+# Embalo, Sentinela e EscalaOper como PROVENIENCIA no corpo. E o que a fonte de
+# fato e: um metodo construido sobre projetos reais.
+referencia-exemplos-reais-*.md
+referencia-caso-real-*.md
+referencia-exemplo-montado-*.md
+sigcot-stack.md

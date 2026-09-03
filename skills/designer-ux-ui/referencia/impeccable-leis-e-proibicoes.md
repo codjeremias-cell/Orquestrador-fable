@@ -19,15 +19,24 @@ Catálogo de referência opinativo da lente `designer-ux-ui`, carregado sob dema
 - **Tipografia:** medida de 65–75ch; hierarquia por escala + peso (razão ≥1.25 entre passos); evite escalas chapadas.
 - **Layout:** varie o espaçamento (ritmo > padding igual em tudo); card é a resposta preguiçosa, e card aninhado é sempre erro; não embrulhe tudo num container.
 - **Motion:** não anime propriedades de layout (`width/height/top/left`); ease-out exponencial (quart/quint/expo); sem bounce/elastic.
+- **Microinterações físicas táteis (JK1):**
+  - **Raio Concêntrico:** Em superfícies aninhadas, calcule $R_{\text{outer}} = R_{\text{inner}} + \text{padding}$. Raio idêntico no pai e no filho faz a borda interna parecer amassada (*pinched*).
+  - **Números Tabulares:** Use `tabular-nums` / `font-variant-numeric: tabular-nums` em contadores, timers, preços e números que atualizam dinamicamente para eliminar layout shift.
+  - **Scale on Press:** Feedback tátil com `active:scale-[0.96]` e `transition-transform` em botões (nunca $< 0.95$).
+  - **Alinhamento Ótico de Ícones:** Stroke de 1.5px ao lado de texto normal (400) e 2px ao lado de semibold (600); use SVG único em `currentColor` variando estados por cor e opacidade.
+  - **Área Mínima de Toque:** 44×44px em mobile/touch, 40×40px em desktop denso (estenda com pseudo-elemento se o elemento visual for menor).
 - **Ousadia concentrada (pepita 2026-07-07, via skill `frontend-design` da Anthropic):** gaste a ousadia num **único elemento assinatura** (um herói, um gráfico, um gesto memorável) e mantenha o resto sóbrio — ousadia espalhada por tudo vira ruído. Reforça o "Teste anti-AI slop" por outro ângulo: lá é *previsibilidade por categoria*; aqui é *concentração × difusão* da ousadia.
 
 ## 2. Proibições absolutas (match-and-refuse — se for escrever, reescreva o elemento)
+- **`transition: all`** → especifique propriedades explícitas (`transition-transform`, `transition-opacity`, `transition-colors`) para evitar engasgos no compositor da GPU e animações indesejadas de layout.
 - **Borda lateral colorida** (`border-left/right` > 1px como acento em card/lista/alerta) → borda inteira, fundo tingido, número/ícone à frente, ou nada.
 - **Texto em gradiente** (`background-clip: text`) → cor sólida; ênfase por peso/tamanho.
 - **Glassmorphism por padrão** · **template "hero-metric"** (número gigante + label + stats + gradiente) · **grid de cards idênticos** · **modal como primeira ideia** (esgote inline/progressivo antes).
 - **Sem em dash (—) na copy de UI.** Use vírgula, dois-pontos, ponto ou parênteses.
 - **Card arredondado enorme sem motivo** (proposta 2026-07-07, via `open-design`) → varie o raio por hierarquia (raio maior só no elemento de maior destaque) ou justifique pelo conteúdo; card não é resposta default.
 - **Fileira de 3 cards de feature idênticos** (mesmo ícone-título-parágrafo repetido) → quebre o padrão de 3, ou diferencie hierarquia/tamanho entre eles conforme importância real.
+- **Sombra dura e descalibrada (`shadow-md` crua com preto puro / alpha alto)** → use sombras com dispersão ampla e baixa opacidade tingida no tom do fundo, ou elevação sutil por borda. Em dark mode, prefira hairline de superfície (`border-white/10` ou equivalente no token system) à sombra escura invisível.
+- **Borda cinza sólida genérica de 1px sem calibração** → use tons neutros tingidos (OKLCH com chroma 0.005–0.01) ou hairlines translúcidas que respeitam a iluminação do tema.
 - **Adjetivo de marketing vazio sem prova ao lado** — lista fechada banida sem métrica/exemplo: "seamless", "next-generation", "revolucionário", "state-of-the-art", "cutting-edge", "world-class" → ou remove o adjetivo, ou acompanha de um número/exemplo concreto que o sustente.
 
 ## 3. Teste anti-"AI slop"

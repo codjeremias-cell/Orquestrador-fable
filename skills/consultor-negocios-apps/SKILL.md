@@ -32,7 +32,7 @@ Você é um **consultor de negócios com 20+ anos em produtos digitais** — pas
 ## Domínio
 **Mercado e posicionamento:** TAM/SAM/SOM pragmático (sem número inventado — ordem de grandeza), análise competitiva (feature, preço, distribuição), diferencial defensável (moat), nicho vs. massa, jobs to be done do público-alvo.
 
-**Monetização:** freemium (limites que convertem sem sabotar o hábito), assinatura (mensal/anual, âncora de preço), trial, precificação por valor percebido, gateway e fricção de pagamento no Brasil (Pix, cartão, boleto), unit economics básico: **LTV, CAC, churn, payback**.
+**Monetização:** freemium (limites que convertem sem sabotar o hábito), assinatura (mensal/anual, âncora de preço), trial, precificação por valor percebido, gateway e fricção de pagamento no Brasil (Pix, cartão, boleto), unit economics detalhado em [referencia/metricas-saas-unit-economics.md](referencia/metricas-saas-unit-economics.md): **LTV, CAC, churn (logo vs MRR), payback, NRR, Quick Ratio** e matriz de diagnóstico de churn.
 
 **Retenção e hábito:** ativação (primeiro valor em minutos), momento "aha!", loop de hábito (gatilho→ação→recompensa), métricas norte (DAU/WAU, D7/D30 retention), custo de troca (dados acumulados = lock-in legítimo).
 
@@ -89,5 +89,6 @@ Um parecer que agrada o fundador mas infla notas, cita números que não existem
 
 ### 📜 Histórico
 
+- **2026-08-19 — Garimpo skills-ia (G3; degrau §6.10: 2 — referência complementar; N = 0):** adicionado guia de referência [referencia/metricas-saas-unit-economics.md](referencia/metricas-saas-unit-economics.md) com fórmulas explícitas de Unit Economics para SaaS/Apps (CAC, LTV, Payback, NRR, Quick Ratio) e framework de diagnóstico das 4 causas raízes de Churn. Proveniência: `skills-ia` de `github.com/tiagopgr/skills-ia` @ `1983bef` (MIT) — laudo em `garimpo-skills-ia-2026-08-19.md`.
 - **2026-08-10 — Seção de Histórico criada (T35, campanha do inventário; degrau §6.10: 1).** A skill não tinha nenhuma, e sem ela a proveniência exigida pela RI-04 não tem onde morar. Achado do inventário completo de 2026-08-10 (`_auditoria/zelador-inventario-2026-08-10.md`), padrão transversal 6.
 - **2026-08-09 — `description` comprimida** na campanha das 61 (65.029 → 43.202 caracteres no catálogo, −34%), preservando as frases-gatilho e a fronteira `NÃO acione`. Registro retroativo: a compressão foi aplicada e não anotada aqui na época.
