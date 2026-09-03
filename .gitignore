@@ -28,3 +28,29 @@ referencia-exemplos-reais-*.md
 referencia-caso-real-*.md
 referencia-exemplo-montado-*.md
 sigcot-stack.md
+
+# ---------------------------------------------------------------------------
+# NAO ENTRAM NA VITRINE -- decisao de Jeremias em 2026-09-03.
+#
+# `Acionamento de SKILLS.html` e `Acionamento de SKILLS.xlsx` sao instrumento
+# INTERNO de medicao de acionamento de skills. Nao sao skill, nunca estiveram
+# publicados, e a vitrine e o metodo -- nao a bancada onde ele foi medido.
+#
+# A decisao NAO e de seguranca, e de escopo, e a diferenca importa para quem
+# ler isto depois: os dois foram varridos em 2026-09-03 por varredura que ABRE
+# o binario (OOXML e zip de XML, tags removidas antes de casar), com os mesmos
+# 10 padroes da varredura de publicacao e 10/10 detectores vivos no controle
+# positivo -- 12 partes, ZERO achados, `docProps` sem nome de pessoa. Eles estao
+# limpos. Limpo nao e sinonimo de pertence a vitrine.
+#
+# POR QUE ISTO E REGRA E NAO LEMBRANCA: a vitrine do Catalogo nao tem script de
+# sincronizacao -- ela e copiada a mao, e ela JA leva os `.md` de topo do
+# `Catalogo-Skills-Unificado/` (GUIA, README, ROADMAP, REGRAS-DE-OURO). Uma
+# copia ingenua do topo levaria estes dois junto. Filtro que so existe na
+# cabeca de alguem volta na sincronizacao seguinte: foi exatamente o que
+# aconteceu com os 20 arquivos do bloco acima.
+#
+# O glob cobre irmaos futuros (um `.pdf`, um `.csv` da mesma bancada) de
+# proposito. Se algum dia um deles DEVER entrar, tire-o daqui no mesmo ato --
+# nao por excecao na hora do commit.
+Acionamento de SKILLS.*
