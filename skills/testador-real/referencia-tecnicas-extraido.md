@@ -20,7 +20,7 @@ Quando o projeto mantém `correcoes.json` na própria raiz (nunca no catálogo c
 
 ## E2E de navegador com Playwright (alvos web/SPA/mobile-web) — pepita 2026-07-07, da pesquisa de tracks
 
-Para o TIPO web/SPA, a bateria dinâmica (Fase 3) roda via **Playwright** contra o app no ar, no padrão **reconhecimento-então-ação**: navegar → `wait_for_load_state('networkidle')` → screenshot/DOM → agir com selectors reais, cobrindo os fluxos 3a-3h. Acessibilidade (3e) com **@axe-core/playwright** varrendo WCAG 2.2 — crítico (label ausente, teclado quebrado, foco perdido) é FAIL; cosmético é warning. É o análogo web do "smoke headless FXML". Vira o padrão da instância de testador do track web quando ele existir (ver ROADMAP item 1).
+Para o TIPO web/SPA, a bateria dinâmica (Fase 3) roda via **Playwright** contra o app no ar, no padrão **reconhecimento-então-ação**: navegar → `wait_for_load_state('networkidle')` → screenshot/DOM → agir com selectors reais, cobrindo os fluxos 3a-3h. Acessibilidade (3e) com **@axe-core/playwright** varrendo WCAG 2.2 — crítico (label ausente, teclado quebrado, foco perdido) é FAIL; cosmético é warning. É o análogo web do "smoke headless FXML" e o padrão nativo para alvos web/SPA no `testador-real`.
 
 ## Rigor de medição da fase 3h (desempenho) — detalhe
 

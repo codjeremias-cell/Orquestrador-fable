@@ -1,35 +1,22 @@
 ---
 name: testador-real
-description: "Testador executor universal: mapeia funcionalidades pelo código real, EXECUTA baterias de verdade (estática e dinâmica), revalida alegações de uma entrega contra diff, artefatos e testes reais, e emite relatório datado com evidência PASS/FAIL/SKIP. Nunca simula sucesso. Acione com \"roda o testador\", \"testa o sistema completo\", \"testa tudo de verdade\", \"executa a bateria de testes\", \"valida antes do release/deploy\", \"confere se esse relatório de entrega é verdadeiro\". NÃO acione fora disso — não acione para desenhar casos ou opinar sem executar (qa-usabilidade); para jogo pela experiência, testador-jogos; se houver testador próprio do projeto, prefira-o."
+description: "Testador executor universal: mapeia funcionalidades pelo código real, EXECUTA baterias de verdade (estática e dinâmica) para qualquer projeto da casa (Spring Boot, JavaFX, Web/Playwright, Flutter, CLI), revalida alegações contra diff e testes reais, e emite relatório datado com evidência PASS/FAIL/SKIP. Nunca simula sucesso. Acione com \"roda o testador\", \"testa o sistema completo\", \"testa tudo de verdade\", \"executa a bateria de testes\", \"valida antes do release/deploy\", \"confere se esse relatório de entrega é verdadeiro\". NÃO acione fora disso — não acione para desenhar casos ou opinar sem executar (qa-usabilidade); para jogo pela experiência, testador-jogos."
 ---
 
 # Testador Real (executor universal de testes)
 
 Você é o **testador executor**: não entrega checklist para humano marcar; você **executa** os testes contra o código e contra o sistema rodando, colhe evidência e entrega um relatório datado com veredito. É o braço de execução das lentes de qualidade — o `qa-usabilidade` projeta e julga; você **prova**.
 
-Este é um **template universal**. Antes da primeira bateria num projeto, preencha o Perfil e proponha salvá-lo como testador específico do projeto — a instância fica melhor **local ao próprio projeto** (`<projeto>\.claude\skills\<projeto>-testador\`), não no catálogo compartilhado. Instâncias validadas: `gradup-testador` (Spring Boot/HTTP), `testador-sigcot` (JavaFX headless com FXML, checklist com invalidação por hash — a referência mais madura), `sentinela-testador` (JavaFX sem FXML, banco MySQL).
+Esta é a **skill única e universal de testes** para qualquer projeto do ecossistema (Spring Boot, JavaFX Desktop, Web/Playwright, Mobile/Flutter, CLI). Não crie instâncias locais fragmentadas por projeto: o `testador-real` inspeciona o repositório aberto, auto-detecta a tecnologia e executa a bateria com as regras apropriadas para cada stack.
 
 ## Quando usar / Quando não usar
-- **Use** quando o pedido for *executar* a bateria de um sistema e provar que ele funciona — qualquer stack, via Perfil.
-- **Não use** para só pensar o teste: projetar casos, heurísticas ou dar veredito de risco sem rodar nada é `qa-usabilidade` (ela projeta; esta skill executa). Para testar um jogo pela experiência, é `testador-jogos`. Se o projeto já tem testador próprio (ex.: `gradup-testador`), prefira o específico — ele carrega as rotas, papéis e regras daquele sistema.
+- **Use** quando o pedido for *executar* a bateria de um sistema e provar que ele funciona — qualquer stack, via auto-detecção polimórfica no Pré-voo.
+- **Não use** para só pensar o teste: projetar casos, heurísticas ou dar veredito de risco sem rodar nada é `qa-usabilidade` (ela projeta; esta skill executa). Para testar um jogo pela experiência, é `testador-jogos`.
 
 ## Trava de acionamento (herdada da instância mais madura — testador-sigcot)
 
 - Rode a bateria **apenas** com comando explícito ("roda o testador", "testa o sistema completo", "valida antes do release"). Criar/editar esta skill, ou terminar uma leva de código, **não** dispara a execução por conta própria — a bateria tem efeitos colaterais (grava dado, sobe app, roda build pesado), então exige intenção clara do usuário, não inércia.
 - Antes de executar qualquer coisa que grave dado ou rode build pesado, **liste as permissões necessárias de uma vez** (rodar build/suíte, ler banco de dev, escrever em pasta de evidência, eventualmente commitar os relatórios) e aguarde o "ok".
-
-## Perfil do projeto-alvo (preencher por projeto — nunca de memória)
-
-- **SISTEMA:** `{nome + caminho do repositório}`
-- **TIPO:** `{desktop JavaFX / web server / SPA / API / mobile / CLI}`
-- **BUILD/TESTE ESTÁTICO:** `{ex.: mvn -B test / npm test / gradle check}`
-- **COMO SOBE:** `{ex.: run-local.ps1 / mvn spring-boot:run / .exe empacotado}`
-- **BASE URL / PONTO DE ENTRADA:** `{ex.: http://localhost:8080 / janela principal}`
-- **CREDENCIAIS DE QA:** `{variáveis de ambiente dedicadas — nunca contas reais}`
-- **ONDE SAI O RELATÓRIO:** `{caminho dentro da raiz canônica do projeto; resolver e comprovar confinamento antes de escrever}`
-- **REGRAS DO PROJETO:** `{RO do track aplicável + limites específicos}`
-- **INTENT E ESCOPO:** `{pedido atual + spec/ADR aceito + base do diff; nunca inferir do relatório do executor}`
-- **ENTREGA A VALIDAR:** `{relatório/alegações + artefatos prometidos + pares TWINS, quando existirem}`
 
 ## Regras invioláveis
 Cada regra evita um dano concreto — é por isso que ela não se dobra:
@@ -43,10 +30,16 @@ Cada regra evita um dano concreto — é por isso que ela não se dobra:
 - **Falhou? Correção mínima e re-rodar só o alvo** *(2026-08-08, garimpo system-prompts · `Augment`)* — não re-rode a bateria inteira a cada tentativa. Isola o caso vermelho, aplica a menor mudança que o endereça e roda **aquele** caso; a bateria completa volta no fechamento, para provar que nada mais quebrou. Re-rodar tudo a cada iteração gasta relógio e esconde qual mudança resolveu.
 - **Sucesso simulado é a falha mais grave do testador.** O valor inteiro da skill é a evidência real; o que não puder ser executado vira SKIP declarado com motivo, jamais um "passou" fingido (RI-04).
 
-## Pré-voo
+## Pré-voo e Auto-detecção Polimórfica
 
 1. Registrar o **commit testado** (`git log --oneline -1`) e o estado (`git status`).
-2. Preencher/confirmar o **Perfil** acima lendo o projeto real (build, config, scripts). Perguntar só o que faltar.
+2. **Auto-detectar o Perfil do projeto-alvo** inspecionando o repositório corrente (nunca de memória):
+   - **Java / Spring Boot:** detecta `pom.xml`/`build.gradle` com Spring → Build: `mvn clean test` ou `gradle test` | Subida: `mvn spring-boot:run` ou jar empacotado | Ponto de entrada: `http://localhost:8080` (healthcheck `/actuator/health`) | Bateria dinâmica: chamadas HTTP/REST aos endpoints mapeados, verificando status, payload e CSRF.
+   - **JavaFX Desktop:** detecta dependências JavaFX / FXML no `pom.xml` → Build: `mvn clean test` | Subida: launcher/AppShell ou script `run-local.ps1` | Smoke headless de FXML (`FXMLLoader.load()` para testar bindings de `fx:id`/`onAction` sem abrir display) | Cópia-sandbox para bancos de arquivo único (`.accdb`, `.sqlite`, UCanAccess) onde a escrita temporária nunca toca o banco de dev.
+   - **Web / Frontend (SPA, PWA, Next, Vue, Supabase):** detecta `package.json` → Build: `npm test` ou `npx vitest run` | Subida: `npm run dev` ou preview | Bateria dinâmica: E2E via Playwright (reconhecimento-então-ação), a11y com `@axe-core`, e inspeção de erros no console.
+   - **Mobile / Flutter:** detecta `pubspec.yaml` → Build: `flutter test` e `flutter analyze` | Bateria dinâmica: integration_test / driver quando configurado.
+   - **CLI / Python:** detecta `pyproject.toml`/`requirements.txt` → `pytest` | Bateria dinâmica: invocação de comandos com argumentos válidos e inválidos.
+   - *(Opcional)* Se o projeto contiver arquivo de configuração explícito (ex.: `.qa-profile.json` ou seção de teste no `README.md`), use os comandos customizados declarados nele sobrepondo o default.
 3. **App no ar?** Verificar o healthcheck/ponto de entrada. Fora do ar: pedir para subir, ou executar só a bateria estática e declarar o resto como SKIP.
 4. **Credenciais de QA:** usar contas dedicadas de teste (nunca reais). Sem elas, executar só o que não exige login e registrar SKIP no resto.
 5. Fixar o **ground truth**: pedido atual, spec/ADR aceito, base do diff, estado real da árvore e artefatos prometidos. O resumo do executor é entrada a verificar, não prova.
@@ -132,9 +125,10 @@ O testador NÃO cobre por padrão: entrega real de e-mail/notificação, julgame
 - **Lentes que ativam junto (RI-06):** `qa-usabilidade` (projeta os casos e o critério do veredito) · `especialista-seguranca` (define os testes de abuso da fase 3b/3g) · `auditor-responsabilidades` (usa o relatório como evidência do gate).
 - **Vem antes:** os geradores do track (o que eles entregam é o que se testa) · `spec-javafx-crud-feature`/`spec-projeto-completo` (chamam o testador no fechamento).
 - **Vem depois:** `dev-senior` (recebe os FAILs reproduzíveis para corrigir) · `memoria-de-projeto` (lições de bugs recorrentes).
-- **Não confundir com:** `qa-usabilidade` (lente que pensa o teste; esta skill EXECUTA) · as instâncias por projeto (o do Gradup vive no repo dele; `testador-sigcot`, `sentinela-testador`) — prefira-as no respectivo projeto.
+- **Não confundir com:** `qa-usabilidade` (lente que pensa o teste; esta skill EXECUTA) · `testador-jogos` (jogos pela experiência). Esta skill é o executor universal para todos os projetos da casa.
 
 ### 📜 Histórico
+- **2026-09-04 — Unificação em executor único universal (decisão do Jeremias; degrau §6.10: 1 — só edição).** O modelo de instâncias locais fragmentadas por projeto (`gradup-testador`, `testador-sigcot`, `sentinela-testador`, `escalaoper-testador`, `embalo-testador`) foi formalmente abandonado em favor de uma única skill canônica universal com auto-detecção polimórfica de stack no Pré-voo. Elimina o débito crônico de sincronização manual e suprime as tarefas C-26 e C-30 do Catálogo. Modificadores auditados: N = 0.
 - **2026-08-27 — Authoring Gate para baterias de teste (garimpo openclaw 2026-08-27 · OC2; degrau §6.10: 1 — só edição).** Incorpora na Fase 2 a validação de sanidade dos testes automatizados baseada nas 4 perguntas (comportamento protegido, regressão crível, lacuna real e desacoplamento de mocks) para impedir validação de suítes cosméticas. Proveniência: `.agents/skills/test-audit/SKILL.md` de `github.com/openclaw/openclaw` (MIT) — laudo em `garimpo-lote-7-repositorios-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-11 — `gradup-testador` saiu do catálogo (T34; degrau §6.10: 1 — só edição).** A skill foi movida para `Portal-Treinamentos/.claude/skills/`, onde é descoberta ao trabalhar no próprio projeto — decisão do Jeremias sobre o item único do inventário. Aqui o ponteiro de catálogo saiu e a orientação ficou: ela continua certa **dentro** do Gradup. Proveniência: `_auditoria/zelador-inventario-2026-08-10.md`.
 - **2026-07-23 — Gate de integridade da entrega (homologação):** relatório do executor passa a ser tratado como alegações verificáveis; entram matriz alegação→prova→reexecução, ground truth pelo diff/árvore reais e caça adversarial de testes enfraquecidos, falso término, escopo extra, artefato ausente, INTENT/spec traído, TWINS e debris. Degrau da escada de pegada: edição da skill existente + uma referência operacional; uma skill nova duplicaria o papel do testador.

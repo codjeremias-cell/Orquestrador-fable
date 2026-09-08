@@ -1,75 +1,198 @@
-# Orquestrador Fable — catálogo de skills para Claude Code
+---
+tipo: índice
+papel: hub do conjunto único de skills
+última-atualização: 2026-08-18
+versão: v2.17
+---
 
-> **TL;DR (EN):** A battle-tested, PT-BR catalog of **60 Agent Skills** for Claude Code — senior "review lenses", per-stack code generators, spec orchestrators, a real test-runner, and a multi-model **maestro** (`orquestrador-fable`) that plans, delegates to sub-agents, reviews with a committee of lenses, and iterates until quality ≥ 9/10. MIT licensed.
+# 🧰 Catálogo de Skills Unificado
 
-Um conjunto único de **60 skills** para o [Claude Code](https://claude.com/product/claude-code), pensado para construir software de verdade — do desktop ao mobile e web — com **qualidade auditável**. Em vez de uma skill gigante que "faz tudo", o catálogo separa responsabilidades em camadas:
+> O **conjunto único** que junta, num só lugar, o **método** (Comitê de Lentes), a **governança** (Regras de Ouro) e os **geradores de código** por stack.
+> Construído sobre o método Skill Planner + o catálogo de geração + as lições do cofre. Como criar qualquer skill daqui: [[PADRAO-DE-AUTORIA]].
 
-- **🔬 Lentes de método (9)** — posturas sênior, poliglotas, que *decidem e revisam* (arquitetura, dados, código, UX/UI, segurança, QA, inovação, auditoria, negócio). Formam o **Comitê de Lentes**.
-- **⚙️ Geradores por track (25)** — scaffolders determinísticos e precisos por stack: **Java/JavaFX**, **Spring Boot**, **Flutter**, **Web Frontend** e **Desktop/Tauri**.
-- **🎼 Orquestradores (8)** — os sete `spec-*` encadeiam a sequência de um track; o **`orquestrador-fable`** é o maestro multi-modelo que rege *quem executa* e *quanta qualidade sai*.
-- **🛠️ Método e governança (7)** — planejamento com custo, prazo e Plano B; garimpo de fonte externa; zeladoria do próprio acervo; painel de juízes; mapa de decisões; descoberta de requisitos; documentação.
-- **💼 Domínio (6)** — conteúdo e conselho fora do código: finanças pessoais, trading, redação técnica, e-mail marketing.
-- **🧪 Testadores (2)** — executam baterias de teste de verdade e trazem evidência PASS/FAIL/SKIP (nunca "sucesso" fingido).
-- **🧠 Memória e estado (2)** — contexto e progresso de tarefas retomáveis entre sessões.
-- **🧩 Blueprint (1)** — subsistema offline reutilizável.
+---
 
-> As camadas **somam 60**: 9 + 25 + 8 + 7 + 6 + 2 + 2 + 1. Se um dia não somarem, o número errado é o do topo.
+## Como o conjunto é organizado (camadas)
 
-O guia completo, com a função de cada uma das 60 e o passo a passo do maestro, está em **[GUIA.md](GUIA.md)**.
+| Camada | O que faz | Multi-código? | Onde |
+|---|---|---|---|
+| **Método** | 10 skills de método (9 lentes + memória) que decidem *como pensar* | ✅ poliglota | `skills/` (lentes) |
+| **Ciclo de vida universal** | da ideia à entrega em qualquer plataforma: requisitos, docs, testes executados, orquestração | ✅ poliglota | `skills/requisitos-descoberta`, `skills/docs-projeto`, `skills/testador-real`, `skills/spec-projeto-completo` |
+| **Governança** | regras que toda entrega cumpre | ✅ universal + por stack | [[REGRAS-DE-OURO]] |
+| **Memória** | contexto portável entre sessões | ✅ | `skills/memoria-de-projeto` |
+| **Geradores** | scaffolders precisos por stack (tracks) | ⚙️ por track | `skills/java-*`, `skills/javafx-*` |
+| **Testadores** | executam baterias de teste reais e provam a entrega | ✅ template no catálogo + instância no repo de cada projeto | `skills/testador-real`, `skills/testador-jogos` |
+| **Domínio (não-código)** | lentes e geradores especialistas em finanças, trading, conteúdo e comunicação | — | `skills/conselheiro-financeiro`, `skills/trader-de-elite`, `skills/redator-tecnologia-ia`, `skills/email-marketing-html` |
+| **Padrão** | como criar/editar qualquer skill (inclui o **Selo Lendário**) | — | [[PADRAO-DE-AUTORIA]] |
+| **Integração Codex** | metadata visual e prompt inicial de cada skill | — | `skills/*/agents/openai.yaml` |
 
-## A ideia em uma frase
+> A inteligência poliglota mora nas **lentes**; o determinismo mora nos **geradores**. Adicionar uma linguagem = adicionar um **track**, sem mexer no método.
 
-> As **lentes** decidem e revisam · os **geradores** produzem no stack certo · os **`spec-`** encadeiam a sequência de um track · o **testador** prova com evidência · **memória/estado** dão continuidade — e o **`orquestrador-fable`** rege quem faz o quê, com qual modelo, e itera até nota ≥ 9.
+## 📇 Índice clicável do catálogo atual
 
-## Como o `orquestrador-fable` trabalha
+> Porta de entrada única no Obsidian — cada link abre a `SKILL.md` da skill.
 
-1. **Triagem** — escolhe o loop mais leve que resolve (skill direta, um `spec-`, ou o ciclo completo).
-2. **Planeja** — decompõe em subtarefas (qual skill × qual modelo × critério de aceite).
-3. **Executa** — delega a subagentes que aplicam os geradores/skills, em ondas paralelas de largura adaptativa (piloto antes de onda grande; até 20 simultâneos).
-4. **Consolida** e submete ao **Comitê de 7 lentes + auditor** (nota 0–10; juiz de visão para telas).
-5. **Testa** com o `testador-real` (evidência executada).
-6. **Decide** — nota ≥ 9 em tudo → entrega; senão, replaneja (escala modelo *ou* effort) e repete, até a excelência ou 10 rodadas.
+**Método (9 lentes + memória):** [[Catalogo-Skills-Unificado/skills/arquiteto-software/SKILL|arquiteto-software]] · [[Catalogo-Skills-Unificado/skills/arquiteto-dados/SKILL|arquiteto-dados]] · [[Catalogo-Skills-Unificado/skills/dev-senior/SKILL|dev-senior]] · [[Catalogo-Skills-Unificado/skills/designer-ux-ui/SKILL|designer-ux-ui]] · [[Catalogo-Skills-Unificado/skills/especialista-seguranca/SKILL|especialista-seguranca]] · [[Catalogo-Skills-Unificado/skills/qa-usabilidade/SKILL|qa-usabilidade]] · [[Catalogo-Skills-Unificado/skills/inovacao-melhorias/SKILL|inovacao-melhorias]] · [[Catalogo-Skills-Unificado/skills/auditor-responsabilidades/SKILL|auditor-responsabilidades]] · [[Catalogo-Skills-Unificado/skills/consultor-negocios-apps/SKILL|consultor-negocios-apps]] · [[Catalogo-Skills-Unificado/skills/memoria-de-projeto/SKILL|memoria-de-projeto]]
 
-## Instalação
+**Ciclo de vida universal (qualquer plataforma):** [[Catalogo-Skills-Unificado/skills/requisitos-descoberta/SKILL|requisitos-descoberta]] · [[Catalogo-Skills-Unificado/skills/especialista-planejador/SKILL|especialista-planejador]] · [[Catalogo-Skills-Unificado/skills/mapa-de-decisoes/SKILL|mapa-de-decisoes]] · [[Catalogo-Skills-Unificado/skills/zelador-do-catalogo/SKILL|zelador-do-catalogo]] · [[Catalogo-Skills-Unificado/skills/garimpo-externo/SKILL|garimpo-externo]] · [[Catalogo-Skills-Unificado/skills/docs-projeto/SKILL|docs-projeto]] · [[Catalogo-Skills-Unificado/skills/testador-real/SKILL|testador-real]] · [[Catalogo-Skills-Unificado/skills/spec-projeto-completo/SKILL|spec-projeto-completo]] · [[Catalogo-Skills-Unificado/skills/estado-projeto/SKILL|estado-projeto]]
 
-Requer o [Claude Code](https://claude.com/product/claude-code). As skills carregam de `~/.claude/skills` (global) ou `<projeto>/.claude/skills`.
+**Fundação Java (do zero):** [[Catalogo-Skills-Unificado/skills/java-project-bootstrap/SKILL|java-project-bootstrap]] · [[Catalogo-Skills-Unificado/skills/java-db-foundation/SKILL|java-db-foundation]] · [[Catalogo-Skills-Unificado/skills/javafx-app-shell/SKILL|javafx-app-shell]]
 
-**Windows (PowerShell):**
+**Feature e acabamento Java:** [[Catalogo-Skills-Unificado/skills/java-javafx-entity/SKILL|java-javafx-entity]] · [[Catalogo-Skills-Unificado/skills/java-jdbc-dao/SKILL|java-jdbc-dao]] · [[Catalogo-Skills-Unificado/skills/java-service-usecase/SKILL|java-service-usecase]] · [[Catalogo-Skills-Unificado/skills/javafx-screen-fxml/SKILL|javafx-screen-fxml]] · [[Catalogo-Skills-Unificado/skills/javafx-dashboard/SKILL|javafx-dashboard]] · [[Catalogo-Skills-Unificado/skills/javafx-theme-tokens/SKILL|javafx-theme-tokens]] · [[Catalogo-Skills-Unificado/skills/java-logging-log4j2/SKILL|java-logging-log4j2]] · [[Catalogo-Skills-Unificado/skills/java-package-desktop/SKILL|java-package-desktop]]
 
-```powershell
-# global (todos os projetos)
-powershell -ExecutionPolicy Bypass -File .\deploy-skills.ps1
+**Track Java Web / Spring Boot (Gradup):** [[Catalogo-Skills-Unificado/skills/springboot-entity/SKILL|springboot-entity]] · [[Catalogo-Skills-Unificado/skills/springboot-repository-service/SKILL|springboot-repository-service]] · [[Catalogo-Skills-Unificado/skills/springboot-controller-thymeleaf/SKILL|springboot-controller-thymeleaf]] · [[Catalogo-Skills-Unificado/skills/spec-springboot-crud-feature/SKILL|spec-springboot-crud-feature]]
 
-# ou para um projeto específico
-.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto"
-```
+**Track Mobile / Flutter (proposta):** [[Catalogo-Skills-Unificado/skills/mobile-flutter-scaffold/SKILL|mobile-flutter-scaffold]] · [[Catalogo-Skills-Unificado/skills/mobile-flutter-feature/SKILL|mobile-flutter-feature]] · [[Catalogo-Skills-Unificado/skills/mobile-flutter-firebase/SKILL|mobile-flutter-firebase]]
 
-**Ou manualmente:** copie a pasta `skills/` para `~/.claude/skills/` (ou `<projeto>/.claude/skills/`) e reinicie a sessão do Claude Code. Depois é só pedir em linguagem natural — as skills disparam por gatilho (ex.: *"orquestra essa tarefa com o ciclo completo"*, *"cria o DAO de Cliente"*, *"testa o sistema de verdade"*).
+**Track Web Frontend:** [[Catalogo-Skills-Unificado/skills/frontend-stack-decisor/SKILL|frontend-stack-decisor]] · [[Catalogo-Skills-Unificado/skills/design-tokens-gen/SKILL|design-tokens-gen]] · [[Catalogo-Skills-Unificado/skills/web-component/SKILL|web-component]] · [[Catalogo-Skills-Unificado/skills/web-data-layer/SKILL|web-data-layer]] · [[Catalogo-Skills-Unificado/skills/web-vanilla-supabase-pwa/SKILL|web-vanilla-supabase-pwa]]
 
-## Estrutura
+**Track Desktop / Tauri (proposta):** [[Catalogo-Skills-Unificado/skills/desktop-tauri-scaffold/SKILL|desktop-tauri-scaffold]] · [[Catalogo-Skills-Unificado/skills/desktop-feature-crud/SKILL|desktop-feature-crud]] · [[Catalogo-Skills-Unificado/skills/desktop-packaging/SKILL|desktop-packaging]]
 
-```
-skills/                 as 60 skills (cada uma numa pasta com SKILL.md)
-REGRAS-DE-OURO.md       governança: regras inquebráveis (RI) + regras de ouro (RO) por track
-PADRAO-DE-AUTORIA.md    como criar/editar qualquer skill (inclui o "Selo Lendário")
-ROADMAP.md              pendências e próximos passos
-GUIA.md                 as 60 skills com função + como o maestro as rege
-deploy-skills.ps1       sincroniza o catálogo para o runtime do Claude Code
-referencia/             referências de apoio
-docs/INDICE-OBSIDIAN.md índice navegável (formato Obsidian)
-```
+**Orquestradores:** [[Catalogo-Skills-Unificado/skills/orquestrador-fable/SKILL|orquestrador-fable]] (maestro multi-modelo) · [[Catalogo-Skills-Unificado/skills/painel-de-juizes/SKILL|painel-de-juizes]] (julgamento comparativo cego, regida pelo maestro — **faltava no índice desde 2026-07-09**, por isso a contagem antiga dizia 51) · [[Catalogo-Skills-Unificado/skills/spec-projeto-completo/SKILL|spec-projeto-completo]] (universal) · [[Catalogo-Skills-Unificado/skills/spec-javafx-new-system/SKILL|spec-javafx-new-system]] · [[Catalogo-Skills-Unificado/skills/spec-javafx-crud-feature/SKILL|spec-javafx-crud-feature]] · [[Catalogo-Skills-Unificado/skills/spec-springboot-crud-feature/SKILL|spec-springboot-crud-feature]] · [[Catalogo-Skills-Unificado/skills/spec-mobile-app/SKILL|spec-mobile-app]] · [[Catalogo-Skills-Unificado/skills/spec-frontend-web/SKILL|spec-frontend-web]] · [[Catalogo-Skills-Unificado/skills/spec-desktop-app/SKILL|spec-desktop-app]]
 
-## Notas
+**Testadores (executores):** [[Catalogo-Skills-Unificado/skills/testador-real/SKILL|testador-real]] (executor universal único para qualquer projeto e stack — auto-detecta Spring Boot, JavaFX, Web/Playwright, Flutter e CLI; unificado em 2026-09-04) · [[Catalogo-Skills-Unificado/skills/testador-jogos/SKILL|testador-jogos]] (jogos pela experiência).
 
-- **Idioma:** as skills são em **PT-BR** (instruções); código e identificadores em inglês.
-- **Tracks Mobile/Web/Desktop** entram marcados como **proposta** — fundamentados em fontes oficiais, a refinar contra código real de cada projeto (RO-01).
-- **Exemplos concretos** citam projetos reais do autor apenas como contexto de exemplo.
+**Blueprints (subsistemas reutilizáveis, parametrizáveis por projeto):** [[Catalogo-Skills-Unificado/skills/assistente-deterministico/SKILL|assistente-deterministico]]
 
-## Créditos e atribuição
+**Domínio Riqueza, Finanças & Trading (fora do código):** [[Catalogo-Skills-Unificado/skills/conselheiro-financeiro/SKILL|conselheiro-financeiro]] · [[Catalogo-Skills-Unificado/skills/plano-riqueza/SKILL|plano-riqueza]] · [[Catalogo-Skills-Unificado/skills/conteudo-riqueza/SKILL|conteudo-riqueza]] · [[Catalogo-Skills-Unificado/skills/trader-de-elite/SKILL|trader-de-elite]]
 
-- A referência de design **Impeccable** em `skills/designer-ux-ui/referencia/impeccable/` é de **Paul Bakaus** ([`pbakaus/impeccable`](https://github.com/pbakaus/impeccable), Apache-2.0) — o `NOTICE.md` original está preservado nessa pasta.
-- Conceitos incorporados de artigos oficiais do Claude Code (loops, model/effort, harness design) e de repositórios públicos avaliados (creditados nos arquivos onde aparecem).
+**Conteúdo & Marketing:** [[Catalogo-Skills-Unificado/skills/redator-tecnologia-ia/SKILL|redator-tecnologia-ia]] · [[Catalogo-Skills-Unificado/skills/email-marketing-html/SKILL|email-marketing-html]]
 
-## Licença
+## 🔬 Método — as 10 skills de método: 9 lentes + memória (poliglotas)
 
-[MIT](LICENSE) © 2026 Jeremias ([@codjeremias-cell](https://github.com/codjeremias-cell)). Use, adapte e compartilhe à vontade — se ajudar, deixe uma ⭐.
+Servem qualquer stack. Disparam por gatilho quando o assunto casa.
+
+- `arquiteto-software` — estrutura, trade-offs, ISO 25010, SOLID/DDD, C4/ADR.
+- `arquiteto-dados` — modelagem (relacional/dimensional/NoSQL), evolução de schema sem downtime, particionamento, contratos de dados.
+- `dev-senior` — clareza do código, Clean Code, BD, testes (qualquer linguagem).
+- `designer-ux-ui` — fluxos, UI, Design Tokens, WCAG, estados de tela (+ referência Impeccable).
+- `especialista-seguranca` — STRIDE, OWASP 2025, LGPD (time vermelho defensivo).
+- `qa-usabilidade` — projeta testes, ISTQB, a11y, veredito por risco (a EXECUÇÃO é do `testador-real`).
+- `inovacao-melhorias` — Kaizen/PDCA, MVP, DORA, dívida técnica.
+- `auditor-responsabilidades` — gate final, DoD, RACI, faz cumprir as RI/RO (RI-01…06).
+- `consultor-negocios-apps` — o app como NEGÓCIO: mercado, monetização, retenção, go-to-market, parecer com nota.
+- `memoria-de-projeto` — memória portável do projeto entre sessões.
+
+Fluxo típico: `Descoberta → (Negócio) → Arquiteto (+ Dados) → Designer → Dev → Testador → QA → Auditor`, com Segurança e Inovação transversais.
+
+## 🌍 Ciclo de vida universal — da ideia à entrega (qualquer plataforma)
+
+- `requisitos-descoberta` — transforma ideia vaga em requisitos com MVP, histórias e aceite verificável.
+- `especialista-planejador` — **o plano de trabalho quando a decisão envolve dinheiro, prazo e quem responde**: enumera o **custo total** (inclusive migração, suporte, manutenção e saída), etiqueta todo preço com moeda, região, data e fonte oficial, exige **dono provisório, reserva e Plano B com gatilho observável**, mapeia capacidade em quatro eixos (existe · cobre · disponível · quem autoriza) e classifica o regime avulso × empresa. **Não executa, não compra e não pontua.** Fronteira: o *que* construir é da `requisitos-descoberta`; o app como negócio é do `consultor-negocios-apps`; a estrutura técnica é do `arquiteto-software`.
+- `mapa-de-decisoes` — **cartografia de trabalho nebuloso**: esforço grande demais para uma sessão, em que o caminho até o destino ainda não está visível, vira um **mapa de bilhetes de decisão** (`estado/mapa-<slug>.md` + tarefas no `estado.json` com aresta `bloqueada_por`). Produz **decisões, não entregas**; o que ainda não dá para enunciar como pergunta fica declarado como **névoa**, e um bilhete se resolve por sessão. É a porta quando a `requisitos-descoberta` não consegue saturar; quando o caminho clareia, entrega a ela ou ao `spec-projeto-completo`.
+- `zelador-do-catalogo` — **mede a saúde do próprio acervo**, um modo por rodada: **custo** (quanto contexto permanente cada componente consome, com os cortes ranqueados; linha de base de 2026-08-06 = ~15 mil tokens só de descriptions) · **inventário** (manter/melhorar/atualizar/aposentar/fundir, com motivo autossuficiente e nenhuma remoção sem "ok") · **obediência** (a skill é seguida em prompt neutro — e sob prompt **concorrente**?). Complementa o `validar-skills.ps1`, que cobre estrutura e é chamado por ele.
+- `garimpo-externo` — **julga fonte de terceiro contra esta casa antes de qualquer adoção**, em seis portões (direito e risco · método × produto · delta real contra o acervo, medido por leitura e nunca por grep · cliente com nome próprio · compatibilidade com os princípios da casa · menor degrau da escada), e entrega um laudo datado com veredito e motivo autossuficiente por achado — sem tocar em arquivo de skill. É o par externo do `zelador-do-catalogo`: ele mede o acervo por dentro, este julga o que quer entrar. Método destilado dos sete garimpos que esta casa já executou.
+- `docs-projeto` — README, manual do usuário (com prints), doc técnica/ADR, changelog e **glossário do projeto** — sempre do código real.
+- `testador-real` — **executor universal de testes**: bateria estática + dinâmica com evidência PASS/FAIL/SKIP e relatório datado; nunca simula sucesso. As instâncias por projeto ficam no repo de cada um, não neste catálogo.
+- `spec-projeto-completo` — orquestrador-topo universal: descoberta → negócio → arquitetura → design → construção (delega ao track quando existir) → testes → segurança → docs → release → gate do auditor.
+- `orquestrador-fable` — **maestro multiagente e agnóstico de runtime**: o modelo mais capaz disponível planeja e delega a executores escolhidos por **classe de capacidade + effort + slots descobertos na sessão** (sem nome de modelo nem teto de concorrência chumbados); Comitê de Lentes + `testador-real` avaliam com nota 0–10; o ciclo planejar→executar→avaliar repete até nota ≥ 9,5 em todas as lentes ou 10 rodadas. Orquestra **quem executa e quanta qualidade sai**; os `spec-` orquestram **em que ordem as skills entram** — combináveis. Meta com **métrica numérica verificável** vai pelo **modo métrica** (loop mecânico com Verify/Guard e Comitê só no fechamento — `referencia/modo-metrica.md`, ADR-001, em piloto).
+- `estado-projeto` — **estado de tarefas retomável** entre sessões: `estado.json` (fonte única) + `TAREFAS.md` (view derivada), transições de status e gravação segura com escritor único. O `orquestrador-fable` persiste e retoma nele; é o par de `memoria-de-projeto` (aquela guarda *como* trabalhamos; esta, *onde cada tarefa está*).
+
+## ⚙️ Track Java / JavaFX — geradores (SIGO, EscalaOper, Sentinela)
+
+Stack real: JavaFX + Access/UCanAccess (JDBC) desktop no Windows.
+
+**Fundação (do zero):**
+- `java-project-bootstrap` — esqueleto Maven + JavaFX (pom, App, log4j2, .gitignore, config.example) que compila e empacota.
+- `java-db-foundation` — provedor de conexão + `RetryDB` + `config.properties` (segredos fora do git).
+- `javafx-app-shell` — janela principal, navegação, `AlertaUtil` e controller-base.
+
+**Feature e acabamento:**
+- `java-javafx-entity` — entidade/modelo de domínio + teste JUnit.
+- `java-jdbc-dao` — DAO JDBC: SQL parametrizado, try-with-resources, colunas explícitas, transação, retry.
+- `java-service-usecase` — camada de serviço (regra de negócio fora do controller).
+- `javafx-screen-fxml` — tela FXML + controller: mockup-first, estados, banco assíncrono (Task), FXML frágil.
+- `javafx-dashboard` — dashboards de excelência (executivo/operacional/decisão): blueprint → mockup → build com rigor de veracidade dos dados (+ `referencia/` com o cânone de design e o stack real).
+- `javafx-theme-tokens` — tema claro/escuro por tokens CSS (sem cor fixa).
+- `java-logging-log4j2` — logging padronizado (sem printStackTrace/System.out).
+- `java-package-desktop` — empacotamento jpackage (.exe/.msi, roda sem Java).
+
+**Orquestradores:**
+- `spec-javafx-new-system` — **do zero ao app rodando e empacotado** (bootstrap → banco → tema/logging → shell → 1ª feature → testador → empacotar).
+- `spec-javafx-crud-feature` — funcionalidade CRUD completa ponta a ponta num projeto existente.
+
+## 🌐 Track Java Web / Spring Boot (Gradup)
+
+Stack real: Spring Boot 3.x + Thymeleaf + htmx + PostgreSQL/Flyway, monolito modular `com.<app>.<modulo>.{web,application,domain,infrastructure}` (RO-SB1…8 nas [[REGRAS-DE-OURO]]). Convenções extraídas e validadas no Gradup — sem Lombok, sem `@OneToMany`, view nunca recebe entidade JPA (RO-SB4), testes de integração gated por `DB_URL` (RO-SB8).
+
+**Geradores:**
+- `springboot-entity` — entidade JPA (POJO sem Lombok, mutação por método de domínio) + migração Flyway (`V<N>__*.sql`).
+- `springboot-repository-service` — repositório Spring Data (`@Query` + `join fetch`) + serviço (`@Transactional`, nunca devolve entidade JPA).
+- `springboot-controller-thymeleaf` — controller `@Controller` + template Thymeleaf acessível (a11y, CSRF automático, cor só por `tokens.css`).
+
+**Orquestrador:**
+- `spec-springboot-crud-feature` — funcionalidade CRUD completa ponta a ponta (entidade → repositório/serviço → tela).
+
+**Testador:**
+
+## 🌐 Track Web / Supabase (Embalo)
+
+HTML+CSS+JS vanilla + Supabase. A skill `web-vanilla-supabase-pwa` materializa as convenções reais do Embalo: autenticação, CRUD confiando no RLS, Storage, PWA/TWA e guards de configuração.
+
+## ✍️ Conteúdo & Marketing
+
+- `redator-tecnologia-ia` — planeja, pesquisa, redige e revisa conteúdo tech em PT-BR com fontes verificáveis e quatro lentes editoriais.
+- `email-marketing-html` — gera e-mail promocional HTML bulletproof para os principais clientes, com CTA textual, descadastro e lint obrigatório.
+
+## 💰 Domínio Riqueza & Finanças (fora do código — lentes de conteúdo)
+
+Trio de lentes de finanças pessoais, ancoradas numa base fixa de conhecimento: `referencia/GUIA-MESTRE-RIQUEZA.md` (síntese temática de 20 livros/e-books de riqueza) + `referencia/analises/` (13 análises completas — Napoleon Hill, Eker, Wattles, Clason, Thiago Nigro, Kiyosaki e Trump, Cerbasi, Stanley e Danko, Paulo Vieira, entre outros). Não é um track de geração de código: as três skills são **lentes de domínio** (tipo "Lente" do [[PADRAO-DE-AUTORIA]]) que aconselham, planejam ou geram conteúdo sobre dinheiro — nunca escrevem software.
+
+- `conselheiro-financeiro` — responde pergunta ou decisão pontual de dinheiro (orçamento, dívida, investimento, financiamento) com fórmula + número + autor. Ponto de entrada do trio.
+- `plano-riqueza` — monta, documenta e acompanha ao longo do tempo um plano financeiro completo e numérico (diagnóstico → orçamento → dívida → investimento → renda → revisão). Recebe handoff do `conselheiro-financeiro` quando a pergunta pontual evolui para "quero um plano".
+- `conteudo-riqueza` — gera conteúdo público sobre dinheiro/riqueza (post, roteiro, legenda, thread, newsletter, e-book) ancorado em história/número/citação real dos livros, com régua editorial própria (nunca promete resultado, contrapeso em posição controversa). Recebe handoff das outras duas quando o usuário quer transformar conselho ou plano em peça publicável.
+
+As três compartilham as mesmas salvaguardas de fundo (RO-01 — nunca inventar número/fórmula/citação; não é consultoria regulada; rota própria para superendividamento via Lei 14.181/2021) e resolvem a fronteira de acionamento entre si por **handoff explícito** (bloco 🔗 Rede da skill de cada uma), não por gatilhos concorrentes — revisadas por um painel de 3 juízes (fidelidade ao conteúdo, engenharia de skill, experiência/segurança) em 2026-07-10. Fonte de conteúdo (única, evita desatualização): `livros e dicas, como ficar rico com a internet\analises-livros\` — se as análises lá mudarem, as cópias em `referencia/` de cada skill precisam ser regeneradas.
+
+## 🚀 Como usar (deploy)
+
+O catálogo é a única fonte editável. Claude Code lê `.claude/skills/`; Codex lê `.agents/skills/`. Esses dois diretórios são runtimes gerados e podem ser versionados para que um clone do cofre já carregue o mesmo conjunto.
+
+> ⚠️ **`-ProjectPath` exige caminho ABSOLUTO. Com `".."` o script reprova.** Medido em 2026-07-27 e
+> reproduzido na versão anterior do script: `[System.IO.Path]::GetFullPath()` resolve contra o
+> diretório do **processo**, não contra o `cd` do PowerShell — então com `".."` ele acusa as 60
+> skills como ausentes e termina em `REPROVADO`. As duas linhas abaixo ensinavam a forma relativa
+> até 2026-09-07, contradizendo o `CLAUDE.md`, que já documentava a medição.
+
+1. **Gate sem escrita, primeiro:**
+   `.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -SomenteVerificar`
+   compara nomes, arquivos e SHA-256 e retorna erro em qualquer divergência.
+2. **Deploy local dos dois runtimes:**
+   `.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -Forcar`.
+3. **Compatibilidade global:** `.\deploy-skills.ps1` mantém o comportamento histórico de publicar somente no runtime global do Claude. Use `-Runtime Codex` ou `-Runtime Ambos` explicitamente para destinos globais do Codex.
+4. **Como acionar:** descreva a tarefa em linguagem natural (ex.: "cria o DAO de Cliente", "constrói um sistema novo do zero") e a skill dispara pela `description`; ou nomeie (ex.: "usa a `java-jdbc-dao`"). As lentes do método disparam por gatilho.
+5. Toda entrega passa pela governança das [[REGRAS-DE-OURO]] e pode ser auditada pela lente `auditor-responsabilidades`.
+
+## 🧭 Relação com o cofre
+
+Este catálogo **consolida e supersede** as cópias espalhadas das skills. A fonte canônica é `Catalogo-Skills-Unificado/skills/`; `.claude/skills/` e `.agents/skills/` são derivados verificáveis e devem conter todas as skills da fonte, sem contagem fixa escrita à mão. As cópias antigas (`skills/`, `backup/`) foram aposentadas em 2026-06-15. A memória viva de cada projeto continua nos junctions `memoria*/`.
+
+O catálogo pertence ao **repositório Git único da raiz do cofre**. Não crie `.git` aqui dentro. O histórico do antigo repositório interno está preservado na tag `archive/catalogo-interno-2026-07-20`; detalhes em [[ADR-002-repositorio-git-unico]].
+
+---
+
+### 📜 Histórico
+
+- **2026-08-18 (v2.17) — Reconciliação do índice com a fonte, e sete laudos que não constavam.** Três defeitos vivos corrigidos: **(a)** o frontmatter declarava `v2.14 · 2026-07-20` enquanto o próprio Histórico abaixo já ia até `v2.16 · 2026-08-06` — o cabeçalho contradizia o corpo do mesmo arquivo; **(b)** `gradup-testador` era citada em **quatro lugares** como skill do catálogo, e ela **saiu em 2026-08-10** (commit `4205eaa`) para o repo do Gradup, junto das demais instâncias project-local — as menções vivas passaram a apontar onde ela mora, e as entradas **históricas** abaixo ficaram intactas, porque eram verdade nas datas delas; **(c)** o Histórico parava em 2026-08-06 e sete laudos entraram desde então. **Total: 60 skills** (61 antes da saída da `gradup-testador`); `validar-skills.ps1` **APROVADO COM RESSALVAS: 0 erros, 4 avisos** — os quatro são de folga de `description`/teto e não nasceram desta rodada.
+
+  Os sete laudos, cada um com o próprio veredito no arquivo — este índice **aponta, não copia**: `garimpo-3repos-2026-08-08.md` (o campo `paths` devolvido ao Jeremias como ⚠️ conflito declarado, e depois refutado por medição) · `garimpo-cienciaedados-2026-08-08.md` (a joia era o guia oficial da Anthropic, e a casa já tinha quase tudo em versão mais desenvolvida; restaram três pepitas estruturais) · `garimpo-lote-harness-2026-08-08.md` (dez fontes, 113 pepitas, 27 adotadas, 69 cortadas, **uma fonte cortada inteira por segurança**) · `garimpo-system-prompts-2026-08-08.md` (repo de *corpus*, não de método — 18 pepitas e uma restrição de uso inédita) · `garimpo-codex-security-2026-08-10.md` (o que valia não era o scanner: seis regras de prova de achado) · `garimpo-archify-2026-08-18.md` (método forte sobre produto cuja promessa de portabilidade a saída não cumpre) · `garimpo-oh-my-opencode-2026-08-18.md` (17 pepitas, 5 adoções degrau 1, panteão de sete agentes cortado como joia da coroa).
+- **2026-08-06 (v2.16) — Garimpo `affaan-m/ECC` v2.1.0, 2ª rodada (8 pepitas + 1 skill nova):** reavaliado o repo que já tinha sido garimpado **raso** em 2026-07-07 (3 itens) e que hoje tem 281 skills, 67 agentes e 122 arquivos de regras. Segurança com **profundidade declarada**: é framework instalável (440 JS), auditado na superfície e no vetor que importa para nós — **zero injeção de prompt nos `.md`** —, e **nada foi instalado**. Colheita: **`auditor-responsabilidades`** ganhou a seção **Peça FATO, não autoavaliação** (régua de redação, tabela de conversão, portão de três estágios negar→forçar→permitir, portão mecânico × de raciocínio com a regra "heurística avisa, fato bloqueia", e veredito sem evidência restatada é carimbo) — correção estrutural de quatro cicatrizes registradas na memória; **`especialista-seguranca`** ganhou a nova `referencia/seguranca-agentica.md` (trifecta letal, tudo que o LLM lê é contexto executável, CVEs datadas do harness, skill como artefato de cadeia de suprimentos com o dado da Snyk, varredura de primeira passada, separação extrator × ator, kill de grupo de processos, barra mínima de 11 itens); **`painel-de-juizes`** ganhou **anti-ancoragem** (posição própria antes de ler as vozes; despacho sem transcrição; guardrails de síntese); **`memoria-de-projeto`** ganhou **memória é gasolina** (payload planta fragmento e monta depois; origem colada no fato; rodada não confiável fecha sem memória durável); **PADRAO-DE-AUTORIA v2.7** ganhou o **modo de falha 0** (autoavaliação no lugar de fato), o **§11.7 com três níveis de pressão do prompt** (apoiador/neutro/**concorrente**) e a busca externa na escada §6.10. Em degrau 3, **1 skill nova: `zelador-do-catalogo`** (mede custo, vigência e obediência do próprio acervo — une `context-budget`, `skill-stocktake` e `skill-comply` num só dono). **Total: 59 skills**; validador `APROVADO`, 0 erro / 0 aviso. Relatório completo, com a cobertura declarada do que **não** foi garimpado, em `garimpo-ecc-2026-08-06.md`.
+- **2026-08-06 (v2.15) — Garimpo `mattpocock/skills` aplicado (14 pepitas + 1 skill nova):** avaliado `github.com/mattpocock/skills` @ `6acc160` (MIT, 151 arquivos, 25 skills) pelo rito do item 0 — clone isolado, **auditoria de segurança completa arquivo a arquivo: limpa** (sem rede em executável, sem injeção nos `.md`; gotcha registrado: o `link-skills.sh` deles faz `rm -rf` em skills de mesmo nome no runtime — nunca rodar o instalador aqui). Colheita em degrau 1–2: **PADRAO-DE-AUTORIA v2.6** (ponteiro de contexto, dois orçamentos, 6º modo de falha "Negação", teste de revelação, eixo exigência do critério de conclusão, ambiente-como-cache, palavra pré-treinada), **`dev-senior`** (três defeitos de teste — tautológico, acoplado, fatiamento horizontal —, costura acordada, conflito de merge por intenção; `protocolo-depuracao.md` reescrito em 6 fases; `formatos-code-review.md` com a variante **dois eixos** e o baseline de 12 smells de Fowler), **`arquiteto-software`** (nova `referencia/modulo-profundo.md` com o vocabulário de profundidade/costura/adaptador/alavancagem/localidade + teste da deleção; ADR pelo teste dos três critérios; regras do descartável no spike; linguagem ubíqua viva), **`requisitos-descoberta`** (sabatina em rodadas com fronteira e resposta recomendada; fato é do agente, decisão é do Jeremias), **`inovacao-melhorias`** (hot spots do `git log` antes de varrer; checagem de redundância e de rejeição anterior; força de recomendação declarada), **`docs-projeto`** (documento GLOSSÁRIO), **`estado-projeto`** (fatia vertical tracer-bullet, aresta `bloqueada_por` opcional, exceção expandir–contrair para refactor largo), **`redator-tecnologia-ia`** (aterramento de conceitos, explorar × explotar, argumentos de formato) e **`memoria-de-projeto`** (escolha da fronteira de fase; handoff aponta, não copia). Em degrau 3, **1 skill nova: `mapa-de-decisoes`** (cartografia de trabalho nebuloso — névoa de guerra, bilhetes de decisão, uma resolução por sessão), com a justificativa de por que os degraus 1 e 2 não bastaram registrada no Histórico dela. Achado próprio: as descriptions do catálogo custavam **60.223 caracteres (~15 mil tokens) de contexto permanente**, medido pela primeira vez. **Total: 58 skills**; validador `APROVADO`, 0 erro / 0 aviso. Relatório completo em `garimpo-mattpocock-2026-08-06.md`.
+- **2026-07-20 (v2.14):** As 57 skills receberam `agents/openai.yaml` com nome legível, descrição curta e prompt inicial explícito; o validador passou a bloquear metadata ausente ou inválida.
+- **2026-07-20 (v2.13):** Índice reconciliado automaticamente com as 57 pastas canônicas; incluídas `trader-de-elite`, `redator-tecnologia-ia` e `email-marketing-html`, e removida a indicação obsoleta de que o track Web/Supabase ainda seria futuro.
+- **2026-07-20:** Removido o `.git` interno do catálogo após preservar o histórico legado em bundle verificado e na tag remota `archive/catalogo-interno-2026-07-20`.
+- **2026-07-20 (v2.12):** Deploy unificado Claude + Codex, verificação de paridade por SHA-256 e remoção de contagens operacionais fixas; o catálogo possui 57 skills nesta data.
+- **2026-07-12 (v2.11) — Garimpo Langfuse, Lote 2 aplicado — garimpo 100% na fonte (Cowork):** LF4 (regressão por caso nunca em silêncio: passo 6 do `orquestrador-fable` ancorado na taxonomia da Fase 4 do testador, com ausência declarada e desfecho por rodada × entrega final + eco declarado no fechamento do modo métrica) e LF5 (categorias de falha nomeadas: `Aprendizagem/COMO-COLHER.md` v1.1 com casa/dono/freio/bootstrap + a lista canônica hospedada na seção "Costumes e convenções" da `memoria-de-projeto`). Rodada de aplicação **8,2** (auditor 8,4 · arquiteto 8,4 · qa 7,9), ressalvas incorporadas. As 6 pepitas do garimpo estão na fonte; pendem revisão de 60 dias (~2026-09-12) e deploy — [[ROADMAP]] item 10.
+- **2026-07-12 (v2.10) — Garimpo Langfuse, Lote 1 aplicado (Cowork):** blog da Langfuse avaliado pelo rito adaptado a fonte-blog (6 posts lidos como DADO — 1º caso real da hierarquia de canal de v2.7 das REGRAS; reconferência 6/6; Anexo A de disciplina de canal). Comitê: proposta **8,3** (arquiteto 8,7 · auditor 8,5 · qa 7,8) · aplicação **8,7** (auditor 8,7 · arquiteto 8,8 · segurança 8,6 em escopo reduzido · qa 8,5) — ressalvas fechadas. **Lote 1 aplicado com ok do Jeremias:** lições de campo do modo métrica (red flags de overfit nomeados — a Langfuse rodou a mesma ferramenta de origem e validou nosso desenho human-gated; Verify composto com pesos pinados; ADR-001 anotado), eval de acionamento/aderência + sintéticos com salvaguardas no PADRAO §11 (**v2.3**), modificadores + régua de escalada no §12, evidência externa no Selo §10.1. 6 pepitas propostas (2 no Lote 2 aguardando ok), 6 rejeitados com motivo. Registro: `Novo Conceito/garimpo-langfuse-blog-2026-07-12.md`; pendências no [[ROADMAP]] (item 10).
+- **2026-07-12 (v2.9) — Garimpo hermes-agent aplicado (Lotes 1+2+3, Cowork):** avaliado o repo `nousresearch/hermes-agent` (v0.18.2, ~174 skills + framework de agente) pelo rito do item 0 — clone isolado, varredura de segurança limpa (incluindo unicode/bidi), 14 pepitas propostas e 14 rejeitados com motivo, Comitê de Lentes com placar **8,7** (arquiteto 8,7 · auditor 8,7 · dev-sênior 8,7 · segurança 8,8, ressalvas fechadas) — registro completo em `Novo Conceito/garimpo-hermes-agent-2026-07-12.md`. Aplicado com ok do Jeremias (Lotes 1+2+3): **REGRAS-DE-OURO v2.7** (princípios novos: nunca fabricar resultado; hierarquia de confiança de canal), **PADRAO-DE-AUTORIA v2.2** (§12 escrita do corpo com 5 modos de falha nomeados + anti-sedimento; 10 princípios; DoD com degrau da escada de pegada), edições em `memoria-de-projeto`, `dev-senior`, `especialista-seguranca`, `inovacao-melhorias`, `orquestrador-fable`, `painel-de-juizes`, `qa-usabilidade`, `arquiteto-software`, `requisitos-descoberta`, `estado-projeto` e no estudo de hooks; **estudo novo do modo agendado** (`Novo Conceito/estudo-modo-agendado-2026-07-12.md`, construção pendente). Nenhuma skill nova (escada de pegada respeitada). Pendem: redeploy (`deploy-skills.ps1`, Jeremias), sincronização das instâncias de testador e as revisões de calibração — ver [[ROADMAP]] (item 9).
+- **2026-07-10 (v2.8) — Garimpo autoresearch aplicado (Lotes 1+2, Cowork):** avaliado o repo `uditgoenka/autoresearch` (v2.2.1) pelo rito do item 0 — clone isolado, varredura de segurança (limpa; anti-padrão `APPROVED:` deles registrado), 13 pepitas propostas e 10 conceitos rejeitados com motivo, Comitê de Lentes com placar **8,5** (arquiteto 8,7 · auditor 8,5 · dev-sênior 8,4 · segurança 8,4, ressalvas fechadas) — registro completo em `Novo Conceito/garimpo-autoresearch-2026-07-10.md`. Aplicado com ok do Jeremias (lotes 1+2): **modo métrica** no `orquestrador-fable` (triagem + `referencia/modo-metrica.md` + **ADR-001** em `_decisoes/` — pasta nova de decisões do catálogo; em piloto), guardrails de **triagem de comandos** e **anti-overfit** + **anti-estagnação v2** no maestro, sinal de oscilação na `painel-de-juizes`, **classificação de regressão** (verde→vermelho + TSV machine-readable) no `testador-real`, **predicado pinado fail-closed** na `estado-projeto`, **RO-15 (saturação de descoberta)** nas REGRAS-DE-OURO (referenciada por `requisitos-descoberta`/`qa-usabilidade`/`inovacao-melhorias`), **mapa de cobertura** na `especialista-seguranca`, **12 dimensões + 5 personas adversariais** na `qa-usabilidade` e **guard em correção em série** no `dev-senior`. Nenhuma skill nova. **Deploy rodado pelo Jeremias em 2026-07-10: 52 skills no runtime** — o número revelou que a contagem "51" de v2.7 nunca incluiu a `painel-de-juizes` (criada 2026-07-09 e ausente do índice; corrigido nesta versão: total real do catálogo é **52**), e o deploy também levou o trio Riqueza ao runtime, fechando a pendência do item 7 do [[ROADMAP]]. Microadição "API Top 10 x/10" no mapa de cobertura (P8) **ratificada pelo Jeremias em 2026-07-10**. Pendente: piloto do modo métrica, Lote 3 (P10 wiki, P12 desempenho) e estudo de hooks (P11) — ver [[ROADMAP]] (item 8).
+- **2026-07-10 (v2.7) — Domínio Riqueza & Finanças + organização do catálogo (Cowork):** entrou o primeiro domínio **fora do código**: trio de lentes `conselheiro-financeiro` (pergunta pontual), `plano-riqueza` (plano completo e acompanhado) e `conteudo-riqueza` (conteúdo público), a partir de 13 análises cobrindo 20 livros/e-books de riqueza. Revisadas por painel de 3 juízes (fidelidade ao conteúdo, engenharia de skill, experiência/segurança) — correções aplicadas: fronteira de acionamento entre as três resolvida por handoff explícito no bloco 🔗 Rede da skill (em vez de gatilhos concorrentes), camada de responsabilidade financeira (alerta anti-pirâmide, rota de superendividamento via Lei 14.181/2021, sinalização de dados datados) e régua editorial para conteúdo publicado. Reescritas no padrão "Lente" do catálogo (`referencia/` em vez de `references/`, bloco Rede da skill, Regras de Ouro compartilhadas no rodapé) — versão inicial vinha de fora (pacotes `.skill` avulsos) e foi replanejada para esta estrutura. Corrigido de passagem: um pacote de entrega temporário havia sobrescrito este `README.md` com uma versão só-finanças de 30 linhas; restaurado do Git antes de qualquer perda. **Pendente:** passar as três pelo `auditor-responsabilidades` com veredito formal e rodar `deploy-skills.ps1` para levar o trio ao runtime `.claude/skills/`. Total: **51 skills**.
+- **2026-07-08 (v2.6) — Rodada de manutenção (auditoria Cowork):** restaurado o final truncado de [[PADRAO-DE-AUTORIA]] (§11 Baseline antes do eval + seção Histórico, por reconstrução com nota de proveniência — Git indisponível na sessão); frontmatters de README/REGRAS-DE-OURO/PADRAO sincronizados com o conteúdo real; removida a pasta `referencia/` vazia da raiz; `javafx-dashboard` renomeada `references/` → `referencia/` (padrão §7); description do `gradup-testador` acentuada + fronteira "NÃO acione" adicionada; `deploy-skills.ps1` ganhou `-Espelhar` (remoção confirmada de skills órfãs no destino); criado `validar-skills.ps1` (lint automatizado do DoD §9: name, description ≤1024, gatilhos, bloco Rede, links da Rede, truncamento/encoding); criados `evals/` para os 7 orquestradores que não tinham (`spec-javafx-new-system`, `spec-javafx-crud-feature`, `spec-springboot-crud-feature`, `spec-mobile-app`, `spec-frontend-web`, `spec-desktop-app`, `orquestrador-fable`). Total: **48 skills** (12 com evals).
+- **2026-07-07 (v2.5):** **Três tracks novos** (proposta): **Mobile/Flutter** (`mobile-flutter-scaffold`/`-feature`/`-firebase` + `spec-mobile-app`), **Web Frontend** (`frontend-stack-decisor`, `design-tokens-gen`, `web-component`, `web-data-layer` + `spec-frontend-web`) e **Desktop/Tauri** (`desktop-tauri-scaffold`, `desktop-feature-crud`, `desktop-packaging` + `spec-desktop-app`) — 13 skills fundamentadas nas fontes oficiais da pesquisa (RO-01; refinar contra o código real dos projetos). RO por track adicionadas em `REGRAS-DE-OURO` (RO-FL/FE/DT) e o cabeçalho truncado do Track Web restaurado. Total: **48 skills**.
+- **2026-07-07 (v2.4):** Nova lente **`arquiteto-dados`** (9ª lente de método: modelagem relacional/dimensional/NoSQL, evolução de schema sem downtime, particionamento, data contracts) — entra no Comitê como 7ª lente de revisão, dispensada declaradamente em tarefa sem dados. Evolução do **`orquestrador-fable`**: **juiz de visão** (screenshot → crítica, juiz separado + portão pareado do `auto-improve`). Fronteira de dados aparada em `dev-senior` e `arquiteto-software` (fim da colisão de gatilho). Ambos pelo Comitê (arquiteto/auditor/dev-sênior) com ressalvas fechadas. Total: **35 skills**.
+- **2026-07-07 (v2.3):** Nova skill **`estado-projeto`** (estado de tarefas retomável entre sessões: `estado.json` fonte única + `TAREFAS.md` derivado, transições de status, gravação segura com escritor único) e evolução do **`orquestrador-fable`** (contrato de retorno de subagente, gate de status + retomada via `estado-projeto`, plano por fases; e antes as 4 melhorias dos artigos de loops/effort). Conceitos avaliados de um repositório de terceiros (dotfiles) com varredura de segurança limpa; ambas as mudanças passaram pelo Comitê de Lentes (arquiteto/auditor/dev-sênior/segurança) com ressalvas fechadas. Registro em `Novo Conceito/avaliacao-repo-benjamin-dotfiles.md` e `Novo Conceito/analise-loops-x-orquestrador-fable.md`. Total: **34 skills**.
+- **2026-07-06 (v2.2):** Nova skill **`orquestrador-fable`** (categoria Orquestradores): maestro multi-modelo — Fable 5 planeja/delega a subagentes (máx. 20 por ciclo) em Opus/Sonnet/Haiku por complexidade, Comitê de Lentes + `testador-real` avaliam (nota 0–10) e o ciclo repete até nota ≥ 9 em todas as lentes ou 10 rodadas. Total: **33 skills**.
+- **2026-07-05 (v2.1):** Track **Java Web/Spring Boot** ganhou geradores reais, extraídos e validados do Gradup: `springboot-entity`, `springboot-repository-service`, `springboot-controller-thymeleaf` e o orquestrador `spec-springboot-crud-feature` (ROADMAP item 5 concluído). `testador-real` enriquecido com técnicas da instância mais madura (`testador-sigcot`): trava de acionamento explícita, checklist com invalidação por hash, cópia-sandbox para bancos de arquivo único. Criada a instância project-local `sentinela-testador`. Adicionados `evals/` (padrão `javafx-dashboard`) para as 4 skills de ciclo de vida universal. Total no catálogo compartilhado: **32 skills** (mais as instâncias project-local `testador-sigcot` e `sentinela-testador`, fora da contagem por ficarem no `.claude/skills` de cada projeto).
+- **2026-07-05 (v2) — Reforma Lendária:** todas as skills refatoradas para o **Selo Lendário** ([[PADRAO-DE-AUTORIA]] §10) com o bloco **🔗 Rede da skill** (vinculação explícita: lentes RI-06 + antes/depois/fronteiras). Absorvidas do runtime `javafx-dashboard` e `gradup-testador` (fim da divergência fonte×runtime). Criadas 4 skills de **ciclo de vida universal**: `testador-real` (executor de testes de verdade), `requisitos-descoberta`, `docs-projeto` e `spec-projeto-completo` (orquestrador universal). `consultor-negocios-apps` entrou no índice como 8ª lente. Auditor sincronizado com a RI-06. Total: **28 skills**.
+- **2026-06-17 (v1.1):** Entrou a 21ª skill `assistente-deterministico` (nova categoria **Blueprints**: subsistema offline sem LLM — busca tolerante + motor de documentos + reuso por histórico de entidade, parametrizável por projeto). Pendente: rodar `deploy-skills.ps1` para torná-la invocável.
+- **2026-06-15 (v1):** Criação do conjunto único — backbone (padrão de autoria + governança multi-stack) + método consolidado (8 lentes) + track Java/JavaFX (8 geradores).

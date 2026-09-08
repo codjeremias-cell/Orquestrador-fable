@@ -1,114 +1,279 @@
-# Guia do Catálogo — as 48 skills e como o orquestrador as rege
+---
+tipo: guia
+papel: passo a passo completo — como usar, salvar e manter este cofre
+última-atualização: 2026-07-20
+versão: v1.5
+---
 
-Referência rápida do `Catalogo-Skills-Unificado` (2026-07-07). Cada skill com sua função em uma linha, agrupada por papel. No fim, como o `orquestrador-fable` trabalha com elas.
+# 📖 Guia de Uso e Manutenção do Cofre
+
+> Referência prática para o dia a dia: como navegar, invocar skills, salvar memórias, capturar ideias e manter tudo funcionando com qualidade.
+> Para o mapa geral do cofre, veja [[LEIA-PRIMEIRO]] e [[Base de Conhecimento - Índice]].
 
 ---
 
-## 🔬 Lentes do método (9) — *como pensar*, poliglotas, disparam por gatilho
+## 🗺️ Estrutura do cofre (em 30 segundos)
 
-Não executam; **decidem e revisam**. Formam o Comitê de Lentes.
-
-1. **arquiteto-software** — estrutura macro do sistema: estilos/padrões, ISO 25010, SOLID/DDD, C4/ADR, sempre por trade-off explícito.
-2. **arquiteto-dados** — arquitetura de dados: modelagem relacional/dimensional/NoSQL, evolução de schema sem downtime, particionamento, contratos de dados.
-3. **dev-senior** — clareza do código (qualquer linguagem): Clean Code, algoritmos, testes, e a **implementação/tuning** do acesso a banco.
-4. **designer-ux-ui** — a lente do usuário: fluxos, UI, Design Tokens, WCAG, estados de tela, referência Impeccable, loop anti-"AI slop", data-viz.
-5. **especialista-seguranca** — AppSec/time vermelho: STRIDE, OWASP, LGPD, superfície de ataque.
-6. **qa-usabilidade** — veredito de qualidade: projeta os casos e o critério (a **execução** é do testador).
-7. **inovacao-melhorias** — melhoria contínua: Kaizen/PDCA, MVP, dívida técnica, "andaime tem prazo de validade".
-8. **auditor-responsabilidades** — gate final: DoD, faz cumprir as RI/RO, veredito explícito (aprovado/ressalvas/reprovado).
-9. **consultor-negocios-apps** — o app como negócio: mercado, monetização, retenção, go-to-market.
-
-## 🧠 Memória e estado (2) — *contexto entre sessões*
-
-10. **memoria-de-projeto** — arquivo portável de preferências, lições e costumes (*como* trabalhamos).
-11. **estado-projeto** — estado de tarefas retomável (`estado.json` + `TAREFAS.md`): *onde cada tarefa está*.
-
-## 🌍 Ciclo de vida universal (2) — *da ideia à entrega, qualquer plataforma*
-
-12. **requisitos-descoberta** — transforma ideia vaga em requisitos com MVP, histórias e aceite verificável.
-13. **docs-projeto** — README, guia de instalação, manual do usuário, doc técnica/ADR, changelog — do código real.
-
-## 🧪 Testadores (2) — *EXECUTAM a prova, não entregam checklist*
-
-14. **testador-real** — testador executor universal: bateria estática + dinâmica com evidência PASS/FAIL/SKIP, relatório datado; nunca simula sucesso.
-15. **gradup-testador** — instância do testador para o Gradup (Spring Boot/HTTP).
-
-## 🎼 Orquestradores (8) — *conduzem várias skills*
-
-16. **orquestrador-fable** — o **maestro** multi-modelo: planeja, delega a subagentes (Opus/Sonnet/Haiku), avalia pelo Comitê + testador e itera até nota ≥ 9 (detalhes abaixo).
-17. **spec-projeto-completo** — orquestrador universal (qualquer plataforma): da ideia ao sistema entregue, passando por todas as etapas.
-18. **spec-javafx-new-system** — sistema Java/JavaFX do zero (Maven vazio → app rodando e empacotado).
-19. **spec-javafx-crud-feature** — uma funcionalidade CRUD completa no track Java/JavaFX (domínio → tela).
-20. **spec-springboot-crud-feature** — CRUD completo no track Java Web/Spring Boot (entidade → tela).
-21. **spec-mobile-app** — app mobile (Flutter-first) da ideia à entrega.
-22. **spec-frontend-web** — frontend web de ponta a ponta (requisitos → mockups → stack → tokens → componentes → data-layer → testes).
-23. **spec-desktop-app** — app desktop moderno, com árvore de decisão de stack (Tauri v2 padrão; Avalonia/Electron/Flutter conforme o caso).
-
-> Diferença: os `spec-` encadeiam skills **em ordem determinística** (a sequência do track); o `orquestrador-fable` decide **quem executa** (modelos/subagentes) e **quanta qualidade sai** (loop com nota de corte). Combinam: um subagente pode rodar um `spec-` inteiro como subtarefa.
-
-## ⚙️ Geradores — Track Java / JavaFX desktop (11) — *scaffolders precisos do stack*
-
-24. **java-project-bootstrap** — esqueleto do projeto Java desktop JavaFX com Maven (pom, estrutura, pronto pra compilar/empacotar).
-25. **java-db-foundation** — fundação de acesso a banco: provedor de conexão (segredos fora do git), utilitários, retry.
-26. **javafx-app-shell** — casca do app: janela principal, navegação, alertas PT-BR, controller-base.
-27. **java-javafx-entity** — entidade/modelo de domínio (POJO com validação).
-28. **java-jdbc-dao** — DAO/repositório JDBC com SQL parametrizado (anti-injection).
-29. **java-service-usecase** — camada de serviço (regra de negócio) fora do controller.
-30. **javafx-screen-fxml** — tela JavaFX (FXML + controller) com mockup antes do código e estados vazio/carregando/erro.
-31. **javafx-dashboard** — dashboards/painéis JavaFX de excelência (executivo/operacional/decisão).
-32. **javafx-theme-tokens** — tema visual por tokens de cor em CSS (claro/escuro), sem hex solto.
-33. **java-logging-log4j2** — logging Log4j 2 padronizado (fim do printStackTrace/System.out).
-34. **java-package-desktop** — empacota em .exe Windows com JRE embutido (jpackage sobre fat-jar).
-
-## ⚙️ Geradores — Track Java Web / Spring Boot (3)
-
-35. **springboot-entity** — entidade JPA + migração Flyway (sem Lombok, sem setter público).
-36. **springboot-repository-service** — repositório Spring Data + serviço transacional.
-37. **springboot-controller-thymeleaf** — tela (controller @Controller + template Thymeleaf acessível).
-
-## ⚙️ Geradores — Track Mobile / Flutter (3) — *proposta, validar no código real*
-
-38. **mobile-flutter-scaffold** — esqueleto Flutter feature-first (camadas UI/Data), via Very Good CLI/Mason.
-39. **mobile-flutter-feature** — feature completa: repositório abstrato + impl, modelo `freezed`, `AsyncNotifier` (Riverpod), tela, rota, testes.
-40. **mobile-flutter-firebase** — conector Firebase: `flutterfire configure`, AuthRepository, FirestoreRepository, Storage, security rules default-deny.
-
-## ⚙️ Geradores — Track Web Frontend (4) — *proposta, validar no código real*
-
-41. **frontend-stack-decisor** — decide o stack por gatilho (SEO/login/estático/interativo → Next/Vite/Astro/Svelte/Vue).
-42. **design-tokens-gen** — token-system nomeado em W3C DTCG → Tailwind v4 `@theme` (operacionaliza as leis da lente designer).
-43. **web-component** — componente = comportamento a11y (Radix/Base UI/React Aria) + tokens + fronteira a11y invariável.
-44. **web-data-layer** — separa server-state (TanStack Query) de client-state (Zustand/Jotai) com schema Zod único como contrato.
-
-## ⚙️ Geradores — Track Desktop / Tauri (3) — *proposta, validar no código real*
-
-45. **desktop-tauri-scaffold** — projeto base Tauri v2 (segurança default-deny, bridge tipada, updater, CI).
-46. **desktop-feature-crud** — entidade desktop fim-a-fim a partir de `{entidade, campos}`: migração SQLite up + comando + binding tipado + tela.
-47. **desktop-packaging** — instaladores por SO + assinatura + auto-update (GitHub Releases; Velopack no caminho .NET).
-
-## 🧩 Blueprints (1)
-
-48. **assistente-deterministico** — subsistema de assistente offline (sem LLM): busca tolerante + motor de documentos, parametrizável por projeto.
+```
+Skill Claude/
+├── LEIA-PRIMEIRO.md           ← porta de entrada de qualquer sessão
+├── CLAUDE.md                  ← instruções que o Claude lê automaticamente
+├── Base de Conhecimento - Índice.md  ← hub central — mapeia tudo
+│
+├── Processos e Playbooks.md     ← receitas reutilizáveis entre projetos
+├── Regras de Ouro e Inquebráveis.md  ← resumo de governança (RI/RO)
+│
+├── Aprendizagem/              ← lições consolidadas (índice + 1 arquivo por projeto)
+├── 💡 Ideias/                 ← captura de ideias brutas e backlog
+├── Guias/                     ← este arquivo + guias técnicos
+├── Comitê de Lentes/          ← mapa das 9 lentes (7 notas + 2 links canônicos)
+├── Catalogo-Skills-Unificado/ ← fonte canônica das skills (edite aqui)
+├── Memorias-Versionadas/      ← backup Git verificável das memórias nativas
+│
+├── memoria/                   ← memória viva do SIGO/SIGCOT (junction)
+├── memoria-escalaoper/        ← memória viva do EscalaOper (junction)
+├── memoria-sentinela/         ← memória viva do Sentinela (junction)
+├── memoria-embalo/            ← memória viva do Embalo (junction)
+├── memoria-gradup/            ← memória viva do Gradup (junction)
+├── memoria-marta/             ← memória viva do Encontre a Marta (junction)
+├── memoria-posoperacao/       ← memória viva do PosOperação (junction)
+├── memoria-scalping/          ← memória viva do Scalping/win_scalp (junction)
+├── memoria-fluxonar/          ← memória viva do Fluxonar (junction)
+│
+├── .claude/skills/            ← runtime gerado do Claude (não edite aqui)
+└── .agents/skills/            ← runtime gerado do Codex (não edite aqui)
+```
 
 ---
 
-## 🎼 Como o `orquestrador-fable` trabalha com todas elas
+## 1. Como iniciar qualquer sessão
 
-O maestro **nunca executa — decide**. Ele usa as outras 47 skills em papéis distintos, num ciclo que repete até a qualidade:
+### No Claude Code (terminal)
+```
+claude --add-dir "C:\caminho\do\projeto"
+```
+O Claude carrega o `CLAUDE.md` automaticamente, lê `LEIA-PRIMEIRO.md` e as skills ficam disponíveis via `.claude/skills/`.
 
-**Passo 0 — Triagem (comece simples).** Classifica a tarefa e escolhe o loop mais leve que resolve: etapa isolada → a skill direta; sequência determinística de um stack → o `spec-` do track; entrega grande com risco → o ciclo completo abaixo.
+### No Cowork (app desktop)
+Conecte a pasta `Skill Claude` no Cowork. O Claude lê `CLAUDE.md` e `LEIA-PRIMEIRO.md`. **Atenção:** os junctions de `memoria*/` não abrem no Cowork — para acessar memória de projeto, use o Claude Code ou cole o conteúdo manualmente.
 
-**1. Planejamento (Fable).** Decompõe em subtarefas, cada uma com: objetivo, **qual skill do catálogo aplicar** (um gerador, um `spec-`, `docs-projeto`…), **qual modelo** (Opus para o pesado, Sonnet para o intermediário, Haiku para o volume) e o critério de aceite. Em trabalho multi-sessão, carrega o **`estado-projeto`** para retomar.
+### Dica de início de sessão
+Sempre comece dizendo ao Claude:
+> "Leia LEIA-PRIMEIRO.md e me diga em que projeto vamos trabalhar."
 
-**2. Execução (subagentes).** Delega cada subtarefa a um subagente que **aplica a skill designada** — ex.: um subagente roda `springboot-entity`, outro `mobile-flutter-feature`, outro um `spec-` inteiro. Dispara em paralelo, com **largura de onda adaptativa** (piloto antes de onda grande; larga para Haiku, estreita para Opus/Fable) até 20 simultâneos (~30 só Haiku), ondas sequenciais acima disso.
+Isso orienta a sessão e garante que as skills certas disparam.
 
-**3. Consolidação (Fable).** Integra as entregas num resultado coeso (nada cai no vão).
+---
 
-**4. Comitê de Lentes.** As **7 lentes de revisão** (`arquiteto-software`, `arquiteto-dados`, `designer-ux-ui`, `dev-senior`, `especialista-seguranca`, `qa-usabilidade`, `inovacao-melhorias`) avaliam **em paralelo**, cada uma nota 0–10 + críticas; o **`auditor-responsabilidades`** consolida e emite o placar. Lente sem pertinência é dispensada declaradamente. Se a entrega tem UI, entra o **juiz de visão** (o designer em modo visão critica o screenshot).
+## 2. Como invocar skills
 
-**5. Testador Real.** O **`testador-real`** (ou a instância do projeto, ex.: `gradup-testador`) EXECUTA a bateria e traz evidência PASS/FAIL/SKIP — a prova entra no placar.
+### Disparo automático (recomendado)
+Descreva o que você quer em linguagem natural — a skill certa dispara pela `description`:
 
-**6. Decisão (Fable).** Todas as notas ≥ 9 e sem FAIL crítico → **entrega**. Senão, transforma cada crítica em replanejamento (escala **modelo** se faltou saber, **effort** se faltou rigor; captura lacuna recorrente como melhoria do sistema) e volta ao passo 1. Para em nota atingida **ou** 10 rodadas. Ao fim de cada rodada, persiste o progresso no **`estado-projeto`**.
+| Você diz... | Dispara... |
+|---|---|
+| "cria o DAO de Motorista" | `java-jdbc-dao` |
+| "quero uma tela de cadastro" | `javafx-screen-fxml` |
+| "como organizar esse módulo?" | `arquiteto-software` |
+| "audita a entrega" | `auditor-responsabilidades` |
+| "o que pode melhorar nesse fluxo?" | `inovacao-melhorias` |
+| "tem algum problema de segurança?" | `especialista-seguranca` |
+| "vai do zero ao app rodando" | `spec-javafx-new-system` |
 
-Transversais: **`memoria-de-projeto`** carrega o contexto no início; a **contabilidade de tokens por modelo** sai no relatório final; tudo é auditado pelas **REGRAS-DE-OURO** (RI-01…06 + RO por track).
+### Disparo explícito
+Nomeie diretamente:
+> "Usa a skill `java-jdbc-dao` para criar o DAO de Viagem."
 
-> Em uma frase: as **lentes** decidem e revisam, os **geradores** produzem no stack certo, os **`spec-`** encadeiam a sequência de um track, o **testador** prova, a **memória/estado** dão continuidade — e o **`orquestrador-fable`** rege quem faz o quê, com que modelo, e itera até a excelência.
+### RI-06 — regra obrigatória
+Se o assunto casar com uma skill, **usar a skill é obrigatório**. Pular é reprovado no gate do Auditor.
+
+---
+
+## 3. Como salvar memória de projeto
+
+A memória vive nos junctions `memoria*/` — é a fonte única, carregada automaticamente no Claude Code.
+
+### Para gravar algo na memória (Claude Code)
+> "Grave na memória: [fato/decisão/convenção]."
+
+O Claude grava em notas atômicas dentro da pasta de memória do projeto ativo. O conteúdo aparece no Obsidian via junction.
+
+### Como atualizar o backup versionado
+
+Na raiz do cofre, depois de revisar as mudanças de memória:
+
+```powershell
+.\scripts\sincronizar-memorias.ps1
+.\scripts\sincronizar-memorias.ps1 -SomenteVerificar
+```
+
+O backup fica em `Memorias-Versionadas/` com extensão `.md.bak` e manifesto SHA-256. Ele serve para recuperação e **não substitui** a memória nativa. Publique somente em repositório privado.
+
+### Formato de nota atômica (padrão)
+Cada nota guarda **um único fato ou decisão**:
+```markdown
+---
+tipo: decisao | convencao | aprendizado
+projeto: EscalaOper
+data: 2026-06-29
+---
+
+# [Título objetivo em uma frase]
+
+[Contexto mínimo — por que isso importa]
+
+## Detalhe
+[O conteúdo em si]
+
+## Relacionado
+- [[outra-nota]]
+```
+
+### O que sempre merece ser gravado
+- Decisões de arquitetura (por que escolheu X e não Y)
+- Convenções de código descobertas no projeto
+- Bugs difíceis resolvidos + causa raiz
+- Mudanças de requisito ou de escopo
+- Preferências e lições que continuarão válidas daqui a sete dias
+
+### O que não entra na memória
+
+Status, tarefa, artefato de execução, pendência e próximo passo pertencem ao `estado-projeto`: `estado/estado.json` é a fonte única e `estado/TAREFAS.md` é a visão humana regenerada. Veja [[MEMORIA-E-ESTADO]].
+
+---
+
+## 4. Como capturar uma ideia
+
+1. Abra (ou crie) o arquivo correspondente em `💡 Ideias/` — ex.: `Ideias-EscalaOper.md`.
+2. Adicione ao final usando o modelo:
+```markdown
+### [Título da ideia] — 2026-06-29
+**Projeto:** EscalaOper
+**O quê:** [uma frase]
+**Por quê:** [o problema que resolve]
+**Status:** 💭 rascunho
+```
+3. Pronto. Não precisa estar maduro para entrar aqui.
+
+### Quando uma ideia amadurece
+- Lição aprendida → vai para [[Melhorias e Aprendizados]]
+- Planejamento concreto e próximos passos → vão para `estado/estado.json` pela skill `estado-projeto`
+- Nova skill → vai para `Catalogo-Skills-Unificado/skills/` seguindo o [[PADRAO-DE-AUTORIA]]
+- Mude o **Status** para ✅ ou ❌ e deixe registrado o motivo.
+
+---
+
+## 5. Como registrar uma melhoria ou lição
+
+Camada `Aprendizagem/`: **padrão cross-projeto** → índice [[Melhorias e Aprendizados]]; **lição específica de um projeto** → o arquivo daquele projeto (ex.: [[EscalaOper]]). Se a lição está na memória nativa (junction) e você está no Cowork, use o runbook [[COMO-COLHER]]. Adicione na seção certa:
+
+**Padrão reutilizável (cross-projeto):**
+```markdown
+- **[Nome do padrão]** → [o que aprendeu em uma frase]. Ex.: `java-jdbc-dao` valida isso.
+```
+
+**Por projeto:**
+```markdown
+### [Projeto] — [data]
+- [O que foi feito / decidido / corrigido]
+- Referências: [[nota-atômica-na-memoria]]
+```
+
+---
+
+## 6. Como criar ou editar uma skill
+
+**Sempre edite na fonte canônica:** `Catalogo-Skills-Unificado/skills/<nome>/SKILL.md`  
+**Nunca edite em** `.claude/skills/` ou `.agents/skills/` — são runtimes gerados e sobrescritos pelo deploy.
+
+### Passo a passo
+1. Abra `Catalogo-Skills-Unificado/PADRAO-DE-AUTORIA.md` e leia a seção do tipo de skill (lente ou gerador).
+2. Edite ou crie `Catalogo-Skills-Unificado/skills/<nome>/SKILL.md`.
+3. Valide contra o **Checklist de "skill pronta"** (seção 9 do Padrão de Autoria).
+4. Faça o deploy para os dois runtimes deste cofre — **`-ProjectPath` exige caminho absoluto; com
+   `".."` o script reprova** (medido em 2026-07-27: `GetFullPath()` resolve contra o diretório do
+   processo, não contra o `cd`, e ele acusa as 60 skills como ausentes):
+```powershell
+cd "C:\caminho\do\projeto\Catalogo-Skills-Unificado"
+.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -SomenteVerificar
+.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -Forcar
+```
+5. Teste na próxima sessão do Claude Code e do Codex.
+
+### Para uma skill nova do zero
+Siga o `PADRAO-DE-AUTORIA.md` §3 (anatomia) + §5 (estrutura por tipo) + §9 (checklist). Peça ao Claude para auditar com a lente `auditor-responsabilidades` antes de fazer o deploy.
+
+---
+
+## 7. Como fazer o deploy das skills (atualizar o runtime)
+
+Sempre que editar qualquer skill no catálogo:
+
+```powershell
+# Deploy local, exato e verificável para Claude + Codex
+# ATENÇÃO: -ProjectPath exige caminho ABSOLUTO. Com ".." o script reprova.
+cd "C:\caminho\do\projeto\Catalogo-Skills-Unificado"
+.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -SomenteVerificar
+.\deploy-skills.ps1 -ProjectPath "C:\caminho\do\projeto" -Runtime Ambos -Espelhar -Forcar
+
+# Compatibilidade: deploy global somente para Claude
+.\deploy-skills.ps1
+```
+
+**Se esquecer o deploy:** Claude e Codex podem carregar versões diferentes. O modo `-SomenteVerificar` retorna erro se faltar uma skill, arquivo ou hash.
+
+---
+
+## 8. Rotina de manutenção (semanal/quinzenal)
+
+| Frequência | O que fazer |
+|---|---|
+| **A cada sessão** | Comece por `LEIA-PRIMEIRO.md`; atualize o estado se houve progresso e a memória somente se surgiu aprendizado durável |
+| **Após mudar memórias** | Sincronize `Memorias-Versionadas/`, verifique e revise antes do commit |
+| **Semanalmente** | Revise `💡 Ideias/` — mova o que amadureceu, descarte o que morreu |
+| **Por sprint/entrega** | Adicione ao [[Melhorias e Aprendizados]] o que aprendeu; atualize estado nos playbooks |
+| **Ao criar skill nova** | Siga Padrão de Autoria → deploy → teste |
+| **Ao mudar convenção** | Grave na memória do projeto + atualize [[Processos e Playbooks]] se for cross-projeto |
+| **Ao apagar algo do cofre** | Mova para `_to_delete/` primeiro (staging reversível), confirme com o Jeremias, depois apague — ver [[LEIA-arquivo-morto]] |
+
+---
+
+## 9. Hierarquia de decisão (quando há dúvida)
+
+```
+RI (Regras Inquebráveis)  →  sempre, sem exceção
+RO universais             →  qualquer projeto, qualquer stack
+RO por track              →  só no track correspondente (Java, Web, Flutter...)
+Memória do projeto        →  contexto específico daquele sistema
+Ideias/                   →  rascunho, sem compromisso
+```
+
+Em caso de conflito: a regra mais alta vence. O `auditor-responsabilidades` faz valer.
+
+---
+
+## 10. Navegação rápida no Obsidian
+
+| Quer... | Vá para... |
+|---|---|
+| Mapa de tudo | [[Base de Conhecimento - Índice]] |
+| Começar sessão | [[LEIA-PRIMEIRO]] |
+| Ver as skills | [[Catalogo-Skills-Unificado/README\|Catálogo de Skills]] |
+| As 9 lentes | [[Comitê de Lentes - Índice]] |
+| Regras | [[Regras de Ouro e Inquebráveis]] |
+| Processos prontos | [[Processos e Playbooks]] |
+| Lições acumuladas | [[Melhorias e Aprendizados\|Aprendizagem · Índice]] |
+| Colher memória de projeto | [[COMO-COLHER]] |
+| Capturar uma ideia | `💡 Ideias/` |
+| Como o Claude lê skills | [[COMO-O-CLAUDE-LE-AS-SKILLS]] |
+| Agrupar memórias | [[Playbook - Agrupar memorias (junctions)]] |
+
+---
+
+### 📜 Histórico
+- **2026-07-20 (v1.5):** Memória e estado separados: notas duráveis não aceitam mais status/pendências; progresso usa `estado.json` + `TAREFAS.md`.
+- **2026-07-20 (v1.4):** Árvore e navegação reconciliadas com as nove memórias vivas e as nove lentes atuais.
+- **2026-07-20 (v1.3):** Deploy unificado para `.claude/skills/` e `.agents/skills/`, com modo somente-verificação e paridade SHA-256.
+- **2026-07-20 (v1.2):** Documentado o fluxo de backup versionado, verificação de integridade e cuidado com repositório privado.
+- **2026-07-11 (v1.1):** Estrutura do cofre atualizada com a pasta `Aprendizagem/` (índice + 1 arquivo por projeto); seção 5 e navegação apontando pra ela e pro runbook [[COMO-COLHER]].
+- **2026-06-29 (v1):** Criado durante reorganização do cofre. Consolida o uso prático em um único documento navegável.
