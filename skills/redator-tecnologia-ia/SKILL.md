@@ -296,3 +296,12 @@ Carregados sob demanda — não pesam no contexto até serem lidos:
 - `referencia/voz-e-tiques.md` — voz do autor detalhada + tiques banidos com
   o porquê e a fronteira "assinatura × tique".
 - `referencia/historico.md` — histórico de versões, evals e roadmap da skill.
+
+## Histórico
+
+- **2026-09-24 — Canonização da seção Histórico no SKILL.md:** Seção formal adicionada ao arquivo principal para conformidade sistêmica do Catálogo (resolvendo o achado sistêmico 2 do inventário), mantendo a integridade do histórico profundo, evals e roadmap em `referencia/historico.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-08-27 — Preservação semântica D2 + taxonomia anti-slop H1:** Contrato de proposição antes da limpeza em `confiabilidade-e-revisao.md` e 8 famílias de tiques banidos em `voz-e-tiques.md` com guardas contra falsos positivos. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-08-11 — Ponteiros mortos corrigidos:** Substituição de ferramenta inexistente por ferramentas nativas do runtime (WebSearch/WebFetch).
+- **2026-08-06 — Garimpo mattpocock (G12):** Nova seção Aterramento (pré-requisito × introduzido).
+- **2026-07-20 — Criação e Auditoria do Comitê de Lentes:** Corpus de voz real em `referencia/voz-do-autor-corpus.md` e baseline §11 medido.
+

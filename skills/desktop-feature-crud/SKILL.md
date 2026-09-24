@@ -142,4 +142,4 @@ teste do comando com SQLite em memória).
 
 ### 📜 Histórico
 - **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens C12, C13, C14, C15, C16, C17; −7 linhas.
-- **2026-07-20 — Polimento de autoria:** `when_to_use` + `argument-hint`; +checklist de Verificação consolidando o smoke `[QA-AUTO]`, a idempotência da migração e o SQL parametrizado. Spec, convenções e todo o código do few-shot (SQL/Rust/TS) preservados verbatim.
+- **2026-07-20 — Polimento de autoria:** `when_to_use` (consolidado na `description` em 2026-08-08) + `argument-hint`; +checklist de Verificação consolidando o smoke `[QA-AUTO]`, a idempotência da migração e o SQL parametrizado. Spec, convenções e todo o código do few-shot (SQL/Rust/TS) preservados verbatim.

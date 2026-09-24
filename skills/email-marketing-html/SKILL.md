@@ -246,3 +246,9 @@ Carregados sob demanda — não pesam no contexto até serem lidos:
 - `referencia/exemplos/` — pares "entra → sai" (exemplo-01 simples, exemplo-02 multi-banner).
 - `referencia/mjml-guia.md` — status e uso do motor MJML opcional.
 - `referencia/historico.md` — histórico de versões, auditoria e roadmap da skill.
+
+## Histórico
+
+- **2026-09-24 — Canonização da seção Histórico no SKILL.md:** Seção formal adicionada ao arquivo principal para conformidade sistêmica do Catálogo (resolvendo o achado sistêmico 2 do inventário), mantendo o detalhamento minucioso de versões e auditorias do Comitê de Lentes preservado sob demanda em `referencia/historico.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-07-20 — Criação e Auditoria do Comitê de Lentes (6 lentes):** Primeira versão com motor híbrido Cerberus/Email-Boilerplate e linter bulletproof (`scripts/lint-email.py`). Correções de contraste WCAG 4.5:1 e veto a clichês visuais aplicados nos exemplos. Log completo em `referencia/historico.md`.
+
