@@ -68,6 +68,13 @@ Por que ler antes de decidir: afirmar recurso de framework de memória ("Astro t
 
 ## Exemplo de ADR (template mínimo)
 
+> **A régua do ADR é da `arquiteto-software`, não daqui (fonte única, PADRÃO §12.5).** *Se* esta decisão
+> merece um ADR decide-se pelo **teste dos três critérios** dela — difícil de reverter · surpreendente sem
+> contexto · resultado de trade-off real —, e faltando um dos três a decisão se registra numa linha de
+> commit. A regra de que **ADR "Aceito" é contrato vinculante** (RI-01) também é de lá. O que segue abaixo
+> é só um **exemplo preenchido** desta track, para não fazer você reinventar o formato; ele não redefine a
+> régua, e se divergir dela, quem vale é a dona.
+
 O ADR não é burocracia: sem "alternativas rejeitadas e por quê" não há registro de decisão, só uma escolha sem rastro que ninguém consegue revisar depois.
 
 ```markdown
@@ -125,6 +132,7 @@ se surgir necessidade de SSR num SPA já entregue, registrar ADR de migração i
 - **Não confundir com:** `arquiteto-software` (decide a arquitetura de servidor/dados — aqui só o front) · `spec-frontend-web` (orquestra o track inteiro; este só decide o stack).
 
 ### 📜 Histórico
+- **2026-09-22 — A régua do ADR virou ponteiro; o exemplo ficou (inventário `_auditoria/zelador-inventario-2026-09-22.md`, veredito `MELHORAR`; degrau §6.10: 1 — só edição).** A recomendação transversal aberta desde 2026-08-10 dizia *"trocar cópia por ponteiro"* no template de ADR. Aplicada **com um corte**: o que era cópia indevida era a **régua** — *quando* uma decisão merece ADR (teste dos três critérios) e o fato de ADR "Aceito" ser contrato vinculante (RI-01) —, e as duas são da `arquiteto-software`. Isso virou ponteiro nomeado, com a regra de precedência escrita (*"se divergir dela, quem vale é a dona"*). **O exemplo preenchido NÃO saiu**, e a diferença é o ponto: ele não duplica regra nenhuma — é um ADR desta track, com alternativa rejeitada real (Next.js e Astro contra Vite+React), e apagá-lo em nome da fonte única teria destruído conteúdo único para satisfazer uma regra sobre duplicação. Fonte única é sobre **a régua**, não sobre o exemplo. Conferido antes de escrever: o teste dos três critérios está em `arquiteto-software/SKILL.md` L27 e a cláusula de contrato vinculante na L60. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0** — o bloco que entrou é declarativo e fixa precedência (*"quem vale é a dona"*), sem abrandar nenhuma obrigação existente.
 - **2026-08-11 — Epígrafe alinhada ao track (T36, conferência do lote).** A skill ainda dizia "proposta 2026-07-07" em dois pontos depois que `spec-frontend-web` já havia passado ao estado medido (juiz cego, 2026-07-09), deixando **o mesmo track com dois estados no catálogo**. Achado da conferência final do lote, fora do escopo dos dois agentes que editaram cada lado — que é justamente o defeito que esta campanha existe para matar. Proveniência: `_auditoria/zelador-inventario-2026-08-10.md`.
 - **2026-08-11 — Ponteiro morto: o "track futuro" já existe (inventário do zelador, `_auditoria/zelador-inventario-2026-08-10.md`, ação ATUALIZAR 15).** `web-vanilla-supabase-pwa` está no disco e na listagem — verificado. A nota "Escopo dos geradores atuais" e o few-shot do Embalo deixaram de mandar a rota vanilla+Supabase+PWA para um track inexistente e passaram a nomear o executor; a ressalva de que Astro/Vue/Svelte/Next/TanStack Start seguem sem gerador foi preservada. "Vem depois" ganhou a rota vanilla, e o item de checklist sobre lacuna passou a exigir "não-React **e sem executor**" — antes marcava lacuna falsa. Matriz de decisão intacta.
 - **2026-07-20 — Verificação + exemplo:** adicionados seção "Verificação / Checklist final" e "Exemplo de ADR (template mínimo)"; fronteira reforçada na description; leituras obrigatórias com o porquê. +~30 linhas (sem references — matriz e caso Embalo permanecem no corpo por serem critério de decisão).

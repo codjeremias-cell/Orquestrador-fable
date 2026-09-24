@@ -14,7 +14,15 @@ Você constrói apps web **sem framework**: HTML + CSS + JavaScript vanilla (ES6
 
 ## A regra de ouro do stack: a muralha é o RLS, não o JavaScript
 
-O ponto que mais se erra sem este contexto: **a `anonKey` do Supabase fica exposta no front — e tudo bem.** A segurança real **não** é esconder a chave nem esconder telas; é a **Row Level Security (RLS) no servidor**. Toda tabela nasce com `enable row level security` e policies por `auth.uid()` (dono do dado) ou `auth.jwt() ->> 'email'` (admin). Uma tela "escondida" no app é **cosmética** — a muralha é a policy. Nunca guardar segredo (chave de API, token) em tabela lida por `authenticated`. Corolário: nunca confiar em validação só no front para autorização — o front valida UX, o RLS valida acesso.
+O ponto que mais se erra sem este contexto: **a chave pública do Supabase fica exposta no front — e tudo bem.** A segurança real **não** é esconder a chave nem esconder telas; é a **Row Level Security (RLS) no servidor**.
+
+> **Como essa chave se chama, conferido em `supabase.com/docs` em 2026-09-23 (RO-01).** Hoje ela é a
+> **publishable key** (`sb_publishable_…`), e a do servidor é a **secret key** (`sb_secret_…`). Os
+> nomes antigos — `anon` e `service_role` — estão **em depreciação declarada pela Supabase, com fim
+> anunciado para o fim de 2026**; projeto que já rodava continua vendo os antigos, e projeto novo
+> nasce com os novos. **Leia qual par o projeto-alvo usa antes de escrever** — o princípio abaixo não
+> muda com o nome: *"anyone can read it, so it only reaches what Row Level Security allows"*, palavra
+> da própria doc. Toda tabela nasce com `enable row level security` e policies por `auth.uid()` (dono do dado) ou `auth.jwt() ->> 'email'` (admin). Uma tela "escondida" no app é **cosmética** — a muralha é a policy. Nunca guardar segredo (chave de API, token) em tabela lida por `authenticated`. Corolário: nunca confiar em validação só no front para autorização — o front valida UX, o RLS valida acesso.
 
 ## Convenções obrigatórias (padrão real do Embalo)
 
@@ -46,7 +54,7 @@ O ponto que mais se erra sem este contexto: **a `anonKey` do Supabase fica expos
 ## Salvaguardas inegociáveis
 
 - **RLS é a segurança (não o front).** Nenhuma tabela sem `enable row level security` + policy; nada sensível em tabela lida por `authenticated`. Autorização no servidor, sempre.
-- **`config.js` nunca no git.** A `anonKey` pode aparecer no front; **segredo (service_role, API keys) NUNCA** — nem no front, nem em tabela pública.
+- **`config.js` nunca no git.** A chave **publicável** (`sb_publishable_…`, antiga `anon`) pode aparecer no front; a chave **secreta** (`sb_secret_…`, antiga `service_role`) e qualquer API key **NUNCA** — nem no front, nem em tabela pública. O par de nomes depende da idade do projeto; o lado de cada chave, não.
 - **Storage privado + URL assinada:** bucket privado, policies por `auth.uid()`, URLs assinadas de validade curta (ex.: 1h) — nunca bucket público para dado de usuário.
 - **Sanitizar toda saída** de usuário com `escaparHTML` (defesa CWE-79).
 - **RO-01:** não inventar tabela, coluna, helper ou método do Supabase — ler o schema/`app.js` reais ou declarar a suposição.
@@ -89,5 +97,6 @@ Feche com 2–3 (ex.: extrair helpers repetidos de `app.js` grande em seções n
 - Princípios comuns: comece simples · segurança no servidor (RLS) · acessibilidade é padrão · sanitizar entrada/saída.
 
 ### 📜 Histórico
+- **2026-09-23 — O nome da chave envelheceu; o modelo de segurança, não (inventário `_auditoria/zelador-inventario-as-45-2026-09-22.md`, veredito `ATUALIZAR`; RI-04; degrau §6.10: 1 — só edição).** A skill ensinava `anonKey` e `service_role` em dois pontos. **Conferido na doc oficial antes de editar (RO-01):** *"Supabase is deprecating the `anon` and `service_role` keys by the end of 2026. Use the publishable (`sb_publishable_xxx`) and secret (`sb_secret_xxx`) keys instead."* **O que NÃO mudou é o que define o tamanho deste conserto:** a tese central desta skill — *a chave do front fica exposta e tudo bem, a muralha é o RLS* — é **confirmada palavra por palavra** pela doc nova (*"anyone can read it, so it only reaches what Row Level Security allows"*). Envelheceu a **nomenclatura**, não o modelo, então o conserto é renomear e datar, nunca redesenhar. Os dois pontos passaram a nomear o par novo **com o antigo entre parênteses** e a mandar ler qual o projeto-alvo usa: projeto que já rodava segue vendo `anon`/`service_role`, e apagar o nome antigo quebraria a leitura de código real em produção. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0** — o bloco que entrou é imperativo (*"leia qual par o projeto-alvo usa antes de escrever"*) e o `NUNCA` das Salvaguardas segue intacto; nada foi abrandado.
 - **2026-07-18 (v1) — Skill nova criada com `skill-creator`:** garimpo profundo do **Embalo/motorista-pro** (app em produção, Vercel+Play Store) para dar ao catálogo o stack web REAL do Jeremias (vanilla+Supabase+PWA), que o track web-frontend (React) não cobria. Fonte: `CLAUDE.md`, `app.js`, `sql/configuracoes.sql`, `manifest.json`, `.well-known/assetlinks.json`. Baseline §11 (vermelho): sem a skill o gerador default assume React/framework e ignora RLS-como-muralha. Motivada pelo caso registrado em `frontend-stack-decisor/referencia-caso-real-embalo.md`. Notas em `rodadas/onda-fewshots-2026-07-18-notas.md`.
 - **2026-07-20 — Polimento de autoria:** `when_to_use` reforça a fronteira (vanilla vs. React vs. decisor); +checklist de Verificação com **evidência** (RLS com 2 contas, config-guard, XSS, PWA). Convenções, os 5 padrões, o exemplo e o ponteiro de referência preservados.

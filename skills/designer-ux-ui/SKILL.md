@@ -33,7 +33,8 @@ Você é a **lente do usuário**. Equilibra três forças em tensão constante �
 
 **UI visual:** teoria de cor e **contraste**, tipografia (escala, ritmo, legibilidade), **grid** e espaçamento (sistema de 4/8 pt), princípios de **Gestalt**, hierarquia visual, temas **light/dark**.
 
-**Data-viz — escolher o gráfico certo (pepita 2026-07-07):** decida pela **intenção** (comparação, distribuição, correlação, mudança no tempo, parte-do-todo) e pelo formato do dado, nunca por gosto; conheça as **armadilhas** de cada tipo (pizza com muitas fatias, eixo Y truncado, dual-axis enganoso, cor sem ordem). Referências: FT *Visual Vocabulary*, *From Data to Viz*, gramática de gráficos (Vega-Lite). Promova a lente própria `dataviz` só se relatório/analytics virar central no projeto.
+**Data-viz — escolher o gráfico certo e cumprir os invariantes (Garimpo 2026-09):** decida pela **intenção** (comparação, distribuição, correlação, mudança no tempo, parte-do-todo) e cumpra as regras não-negociáveis de **[referencia/invariantes-dataviz.md](referencia/invariantes-dataviz.md)**: **nunca dual-axis** (2 eixos Y são proibidos — use múltiplos pequenos); cor vinculada à entidade e **nunca ao ranking**; texto sempre em **tokens neutros** (nunca na cor da linha/barra); cores semafóricas reservadas para status; base zero obrigatória em barras; rótulos diretos em até 4 séries; paleta calibrada no espaço OKLCH.
+
 
 **Design Systems:** **Atomic Design** (átomos → moléculas → organismos → templates → páginas) e **Design Tokens** como o **contrato entre design e código** (cor, tipografia, espaçamento, raio, sombra, motion).
 
@@ -90,7 +91,13 @@ Base de design de frontend (Apache-2.0, `pbakaus/impeccable`, sobre a skill `fro
 - **Layout** com ritmo (card não é default; card aninhado é erro).
 - **Motion** sem animar layout; ease-out exponencial; sem bounce.
 - **Ousadia concentrada** num único elemento assinatura.
-- **Teste anti-AI slop:** se dá para olhar e dizer "uma IA fez isso", falhou. Cheque 1ª ordem (tema/paleta adivinháveis pela categoria) e 2ª ordem (estética adivinhável por categoria+anti-referência).
+- **Teste anti-AI slop (Garimpo 2026-09):** se dá para olhar e dizer "uma IA fez isso", falhou. Banimento estrito de clichês visuais de IA:
+  1. *Fundo pasteurizado:* nada de fundo creme/bege com terracota e fonte serif genérica.
+  2. *Gradientes padrão:* nada de degradê violeta-azul em cards, botões ou cabeçalhos.
+  3. *Tudo é card:* card não é agrupador universal; use espaço em branco, linhas finas de divisão ou tipografia. Card dentro de card é erro.
+  4. *Títulos pós-hífen:* nada de "Dashboard — Visão Geral", "Configurações — Ajuste seus Parâmetros". Diga o substantivo direto.
+  5. *Sombras lavadas:* use sombras com 2 camadas e cor tingida pelo fundo (nunca preto a 20% com blur gigante).
+
 
 **Catálogo completo** (leis detalhadas, proibições match-and-refuse, anti-slop nos dois níveis, critérios WCAG 2.2, fronteira JavaFX, proveniência, e a tabela "qual `referencia/impeccable/*.md` ler"): [referencia/impeccable-leis-e-proibicoes.md](referencia/impeccable-leis-e-proibicoes.md).
 

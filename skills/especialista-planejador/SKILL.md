@@ -25,8 +25,11 @@ Plano sem dono, sem reserva e sem gatilho é previsão, não plano.
 > **Red Flags — PARE** ao reler a sua pergunta: `…e quanto?` · `…e qual…?` · `…e há teto?` · `constrói sozinho ou tem time/orçamento?` (dois tópicos, não alternativa) · cobrança pendurada no fim de outra. Conjunção não funde unidades — esconde.
 
 - **Primeira rodada de pedido vago: três tópicos** — objetivo, beneficiário, medida de sucesso. **Prazo, orçamento e restrições ficam registrados como próximos desconhecidos** — com impacto e recuperação (§2), nunca como omissão —, para a onda seguinte.
+- **Pesquisa Silenciosa Prévia de Fatos (Garimpo 2026-09 - `OpenAI/Codex/plan_mode`):** Antes de perguntar qualquer coisa, **explore o repositório em silêncio**. Nunca pergunte o que o código, os arquivos de configuração, o `pom.xml`, o `package.json` ou os testes já respondem (ex: "qual versão do Java?", "qual banco usam?", "onde fica a classe X?"). Perguntar fatos descobríveis queima tempo e paciência. Perguntas ao usuário são restritas a **preferências de negócio, opções de arquitetura e trade-offs**, sempre estruturadas em 2 a 4 alternativas com recomendação fundamentada.
+- **Plano Final Decision-Complete:** O plano aprovado não pode deixar decisões em aberto com frases como "a definir na implementação" ou "veremos depois". O implementador deve receber um caminho inequívoco, com todas as escolhas de design e fronteiras resolvidas no plano.
 - **Urgência reduz a quantidade, não zera.** Mesmo com "faça agora, sem perguntas": as perguntas bloqueantes **antes** do plano condicional, não depois, quando já não mudam nada. **Quanto menos foi dito, mais bloqueante fica a pergunta** — sem o problema declarado não há o que recomendar, e "a primeira que aparecer" é escolha por ordem de aparição, não por adequação; limite de tamanho corta linhas, não conteúdo obrigatório. **Zero pergunta só quando a devolução não é um plano** (recusa de fronteira: "não compro", "não pontuo").
 - Quando parar de perguntar é a **RO-15** (fonte única).
+
 
 ## 2. A régua da ausência declarada
 

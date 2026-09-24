@@ -49,6 +49,9 @@ a store de client-state.
 
 - **Um schema Zod por recurso** → `type X = z.infer<typeof xSchema>` (tipos), `xSchema.parse(res)` na `queryFn`
   (valida a resposta = contrato), o **mesmo** schema no `zodResolver` do form.
+- **Formato de string é chamada de topo:** `z.email()`, `z.uuid()`, `z.url()` — é o que a doc corrente
+  documenta. A forma encadeada (`z.string().email()`) é do Zod 3 e **não aparece mais** na doc; se o
+  projeto-alvo ainda estiver no 3, espelhe o que o `package.json` dele diz (RO-01, confira não lembre).
 - **queryKey estruturado:** `['recurso', id]` / `['recurso', { filtros }]`; mutation invalida por key.
 - **Zustand/Jotai só client-state:** tema, sidebar, filtros locais, passo de wizard.
 - **baseURL** via `import.meta.env.VITE_API_URL`; segredo real fica no backend, nunca no bundle.
@@ -73,7 +76,7 @@ import { z } from "zod";
 export const clienteSchema = z.object({
   id: z.number(),
   nome: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   ativo: z.boolean(),
 });
 export type Cliente = z.infer<typeof clienteSchema>; // tipos = schema (sem duplicar)
@@ -152,4 +155,5 @@ optimistic update nas mutations de alta frequência; camada fina de erro que tra
 - **Não confundir com:** `web-component` (casca visual/a11y) · `springboot-repository-service` (o lado servidor do contrato — aqui é o cliente).
 
 ### 📜 Histórico
+- **2026-09-23 — O few-shot deixou de ensinar API que a doc não tem mais (inventário `_auditoria/zelador-inventario-as-45-2026-09-22.md`, veredito `ATUALIZAR`; RI-04; degrau §6.10: 1 — só edição).** O exemplo escrevia `email: z.string().email()`. **Conferido em `zod.dev` antes de editar (RO-01):** a seção *String formats* lista `z.email()`, `z.uuid()` e `z.url()` como chamadas de **topo**, e a busca na página pela forma encadeada devolve **zero** ocorrências. O defeito era duplo, e a segunda metade é a que dói: as **Leituras obrigatórias** mandam, em imperativo, *"a doc real do TanStack Query e do **Zod** — não inventar API"*, e o few-shot trinta linhas abaixo mostrava a API que a doc real não tem. Quem copiasse o exemplo desobedecia a instrução da própria skill. **O conserto não foi só trocar a linha:** entrou uma convenção que delega a checagem ao `package.json` do projeto-alvo, porque fixar a forma nova envelheceria de novo no próximo major — é o mesmo desenho que a `auditor-responsabilidades` recebeu em 2026-09-22 ao **retirar** o número de versão em vez de incrementá-lo. **Fica declarado e NÃO foi feito:** a generalização da L27 (*"contrato real do backend"* em vez de *"endpoint Spring Boot"*), que a mesma pendência pedia — aquilo é decisão de **escopo** (a skill declara na L18 uma suposição de stack), não conserto de vigência, e não se resolve em silêncio junto. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0** — a convenção que entrou é imperativa (*"espelhe o que o `package.json` dele diz"*), e o *"se o projeto-alvo ainda estiver no 3"* é condição de fato, não abrandamento.
 - **2026-07-20 — Polimento de autoria:** gatilho `when_to_use` + `argument-hint`; +few-shot (entra→sai) com schema Zod espelhando o DTO, hooks Query e o *porquê* da `parse` como fronteira; +checklist de Verificação (tsc, error state, invalidação). Descrição e convenções preservadas.

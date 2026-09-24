@@ -48,8 +48,12 @@ entrega ao usuário final.
 - **Assinatura do updater (obrigatória p/ auto-update):** chave gerada com `tauri signer generate`;
   **pública** no config, **privada + senha** como secrets de CI; cada artefato gera um `.sig` que o
   updater **verifica antes de instalar** — update não assinado é vetor de ataque.
-- **Code signing do SO (recomendado):** Windows (Authenticode, cert em secret) e macOS (Developer ID
-  + **notarização**) para não cair em SmartScreen/Gatekeeper. É **separado** da chave do updater.
+- **Code signing do SO (recomendado):** Windows e macOS (Developer ID + **notarização**) para não cair
+  em SmartScreen/Gatekeeper. É **separado** da chave do updater. **No Windows, a via depende da DATA do
+  certificado — leia a doc antes de planejar o CI:** o guia do Tauri v2 só cobre `cert em secret` para
+  certificado **OV adquirido antes de 2023-06-01**; para certificado posterior ele manda consultar o
+  emissor, e documenta **Azure Key Vault** como a via corrente. Não desenhe o pipeline supondo um
+  `.pfx` em secret sem antes saber de quando é o certificado (RO-01).
 - **Auto-update via GitHub Releases:** `endpoints` apontando para o `latest.json` do release;
   `tauri-action` publica os artefatos + `latest.json` assinados. Canal beta = endpoint separado.
 - Versão do artefato = versão do app (**semver**). **Nunca renomear** artefato à mão depois de
@@ -112,5 +116,6 @@ alvo virar .NET/Avalonia; delta updates).
 - **Não confundir com:** `java-package-desktop` (jpackage/.exe/.msi do track JavaFX) — aqui é Tauri v2, assinado e com auto-update.
 
 ### 📜 Histórico
+- **2026-09-23 — A receita de assinatura no Windows passou a depender da data do certificado (inventário `_auditoria/zelador-inventario-as-45-2026-09-22.md`, veredito `ATUALIZAR`; RI-04; degrau §6.10: 1 — só edição).** A linha prescrevia *"Windows (Authenticode, cert em secret)"*, sem ressalva. **Conferido no guia oficial *Windows Code Signing* do Tauri v2 antes de editar (RO-01), e o achado tem duas partes:** (1) o guia **não contém a palavra "Authenticode"** — zero ocorrências —, então a skill nomeava a tecnologia por um termo que a fonte não usa; (2) o guia abre com um bloco **"Danger"** dizendo que só se aplica a *"OV code signing certificates acquired before June 1st 2023"*, manda quem tiver certificado posterior consultar o emissor, e documenta **Azure Key Vault** como a via corrente. Ou seja: para quem for adquirir certificado hoje, *"cert em secret"* **não é mais o caminho** — e esse é o tipo de alegação que só cobra o preço depois, quando alguém já desenhou o CI em cima dela. **O conserto não fixa uma receita nova**, porque a receita depende de um fato do projeto (a data do certificado) que esta skill não tem como saber: ela passa a mandar **ler a doc e descobrir a data antes de planejar o pipeline**. A chave do **updater** não foi tocada — é outra coisa, e a própria linha já dizia isso. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0** — o texto que entrou é imperativo (*"leia a doc antes de planejar o CI"*, *"não desenhe o pipeline supondo…"*); o *"recomendado"* do começo da linha é anterior a esta edição e não foi mexido.
 - **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens C6, C7, C8, C9, C10; −4 linhas.
 - **2026-07-20 — Polimento de autoria:** `when_to_use` reforça a fronteira (packaging vs. scaffold vs. feature vs. jpackage); +checklist de Verificação consolidando o update de teste `vN→vN+1` assinado e a guarda das chaves. Convenções, few-shot e guardrails preservados.

@@ -58,7 +58,10 @@ Cada arquétipo tem padrão de layout, escolha de gráfico e interação própri
 2. **`referencia/sigcot-stack.md`** — como o SIGCOT constrói de verdade: tokens reais, o template-ouro `DashboardView.fxml`, o padrão `Task`+daemon, injeção de cor nos gráficos, `HoverDetalhe`, `SvgIcons`, `EstadoTabela`, `ScalingRoot`. Nunca inventar API/token — copiar daqui.
 3. **`referencia/blueprint-template.md`** — o documento que você preenche **antes** de construir.
 4. O **`DashboardView.fxml` + `DashboardController`** existentes no projeto, como template-ouro a copiar.
-5. O **DAO/serviço** que fornece cada número (assinaturas reais, formato de retorno).
+5. **Invariantes Matemáticos de Dataviz** (`designer-ux-ui/referencia/invariantes-dataviz.md`) — os 7 invariantes obrigatórios: proibição estrita de eixo duplo (dual-axis), cor por entidade (nunca por ranking), texto em tokens neutros de contraste, semáforo reservado exclusivamente para status, e base zero em barras.
+
+6. O **DAO/serviço** que fornece cada número (assinaturas reais, formato de retorno).
+
 
 ## Fluxo Design → Build (em ordem)
 

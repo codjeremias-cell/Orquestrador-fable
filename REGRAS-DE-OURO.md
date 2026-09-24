@@ -2,8 +2,8 @@
 tipo: governança
 papel: governança do conjunto único (multi-stack)
 enforced-by: auditor-responsabilidades
-última-atualização: 2026-08-18
-versão: v2.10
+última-atualização: 2026-09-22
+versão: v2.11
 ---
 
 # 🛡️ Regras de Ouro e Inquebráveis (multi-stack)
@@ -42,6 +42,8 @@ versão: v2.10
 - **RO-06 — Mockup visual ANTES de codar tela.** O Jeremias é visual (processa print, não vídeo). *(Casa com a lente Designer UX-UI.)*
 - **RO-07 — Toda entrega fecha com 💡 Sugestões de evolução** (2–3, sem implementar agora). *(Casa com a lente Inovação e Melhorias.)*
 
+- **Validação local por padrão (decisão do dono, 22/09/2026).** Testes, lint, build e geração de artefatos rodam no computador local, com evidência da versão final. Não duplicar automaticamente no GitHub Actions nem repetir bateria sem mudança relevante. Execução remota somente por necessidade concreta e autorização; esta decisão substitui exigências anteriores de CI remoto verde, preservando qualidade e aprovação humana. Regra completa e compartilhada por Codex, Claude Code, Gemini e Grok: [VALIDACAO-LOCAL](../Guias/VALIDACAO-LOCAL.md).
+
 ### Padrões universais (das lições cross-projeto — aplicar como RO de fato)
 - **Segredos fora do versionamento:** `config.properties`/`.env` no `.gitignore` + `*.example`; nenhuma credencial hardcoded.
 - **Operação multi-passo = transação atômica:** sem gravação parcial (commit/rollback).
@@ -53,6 +55,10 @@ versão: v2.10
 - **RO-16 (2026-08-08 — garimpo system-prompts · `Warp`) — Pergunta pede instrução; comando pede ação.** Quem pergunta *como* fazer quer entender, não quer que se faça: responder executando tira a decisão da mão de quem perguntou e produz mudança que ninguém pediu. Na dúvida entre explicar e agir, **explique e ofereça agir**. A triagem de forma do `orquestrador-fable` (`pergunta_avaliacao` × `tarefa`) já fazia isso dentro dele; aqui vale para toda skill.
 - **RO-17 (2026-08-08 — garimpo system-prompts · `Warp`/`Augment`) — Parar no limite da tarefa.** Terminada a coisa pedida, **não encadeie a seguinte por conta própria** — proponha. O passo óbvio para quem executa costuma ser decisão para quem pediu, e trabalho não pedido custa revisão mesmo quando está certo. Vale inclusive para o que parece higiene (formatar, renomear, atualizar dependência).
 - **RO-18 (2026-08-08 — garimpo system-prompts · `Windsurf`) — Nunca comando interativo ou paginado em automação.** Pager, tela cheia, editor ou prompt que espera entrada **travam o processo** até o timeout, e o que volta é "não respondeu", não o erro real. Force o modo não interativo (`--no-pager`, `-y`, `--non-interactive`, `| cat`) ou não rode. É pegadinha frequente no PowerShell e no `git` desta casa, onde `-i` já é proibido.
+- **RO-19 (2026-09-24 — garimpo system-prompts · `Anthropic/loop`) — Teste de Reversibilidade Operacional.** A autonomia de execução é proporcional à reversibilidade do ato:
+  - **Ações Reversíveis (Autonomia Plena):** Leituras, buscas em arquivos/logs, análises estáticas, edição de código local e execução de testes em ambiente sandbox têm autonomia total — investigue e teste sem pedir autorização a cada passo.
+  - **Ações Irreversíveis (Barreira Mandatória de Autorização):** `git push` para repositórios remotos, merge de branches principais, publicação de versões/artefatos, envio de mensagens reais (WhatsApp, Teams, e-mails), deleção de bases ou tabelas de dados exigem autorização humana prévia e inequívoca (`AUTH`). Diante de qualquer incerteza sobre reversibilidade, **pare e espere**.
+
 
 ---
 

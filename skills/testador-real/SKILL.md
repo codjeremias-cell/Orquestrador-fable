@@ -29,6 +29,12 @@ Cada regra evita um dano concreto — é por isso que ela não se dobra:
 - **O registro da verificação é o código de saída mais a saída** *(2026-08-08, garimpo system-prompts · `Devin`/`Augment`)* — todo caso executado grava **exit code, `stdout`/`stderr` e as linhas-chave**, não um "passou" resumido. Sem o código de saída não se distingue *bateria que passou* de *bateria que morreu antes de rodar* — e agregado "0 FAIL" produzido por validador morto já enganou esta casa. O `exit` é uma codificação **independente** do sumário: divergir dele é contradição, não detalhe.
 - **Falhou? Correção mínima e re-rodar só o alvo** *(2026-08-08, garimpo system-prompts · `Augment`)* — não re-rode a bateria inteira a cada tentativa. Isola o caso vermelho, aplica a menor mudança que o endereça e roda **aquele** caso; a bateria completa volta no fechamento, para provar que nada mais quebrou. Re-rodar tudo a cada iteração gasta relógio e esconde qual mudança resolveu.
 - **Sucesso simulado é a falha mais grave do testador.** O valor inteiro da skill é a evidência real; o que não puder ser executado vira SKIP declarado com motivo, jamais um "passou" fingido (RI-04).
+- **Doutrina da Superfície Real de Execução (Garimpo 2026-09 - `Anthropic/verify`):** A verificação de prontidão de entrega **é observação direta de runtime**. Mocks unitários verdes provam apenas que partes isoladas obedecem a premissas sintéticas; **não provam que o binário ou serviço roda na vida real**. É mandatório conduzir a aplicação na sua superfície real de entrega antes de declarar pronto:
+  - *CLI/Console:* Executar o binário/script real passando flags e argumentos válidos/inválidos e capturando o `exit code` e o output real.
+  - *Web/API:* Subir o serviço localmente e disparar requests HTTP reais contra portas abertas de rede com validação de status e payload.
+  - *Desktop/GUI:* Iniciar o processo do aplicativo empacotado (ou smoke headless de FXML / UI inspection) e verificar se sobe sem travar a thread de interface nem cuspir exceções fatais em log.
+  - *Entrega sem prova na superfície real:* É classificada como incompleta (ou com ressalvas de não-execução declarada), nunca como "pronta e aprovada".
+
 
 ## Pré-voo e Auto-detecção Polimórfica
 
