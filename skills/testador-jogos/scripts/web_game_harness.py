@@ -16,8 +16,10 @@ Uso típico:
         h.shot("99-final")
         print(h.report())               # erros de console, pageerrors, requests falhas
 
-Requisitos: pip install playwright --break-system-packages
-(No sandbox Cowork o Chromium já está em PLAYWRIGHT_BROWSERS_PATH — não rode playwright install.)
+Requisitos de ambiente:
+- No sandbox Cowork (Linux): pip install playwright --break-system-packages
+  (O Chromium já está pré-instalado em PLAYWRIGHT_BROWSERS_PATH — não rode playwright install.)
+- No Windows local: pip install playwright && playwright install chromium
 """
 
 import json

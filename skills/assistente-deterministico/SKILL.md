@@ -176,5 +176,7 @@ que mais quebram na prática:
 
 ### 📜 Histórico
 
+- **2026-09-24 — Registro de proveniência e origem formal da skill:** Formalizado no histórico o marco de criação da skill em 2026-07-05 (nascida no contexto do subsistema de suporte offline/regras determinísticas do SIGO). Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-10 — Seção de Histórico criada (T35, campanha do inventário; degrau §6.10: 1).** A skill não tinha nenhuma, e sem ela a proveniência exigida pela RI-04 não tem onde morar. Achado do inventário completo de 2026-08-10 (`_auditoria/zelador-inventario-2026-08-10.md`), padrão transversal 6.
 - **2026-08-09 — `description` comprimida** na campanha das 61 (65.029 → 43.202 caracteres no catálogo, −34%), preservando as frases-gatilho e a fronteira `NÃO acione`. Registro retroativo: a compressão foi aplicada e não anotada aqui na época.
+- **2026-07-05 — Criação e concepção original:** Fundação do padrão de assistente 100% determinístico e offline (busca com tolerância a typo, motor de documentos por schema e reuso por histórico de entidade), derivado da arquitetura industrial do SIGO.

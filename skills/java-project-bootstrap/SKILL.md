@@ -5,7 +5,7 @@ description: "Cria do zero o esqueleto de um projeto Java desktop JavaFX com Mav
 
 # Java — Bootstrap de Projeto (JavaFX + Maven)
 
-📍 **No pipeline Java:** passo 1 de 7 (a fundação). Vem depois de `requisitos-descoberta`/`spec-javafx-new-system` (que decidem nome, pacote e banco) e habilita todo o resto: `java-db-foundation` → `java-logging-log4j2` → `java-javafx-entity` → `java-jdbc-dao` → `java-service-usecase` → telas → `java-package-desktop`.
+📍 **No pipeline Java:** passo 1 de 8 (a fundação). Vem depois de `requisitos-descoberta`/`spec-javafx-new-system` (que decidem nome, pacote e banco) e habilita todo o resto: `java-db-foundation` → `java-logging-log4j2` → `java-javafx-entity` → `java-jdbc-dao` → `java-service-usecase` → telas → `java-package-desktop`.
 
 ## Objetivo
 
@@ -103,7 +103,7 @@ Fechar com 2–3 sugestões (ex.: seguir com `java-db-foundation`; adicionar `ja
 ## 🔗 Rede da skill
 - **Lentes que ativam junto (RI-06):** `arquiteto-software` (estrutura de pacotes) · `dev-senior` (pom e App legíveis).
 - **Vem antes:** `requisitos-descoberta` / `spec-javafx-new-system` (nome, pacote e banco já decididos).
-- **Vem depois:** `java-db-foundation` → `java-logging-log4j2` → `javafx-theme-tokens` → `javafx-app-shell`.
+- **Vem depois:** `java-db-foundation` → `java-logging-log4j2` → `java-javafx-entity` → `java-jdbc-dao` → `java-service-usecase` → `javafx-app-shell` → `java-package-desktop`.
 - **Não confundir com:** `spec-javafx-new-system` (o orquestrador que chama esta e as demais).
 
 ### 📜 Histórico

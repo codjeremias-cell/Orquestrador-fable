@@ -1,8 +1,8 @@
 ---
 tipo: roadmap
 papel: pendências e próximos passos do conjunto único (radar)
-última-atualização: 2026-08-18
-versão: v1.9
+última-atualização: 2026-09-24
+versão: v2.0
 ---
 
 # 🛰️ Radar — Pendências do Catálogo
@@ -176,6 +176,7 @@ versão: v1.9
 ---
 
 ### 📜 Histórico
+- **2026-09-24 (fechamento de pendências sistêmicas e decisão vínculo × renda):** Fechada a decisão conceitual "vínculo × renda" da `plano-riqueza` (matriz ortogonal 2×2 entre natureza do vínculo jurídico e previsibilidade do fluxo financeiro, com regras explícitas para reserva de emergência de 6x a 20x e alocação orçamentária por perfil). Resolvidas também as pendências pontuais de `javafx-app-shell`, `java-project-bootstrap`, `spec-javafx-crud-feature`, `spec-javafx-new-system`, `consultor-negocios-apps`, `assistente-deterministico`, `testador-jogos` e `painel-de-juizes`.
 - **2026-08-18 (T24 — triagem e reconciliação com o ledger):** as 12 marcas pendentes distintas
   (14 ocorrências do símbolo, menos a legenda e menos a duplicata do Embalo) foram triadas e migraram:
   **7 viraram tarefa** (T25–T31), com **duas fusões** — 8.1+9.2 eram a mesma obra contada duas

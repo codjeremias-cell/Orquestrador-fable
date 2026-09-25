@@ -66,18 +66,23 @@ Candidato da rodada × **campeão vigente**, sem identificação, com controle d
 
 ## Escala de juízes por rodada
 
+Classes de capacidade dos avaliadores:
+- **Tier 1 (Raciocínio Profundo / Sênior):** modelos de raciocínio avançado (ex.: Opus, Pro).
+- **Tier 2 (Geral / Pleno):** modelos ágeis de propósito geral (ex.: Sonnet, Flash).
+- **Tier 3 (Leve / Rápido):** modelos leves e rápidos (ex.: Haiku, Flash-Lite).
+
 | Rodada do ciclo | Painel | Decisão |
 |---|---|---|
-| 1 | 3× Sonnet | maioria (2 de 3) |
-| 2 | 2× Opus | unanimidade; divergência mantém o campeão |
-| 3+ | 1× Fable (topo da sessão, tier **acima** dos executores) | vencer nas duas ordens |
-| 3+ sem tier acima | 3× Opus — ou 3× do teto disponível (sem Opus → 3× Sonnet) | maioria; degradação **declarada** no placar (RI-04) |
+| 1 | 3× Tier 2 (ex.: Sonnet / Flash) | maioria (2 de 3) |
+| 2 | 2× Tier 1 (ex.: Opus / Pro) | unanimidade; divergência mantém o campeão |
+| 3+ | 1× Juiz Superior (topo da sessão, tier **acima** dos executores) | vencer nas duas ordens |
+| 3+ sem tier acima | 3× Tier 1 — ou 3× do teto disponível (sem Tier 1 → 3× Tier 2) | maioria; degradação **declarada** no placar (RI-04) |
 
 **Regra da degradação por tier:** capacidade a menos se compensa com voto a mais. O juiz
 sênior é sempre o modelo mais capaz **disponível**; quando o teto da sessão é o mesmo tier que
 executou o trabalho crítico, o juiz único vira painel ímpar de 3. A mesma regra vale na
-**rodada 2**: sem Opus disponível, o par 2× Opus vira **painel ímpar de 3× do teto
-disponível** (ex.: 3× Sonnet), decidindo por maioria — sempre declarado no placar. Effort dos
+**rodada 2**: sem Tier 1 disponível, o par vira **painel ímpar de 3× do teto
+disponível** (ex.: 3× Tier 2), decidindo por maioria — sempre declarado no placar. Effort dos
 juízes: padrão; subir para alto quando o artefato é grande (muitos arquivos a conferir).
 
 ## Protocolo do julgamento (contexto limpo)
@@ -177,37 +182,12 @@ Confira cada item — veredito que falha qualquer um volta para refazer, não se
 
 ---
 ### 📜 Histórico
+- **2026-09-24 — Generalização por classes de capacidade e consolidação de histórico:** Substituídas referências nominais rígidas de modelos por tiers abstratos de capacidade (Tier 1 Raciocínio Profundo, Tier 2 Geral, Tier 3 Leve) aplicáveis a múltiplos provedores (Claude/Gemini) e consolidados os parágrafos legados em bullets canônicos. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-27 — As 4 Dimensões de Validade de Avaliações em Julgamentos (garimpo inspect_evals 2026-08-27 · UK1; degrau §6.10: 1 — só edição).** Incorpora ao Protocolo do Julgamento as 4 dimensões de validade de testes (Claims Coherence, viabilidade/verificabilidade de falha, alinhamento com o ground truth sobre proxies fracos e edge cases). Fonte canônica no [[PADRAO-DE-AUTORIA]] §11.10. Proveniência: `.claude/skills/eval-validity-review/SKILL.md` de `github.com/UKGovernmentBEIS/inspect_evals` (MIT) — laudo em `garimpo-lote-9-fontes-2026-08-27.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-26 — Classificação de 4 níveis e protocolo de dúvida adversarial (garimpo lote-5repos 2026-08-26 · G1; degrau §6.10: 1 — só edição).** Incorpora a precedência de classificação de achados em 4 níveis (Contrato mal lido, Válido+acionável, Válido trade-off, Ruído) e o princípio de supressão da CLAIM/hipótese do autor no isolamento do artefato para julgamento cego. Proveniência: `skills/doubt-driven-development/SKILL.md` de `github.com/addyosmani/agent-skills` (MIT) — laudo em `garimpo-lote-5repos-2026-08-26.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
-- **2026-08-18 — Rótulo de concordância no agregado (garimpo oh-my-opencode 2026-08-18 · G5; degrau §6.10: 1 — só edição).**
-
-  A regra de agregação já era unânime/maioria/divergência e a publicação da discordância mais
-  forte já era obrigatória, mas o **contrato de retorno** devolvia `vencedor · nota · razoes[]`
-  sem campo para o nível de acordo — quem lia o placar precisava derivá-lo somando notas, e é
-  justamente perto do corte que a derivação erra (mesma lente, duas instâncias, até 3 pontos de
-  diferença). O agregado passou a declarar `concordancia: unanime | maioria | dividido`. O campo
-  é do **agregado, nunca de cada juiz**: juiz com contexto limpo não vê os outros e não teria
-  como preenchê-lo. Guardrail: o rótulo **soma, não troca** — não dispensa a discordância
-  publicada, e `dividido` não vira atalho para "mantém o campeão" sem as razões escritas.
-  Proveniência: `docs/council.md` de `github.com/alvinunreal/oh-my-opencode-slim` (MIT) — laudo
-  em `garimpo-oh-my-opencode-2026-08-18.md`.
-- **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única +
-  referência com gloss (PADRAO §12.5); itens E2, E3, E4, E6 (fraseio "orquestrador regente"
-  do E1); −1 linha física (economia real de texto ~4 linhas).
-*Histórico — 2026-08-06: seção **Anti-ancoragem** no protocolo (garimpo `affaan-m/ECC` E1/E5,
-do `council`; MIT) — quem sintetiza registra a própria posição **antes** de ler as vozes;
-despacho com só a pergunta, nunca a transcrição; guardrails de síntese checáveis (dizer quando
-uma voz mudou a recomendação, publicar a discordância mais forte, tratar duas vozes contra a
-posição inicial como sinal, mostrar as posições cruas antes do veredito); e a regra de que o
-produto é tornar a discordância legível, não a unanimidade. É o par cognitivo do isolamento
-físico por worktree: aquele impede um juiz de achar o rascunho do outro, este impede a conversa
-de plantar a resposta em quem agrega. Relatório em `garimpo-ecc-2026-08-06.md`.*
-*Histórico — 2026-07-10: nota de oscilação de campeão no portão pareado (garimpo autoresearch
-P6, ver `Novo Conceito/garimpo-autoresearch-2026-07-10.md`) — detecção, contagem e decisão são
-do maestro (juiz não vê histórico); limiar na anti-estagnação do orquestrador regente.*
-*Histórico — 2026-07-12: veredito fail-closed (garimpo hermes-agent P9) — segunda falha de
-contrato = juiz falho declarado, painel reconstituído pela degradação por tier existente.*
-*Histórico — 2026-07-09: criada a partir do juiz de visão do `orquestrador-fable` (harness
-GAN/`auto-improve`), generalizando o portão pareado para qualquer artefato e adicionando o
-modo painel de N tentativas + escala por rodada com degradação por tier (decisões do Jeremias
-09/07).*
+- **2026-08-18 — Rótulo de concordância no agregado (garimpo oh-my-opencode 2026-08-18 · G5; degrau §6.10: 1 — só edição).** O agregado passou a declarar `concordancia: unanime | maioria | dividido`. O campo é do agregado, nunca de cada juiz. Guardrail: o rótulo soma, não troca — não dispensa a discordância publicada, e `dividido` não vira atalho para "mantém o campeão" sem as razões escritas. Proveniência: `docs/council.md` de `github.com/alvinunreal/oh-my-opencode-slim` (MIT) — laudo em `garimpo-oh-my-opencode-2026-08-18.md`.
+- **2026-08-06 — Seção Anti-ancoragem no protocolo (garimpo affaan-m/ECC E1/E5, do council; MIT):** quem sintetiza registra a própria posição **antes** de ler as vozes; despacho com só a pergunta, nunca a transcrição; guardrails de síntese checáveis (dizer quando uma voz mudou a recomendação, publicar a discordância mais forte, tratar duas vozes contra a posição inicial como sinal, mostrar as posições cruas antes do veredito); e a regra de que o produto é tornar a discordância legível, não a unanimidade. Relatório em `garimpo-ecc-2026-08-06.md`.
+- **2026-07-13 — Poda de duplicação P1 (auditoria de notas das 52 skills):** fonte única + referência com gloss (PADRAO §12.5); itens E2, E3, E4, E6 (fraseio "orquestrador regente" do E1); −1 linha física (economia real de texto ~4 linhas).
+- **2026-07-12 — Veredito fail-closed (garimpo hermes-agent P9):** segunda falha de contrato = juiz falho declarado, painel reconstituído pela degradação por tier existente.
+- **2026-07-10 — Nota de oscilação de campeão no portão pareado (garimpo autoresearch P6):** detecção, contagem e decisão são do maestro (juiz não vê histórico); limiar na anti-estagnação do orquestrador regente.
+- **2026-07-09 — Criação da skill (decisões do Jeremias 09/07):** criada a partir do juiz de visão do `orquestrador-fable` (harness GAN/`auto-improve`), generalizando o portão pareado para qualquer artefato e adicionando o modo painel de N tentativas + escala por rodada com degradação por tier.

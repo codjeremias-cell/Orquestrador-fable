@@ -136,14 +136,17 @@ O teste só está pronto quando você mesmo confere o trabalho; "joguei bastante
 - [ ] Limitações do teste declaradas (o que não deu para testar e por quê — headless, dispositivo real, áudio).
 - [ ] Nos modos C/D: nenhum bug "encontrado jogando" — só análise e roteiro, porque não houve jogo.
 
-## Ambiente (sandbox Cowork)
+## Ambiente (Cowork Linux vs. Windows local)
 
-Chromium já vem instalado (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`) — não rode
-`playwright install` (já está pronto; reinstalar só gasta tempo). Só falta o pacote Python:
-
-```bash
-pip install playwright --break-system-packages
-```
+- **Sandbox Cowork (Linux):** O Chromium já vem pré-instalado (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`) — não rode `playwright install`. Apenas instale o pacote Python:
+  ```bash
+  pip install playwright --break-system-packages
+  ```
+- **Ambiente local (Windows / PowerShell):** Instale o pacote Python e baixe os navegadores necessários:
+  ```powershell
+  pip install playwright
+  playwright install chromium
+  ```
 
 Cuidados que evitam falso-positivo no headless: emoji vira "tofu" (□) por falta de fonte — não
 é bug do jogo; áudio real não toca — teste a *lógica* de mute/volume, não o som; gamepad,
@@ -157,5 +160,6 @@ costuma funcionar via SwiftShader, mas performance não é representativa: meça
 - **Não confundir com:** `testador-real` (bateria estática+dinâmica de código/sistema com PASS/FAIL — aqui é QA de EXPERIÊNCIA de jogo, hands-on por persona; um jogo com backend pode usar os dois: testador-real no servidor, esta no gameplay).
 
 ### 📜 Histórico
+- **2026-09-24 — Ramificação de ambiente Cowork Linux vs. Windows local:** Instruções de setup do Playwright detalhadas para Cowork (`PLAYWRIGHT_BROWSERS_PATH`) e Windows local (`playwright install chromium`) no harness e no SKILL.md. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-07-13 (v1.1) — Revisão pós-avaliação (nota 8,3, parecer em `_auditoria/2026-07-13-avaliacao-testador-jogos.md`):** renomeada `game-tester` → `testador-jogos` (família `testador-*`); `referencia/` → `referencia/` (convenção §7); bloco 🔗 Rede criado; description sem referência a skill inexistente; severidade com fonte única em `referencia/caca-bugs.md`; Regras invioláveis explícitas; fixtures dos evals internalizadas em `evals/fixtures/` + gabarito em `evals/gabarito/`. **Escada de pegada (§6.10) declarada:** degrau "skill nova" — o objeto (experiência de jogo por personas, análise crítica com rubrica própria) não cabia como instância do `testador-real`, cujo contrato é bateria de sistema por fases com PASS/FAIL; editar o template o desfiguraria.
 - **2026-07-13 (v1.0):** criação (Jeremias), com personas, caça-bugs, análise crítica em 8 categorias, harness Playwright e 2 evals com bugs plantados.

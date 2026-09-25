@@ -40,6 +40,14 @@ Você é um **consultor de negócios com 20+ anos em produtos digitais** — pas
 
 **Risco de negócio:** dependência de plataforma, sazonalidade, regulação (LGPD, tributário), concentração de fundador (bus factor), custo de suporte, escala de infra.
 
+### Exemplo prático (entra → sai: Eixo Monetização)
+- **Entra:** *"Quero cobrar R$ 49/mês no meu app de gestão para pequenas oficinas mecânicas com plano gratuito ilimitado para crescer rápido."*
+- **Sai (análise fundamentada):**
+  - *Diagnóstico de fricção:* Freemium ilimitado em micro-B2B destrói conversão; a oficina nunca atinge motivo de upgrade sem trava de capacidade (ex.: teto de 15 OS ativas/mês).
+  - *Ancoragem de preço:* R$ 49/mês passa sinal de baixa confiabilidade em software de missão crítica. Concorrentes consolidados cobram R$ 89 a R$ 149/mês.
+  - *Recomendação cirúrgica:* Trocar freemium por 14 dias de teste grátis (com onboarding ativo via WhatsApp) e fixar plano inicial em R$ 97/mês com Pix recorrente/cartão.
+  - *Próximo teste:* Cadastrar 10 oficinas piloto; meta de retenção de 30% pagante após o trial antes de investir em novas features ou automação de gateway.
+
 ## Como operar
 1. **Entenda o produto e o público** de verdade (use o app, leia o material, pergunte).
 2. **Mapeie o mercado:** 3-5 concorrentes reais com preço e diferencial de cada um.
@@ -89,6 +97,7 @@ Um parecer que agrada o fundador mas infla notas, cita números que não existem
 
 ### 📜 Histórico
 
+- **2026-09-24 — Exemplo entra → sai no eixo monetização:** Adicionado exemplo prático contrastando demanda de precificação ingênua com parecer fundamentado de consultoria (diagnóstico, benchmark, recomendação cirúrgica e teste de hipótese). Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-19 — Garimpo skills-ia (G3; degrau §6.10: 2 — referência complementar; N = 0):** adicionado guia de referência [referencia/metricas-saas-unit-economics.md](referencia/metricas-saas-unit-economics.md) com fórmulas explícitas de Unit Economics para SaaS/Apps (CAC, LTV, Payback, NRR, Quick Ratio) e framework de diagnóstico das 4 causas raízes de Churn. Proveniência: `skills-ia` de `github.com/tiagopgr/skills-ia` @ `1983bef` (MIT) — laudo em `garimpo-skills-ia-2026-08-19.md`.
 - **2026-08-10 — Seção de Histórico criada (T35, campanha do inventário; degrau §6.10: 1).** A skill não tinha nenhuma, e sem ela a proveniência exigida pela RI-04 não tem onde morar. Achado do inventário completo de 2026-08-10 (`_auditoria/zelador-inventario-2026-08-10.md`), padrão transversal 6.
 - **2026-08-09 — `description` comprimida** na campanha das 61 (65.029 → 43.202 caracteres no catálogo, −34%), preservando as frases-gatilho e a fronteira `NÃO acione`. Registro retroativo: a compressão foi aplicada e não anotada aqui na época.

@@ -23,7 +23,7 @@ Entregar, de ponta a ponta, uma funcionalidade de uma entidade: domínio + persi
 ## Entradas obrigatórias
 
 1. Nome da entidade e seus atributos.
-2. Tabela/colunas reais (ou autorização para descobrir no projeto).
+2. Tabela/colunas reais (ou autorização para descobrir no projeto; em cenário greenfield/entidade nova sem tabela existente, declarar **SUPOSIÇÃO:** com o DDL proposto e alinhar com o Jeremias antes da persistência).
 3. Operações desejadas (criar, listar, editar, excluir, buscas).
 4. Confirmação de que a funcionalidade inclui tela.
 
@@ -64,7 +64,7 @@ Executar em ordem; validar cada etapa antes de seguir.
 ## Regras de coerência
 
 - Manter nomes consistentes entre entidade, DAO, serviço, controller e FXML.
-- Reaproveitar o padrão real do projeto (controller-base, AlertaUtil, provedor de conexão, RetryDB, CSS de tema) — descobrir por leitura, nunca inventar (RO-01).
+- Reaproveitar o padrão real do projeto (controller-base, AlertaUtil, provedor de conexão, RetryDB, CSS de tema) — descobrir por leitura, nunca inventar (RO-01). Se algum elemento de infraestrutura ou conexão estiver ausente (cenário greenfield parcial), declare **SUPOSIÇÃO:** explícita em vez de adivinhar ou travar sem proposta.
 - Operação multi-passo = transação atômica; UI nunca congela (RO-J1).
 
 ## Verificação da spec da feature (autossuficiência)
@@ -102,6 +102,7 @@ Ao concluir, entregar resumo objetivo: skills usadas · arquivos criados/alterad
 - **Não confundir com:** `spec-javafx-new-system` (sistema inteiro do zero) · `spec-springboot-crud-feature` (mesmo papel, track Spring Boot web) · `javafx-dashboard` (se a "feature" for um painel de KPIs, é ele quem conduz a tela).
 
 ### 📜 Histórico
+- **2026-09-24 — Previsão explícita de ramo greenfield com SUPOSIÇÃO:** Adicionado tratamento explícito para entidades/fundação greenfield (DDL e infraestrutura sem tabela prévia), permitindo declarar SUPOSIÇÃO: e propor o esquema em vez de bloquear sem saída (RO-01). Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
 - **2026-08-18 (2) — As duas lentes declaradas ganham call site (T39; degrau §6.10: 1 — só edição).** Mesmo defeito medido na irmã `spec-springboot-crud-feature`, e encontrado aqui por leitura estática, sem bancada: a Rede declarava três lentes em **"Lentes que ativam junto (RI-06)"** e **duas não eram chamadas por passo nenhum**. `designer-ux-ui` entrou no passo 1 — que já era o do mockup RO-06 e não carregava a lente que faz mockup — e `qa-usabilidade` no passo 7, o de fechamento com prova. Nenhum passo novo foi criado. O par de CRUD (esta e a de Spring) eram **os dois únicos desviantes** dos sete orquestradores; os outros cinco já chamavam todas as lentes que declaravam. **Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.**
 - **2026-08-18 — Invoque, não descreva: a rota volta a ser exigida (T14; **reverte a T29**; degrau §6.10: 1 — só edição).** Mutação de uma variável (a frase de invocação), n=3×3, medida na `spec-springboot-crud-feature`: com o texto da T29 os geradores foram acionados pela ferramenta `Skill` **0/3 nas três rodadas**; com o texto de invocação, **3/3 nas três**. Orquestrador 6/6 e entrega 6/6 nos dois braços: o efeito é de **rota**, não de entrega. **Esta skill não foi medida** — o texto foi aplicado por decisão do Jeremias, extrapolando o resultado daquela. O callout traz `skill` onde o medido dizia `gerador`, porque esta sequência também cita lentes. Placar: `estado/artefatos/t9-placar-final-2026-08-18.md`.
 - **2026-08-11 — O eval alinhado à decisão da T29 (degrau §6.10: 1 — só edição).** A skill dizia no corpo que **não** encadeia (medido: aciona 6/6, delega 0/6) e o `evals/evals.json` **reprovava por não delegar** — a skill contradizia a si mesma. A expectativa passou a medir o **resultado** (as camadas cumprindo o método do gerador), não a **rota**. Decisão do Jeremias, estendida da description aos testes. Proveniência: `_auditoria/zelador-inventario-2026-08-10.md` e `_auditoria/zelador-custo-2026-08-08.md`.

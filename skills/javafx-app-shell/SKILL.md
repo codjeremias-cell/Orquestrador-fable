@@ -1,6 +1,6 @@
 ---
 name: javafx-app-shell
-description: "Cria o shell de uma aplicação JavaFX: a janela principal, a navegação que troca a tela central e a classe central de alertas em PT-BR, seguindo o padrão real do projeto. Aqui é a CASCA do app: tela de feature é javafx-screen-fxml, painel de KPIs é javafx-dashboard, tema por tokens é javafx-theme-tokens. Acione com \"AlertaUtil\", \"cria a janela principal do app\", \"monta a navegação entre telas\", \"preciso do menu e da estrutura base da interface\", \"cria o AlertaUtil e o controller base\", \"monta o esqueleto/a casca da UI\"."
+description: "Cria o shell de uma aplicação JavaFX: a janela principal, a navegação que troca a tela central e a classe central de alertas em PT-BR, seguindo o padrão real do projeto. Aqui é a CASCA do app: NÃO acione para tela de feature (use javafx-screen-fxml), painel de KPIs (use javafx-dashboard) nem para definir tokens (use javafx-theme-tokens). Acione com \"AlertaUtil\", \"cria a janela principal do app\", \"monta a navegação entre telas\", \"preciso do menu e da estrutura base da interface\", \"cria o AlertaUtil e o controller base\", \"monta o esqueleto/a casca da UI\"."
 ---
 
 # JavaFX — Shell da Aplicação
