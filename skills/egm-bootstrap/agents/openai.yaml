@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Bootstrap"
+  short_description: "Mapeamento arquitetural e contratos de diretórios"
+  default_prompt: "Use $egm-bootstrap para gerar contratos arquiteturais de diretórios em toda a árvore."

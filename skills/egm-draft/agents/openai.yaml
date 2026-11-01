@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Draft"
+  short_description: "Redação de especificação técnica seção a seção"
+  default_prompt: "Use $egm-draft para redigir a especificação técnica formal a partir do brief ou notas."

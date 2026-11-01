@@ -41,8 +41,11 @@ $validator = Join-Path $PSScriptRoot "validar-skills.ps1"
 # dentro dela apontam para a RAIZ da estrutura, um nivel acima da skill: o
 # destino reproduz essa raiz para que `../regras-de-ouro/REGRAS-DE-OURO.md`,
 # `../../ORGANOGRAMA.md` e `_compartilhado/` resolvam como no cofre. Nenhuma
-# delas tem SKILL.md, entao nenhuma vira skill invocavel.
-$preservarSempre = @("ceo-maestro", "planejador-estrutura", "regras-de-ouro", "_compartilhado", "registros")
+# dessas tres tem SKILL.md, entao nenhuma vira skill invocavel.
+# `planejador-estrutura` e `prompt-mestre-de-projeto` (este desde 2026-10-22, T171
+# do ledger da Estrutura) SAO skills: os dois consultores fora da cadeia, implantados
+# pelo deploy-estrutura.ps1. Fora desta lista, o espelho do Catalogo os apagaria.
+$preservarSempre = @("ceo-maestro", "planejador-estrutura", "prompt-mestre-de-projeto", "regras-de-ouro", "_compartilhado", "registros")
 
 function Assert-PathUnderRoot {
   param(

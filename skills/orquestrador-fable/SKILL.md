@@ -171,3 +171,12 @@ Antes de declarar a entrega final, o maestro confere — e nenhum destes é "par
 - [referencia/protocolo-doubt-driven.md](referencia/protocolo-doubt-driven.md) — protocolo de dúvida adversarial (Doubt-Driven Development) em voo para decisões de alto impacto (G1).
 - `referencia/modo-metrica.md` — mecânica completa do modo métrica (Verify/Guard, taxonomia de decisão, salvaguardas de git/Windows, platô, fechamento anti-overfit, piloto). Decisão em `_decisoes/ADR-001-modo-metrica.md`.
 
+## Histórico
+
+- **2026-10-19 — Canonização da seção Histórico no SKILL.md:** Seção formal adicionada ao arquivo principal para conformidade sistêmica de 100% do Catálogo (fechando o achado sistêmico 2 de 3/3 do inventário), mantendo a trilha detalhada de proveniência preservada sob demanda em `referencia/historico.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-09-24 — Padrões de Orquestração Agentica (garimpo de prompts G1–G8, commit `0113abb3`):** Incorporado `referencia/padroes-orquestracao.md` no Passo 2 (pipeline fluido sem barreiras síncronas bloqueantes, refutação adversarial cética e loop-until-dry com desduplicação contra `seen`). Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-08-27 — Execução ininterrupta (*Rulings, not stalls*, SP1) e 6 Condições Canônicas de Parada de Loop (G1):** Ciclo contínuo pós-aprovação e enum fechado de parada em `modo-metrica.md`. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-08-26 — Protocolo de dúvida adversarial em voo (Doubt-Driven Development, G1):** Adicionado `referencia/protocolo-doubt-driven.md` para decisões de alto impacto. Modificadores de obrigatoriedade auditados (PADRÃO §12): N = 0.
+- **2026-07-23 — Evolução runtime-agnostic (`Sahir619/fable-method`, commit `1eb3472`):** Descoberta de capacidades em runtime, contrato da verdade, gate positivo de comandos e executor-líder. Log completo desde 2026-07-07 em `referencia/historico.md`.
+
+

@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Brainstorm"
+  short_description: "Ideação e levantamento de hipóteses com estresse"
+  default_prompt: "Use $egm-brainstorm para explorar a ideia e estressar as premissas desta funcionalidade."

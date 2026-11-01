@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reality Checker"
+  short_description: "Auditoria adversarial de entregas e anti-fantasia"
+  default_prompt: "Use $reality-checker para auditar esta entrega de forma adversarial com evidência pareada e postura cética."

@@ -1,0 +1,34 @@
+{
+  "skill_name": "egm-brainstorm",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-10-30 na T67. Nenhum prompt nomeia a skill nem usa o vocabulário dela (§11.5). Três níveis de pressão (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que fez o port, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "egm-brainstorm-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "tenho uma ideia meio crua de um recurso de exportação de relatórios; queria estressar as premissas antes de desenhar",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a ideação: faz perguntas abertas, ancora a hipótese e só então propõe revisores; produz concepts_brief.md.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 2,
+      "name": "egm-brainstorm-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "vamos fazer um brainstorm estruturado disso, com revisores céticos, e fechar um brief antes do design",
+      "espera_acionamento": true,
+      "expected_output": "Aciona a ideação e conduz o gate de prontidão antes de disparar os Goldfish.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 3,
+      "name": "egm-brainstorm-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "o código já está escrito; só quero rodar os testes e ver o que quebrou",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona: é execução de testes (testador-real/dev-senior), não ideação.",
+      "origem": "sintetico"
+    }
+  ]
+}

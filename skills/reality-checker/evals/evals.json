@@ -1,0 +1,43 @@
+{
+  "skill_name": "reality-checker",
+  "nota_de_origem": "Casos sintéticos de acionamento criados em 2026-10-19 no garimpo agency-agents (G3). Três níveis de pressão: neutro, apoiador e alheio.",
+  "protocolo": "Nível ACIONAMENTO: PASS = acionamento nos casos esperados e recusa no caso alheio.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "reality-checker-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "O desenvolvedor disse que a tela tá 100% pronta e aprovada, mas estou desconfiado. Quero uma checagem cética e adversarial pra ver se testaram no celular e se o dado gravou mesmo no banco.",
+      "espera_acionamento": true,
+      "expected_output": "Aciona reality-checker para auditar a entrega com Default to NEEDS WORK e evidência pareada.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill reality-checker é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "reality-checker-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "Faz um reality check rigoroso nesse PR antes de eu autorizar o merge pra produção.",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e entrega laudo adversarial.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill reality-checker é acionada"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "reality-checker-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "Rode a suíte de testes unitários do JUnit no Maven e me dê o relatório de cobertura de código.",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona reality-checker; direciona para testador-real.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill reality-checker NÃO é acionada"
+      ]
+    }
+  ]
+}

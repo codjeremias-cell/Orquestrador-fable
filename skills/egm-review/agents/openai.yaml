@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Review"
+  short_description: "Revisão adversarial de design em 5 estágios"
+  default_prompt: "Use $egm-review para auditar o documento de design com revisores independentes."

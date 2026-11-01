@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Resolve"
+  short_description: "Triagem e resolução de apontamentos de review"
+  default_prompt: "Use $egm-resolve para triar e aplicar as correções apontadas no review da especificação."

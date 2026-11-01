@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Drift Report"
+  short_description: "Auditoria de desvio entre código e especificação"
+  default_prompt: "Use $egm-drift-report para auditar se o código implementado divergiu da especificação técnica."

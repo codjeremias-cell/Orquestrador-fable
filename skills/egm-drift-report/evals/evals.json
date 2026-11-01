@@ -1,0 +1,34 @@
+{
+  "skill_name": "egm-drift-report",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-10-30 na T67. Nenhum prompt nomeia a skill nem usa o vocabulário dela (§11.5). Três níveis de pressão (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que fez o port, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "egm-drift-report-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "o código andou depois do design doc; quero saber onde a implementação divergiu da especificação",
+      "espera_acionamento": true,
+      "expected_output": "Aciona o drift report e aponta divergências com evidência, sem corrigir código.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 2,
+      "name": "egm-drift-report-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "confere classe por classe contra o que foi especificado e aponta o que ficou faltando",
+      "espera_acionamento": true,
+      "expected_output": "Aciona o drift report com inspeção de classes e contratos.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 3,
+      "name": "egm-drift-report-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "quero escrever a especificação técnica de uma feature nova",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona: é redação de spec (egm-draft), não auditoria de drift.",
+      "origem": "sintetico"
+    }
+  ]
+}

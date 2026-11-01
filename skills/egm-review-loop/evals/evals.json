@@ -1,0 +1,34 @@
+{
+  "skill_name": "egm-review-loop",
+  "nota_de_origem": "Casos SINTÉTICOS (§11.6), escritos em 2026-10-30 na T67. Nenhum prompt nomeia a skill nem usa o vocabulário dela (§11.5). Três níveis de pressão (§11.7): neutro, apoiador e alheio. Limite declarado: escritos na mesma sessão que fez o port, portanto NÃO são cegos ao instrumento.",
+  "protocolo": "Nível ACIONAMENTO: roda com `python rodar-evals.py --skill <nome>`. PASS = a skill-alvo foi acionada, exceto nos casos com `espera_acionamento: false`, onde PASS = NÃO ter sido acionada.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "egm-review-loop-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "quero um loop de revisão automatizado com revisores customizados e um template próprio de qualidade",
+      "espera_acionamento": true,
+      "expected_output": "Aciona o loop configurável e declara revisores, padrões e critério de parada.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 2,
+      "name": "egm-review-loop-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "roda revisões repetidas nesse documento até os apontamentos pararem, usando o meu padrão",
+      "espera_acionamento": true,
+      "expected_output": "Aciona o loop com critério de parada explícito.",
+      "origem": "sintetico"
+    },
+    {
+      "id": 3,
+      "name": "egm-review-loop-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "aplica a esteira canônica de cinco estágios nesse design doc",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona: é a esteira fixa (egm-review), não o loop configurável.",
+      "origem": "sintetico"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "skill_name": "engenharia-diff-minimo",
+  "nota_de_origem": "Casos sintéticos de acionamento criados em 2026-10-19 no garimpo agency-agents (G1). Três níveis de pressão: neutro, apoiador e alheio.",
+  "protocolo": "Nível ACIONAMENTO: PASS = acionamento nos casos esperados e recusa no caso alheio.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "engenharia-diff-minimo-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "Tem um bug nessa função de cálculo de desconto. Por favor, conserta só a linha errada sem mexer no resto do arquivo nem inventar classe nova.",
+      "espera_acionamento": true,
+      "expected_output": "Aciona engenharia-diff-minimo para intervir estritamente na linha do defeito com blast radius zero.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill engenharia-diff-minimo é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "engenharia-diff-minimo-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "Preciso de uma cirurgia de código com diff mínimo para consertar esse vazamento de conexão sem inchar o PR.",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e entrega patch focal.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill engenharia-diff-minimo é acionada"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "engenharia-diff-minimo-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "Quero construir uma arquitetura nova de microsserviços do zero com Spring Boot e Docker.",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona engenharia-diff-minimo; redireciona para arquiteto-software.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill engenharia-diff-minimo NÃO é acionada"
+      ]
+    }
+  ]
+}

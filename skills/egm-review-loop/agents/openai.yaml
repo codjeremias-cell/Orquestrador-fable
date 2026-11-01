@@ -1,0 +1,4 @@
+interface:
+  display_name: "EGM Review Loop"
+  short_description: "Driver configurável de loop de revisão multiagente"
+  default_prompt: "Use $egm-review-loop para executar o loop de revisão adversarial automatizado no documento."

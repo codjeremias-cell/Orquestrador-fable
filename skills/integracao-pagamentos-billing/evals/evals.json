@@ -1,0 +1,43 @@
+{
+  "skill_name": "integracao-pagamentos-billing",
+  "nota_de_origem": "Casos sintéticos de acionamento criados em 2026-10-19 no garimpo agency-agents (G2). Três níveis de pressão: neutro, apoiador e alheio.",
+  "protocolo": "Nível ACIONAMENTO: PASS = acionamento nos casos esperados e recusa no caso alheio.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "integracao-pagamentos-billing-neutro",
+      "nivel_pressao": "neutro",
+      "prompt": "Como faço para receber notificações do Stripe sem correr o risco de processar duas vezes a mesma cobrança se o webhook for reenviado?",
+      "espera_acionamento": true,
+      "expected_output": "Aciona integracao-pagamentos-billing para estruturar a idempotência do webhook com transactional inbox.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill integracao-pagamentos-billing é acionada sem ser nomeada no prompt"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "integracao-pagamentos-billing-apoiador",
+      "nivel_pressao": "apoiador",
+      "prompt": "Preciso de uma integração de pagamentos e billing com Pix e cartão no Asaas, com reconciliação financeira e controle de assinatura recorrente.",
+      "espera_acionamento": true,
+      "expected_output": "Aciona por frase-gatilho literal e entrega padrão completo de cobrança.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill integracao-pagamentos-billing é acionada"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "integracao-pagamentos-billing-alheio",
+      "nivel_pressao": "alheio",
+      "prompt": "Quero planejar meus aportes mensais em títulos de renda fixa e fundos imobiliários para me aposentar em 15 anos.",
+      "espera_acionamento": false,
+      "expected_output": "Não aciona integracao-pagamentos-billing; redireciona para conselheiro-financeiro ou plano-riqueza.",
+      "origem": "sintetico",
+      "expectations": [
+        "A skill integracao-pagamentos-billing NÃO é acionada"
+      ]
+    }
+  ]
+}

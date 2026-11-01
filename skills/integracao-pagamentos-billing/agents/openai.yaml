@@ -1,0 +1,4 @@
+interface:
+  display_name: "Integração de Pagamentos e Billing"
+  short_description: "Cobranças, webhooks, idempotência e reconciliação"
+  default_prompt: "Use $integracao-pagamentos-billing para projetar ou implementar este fluxo de pagamento com idempotência e webhooks seguros."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engenharia de Diff Mínimo"
+  short_description: "Cirurgia de código e contenção de blast radius"
+  default_prompt: "Use $engenharia-diff-minimo para corrigir este problema com o menor diff viável e zero refatorações não pedidas."
